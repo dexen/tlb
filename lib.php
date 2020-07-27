@@ -26,3 +26,5 @@ function post_process(array $rcd) : array
 	$rcd['_url_canonical'] = '?set=post_wiki&slug=' .U($rcd['_url_slug']);
 	return $rcd;
 }
+
+require 'lib_wiki.php';

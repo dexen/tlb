@@ -10,6 +10,22 @@ class DB extends PDO
 		]);
 	}
 
+	function queryFetch(string $query, array $params = null)
+	{
+		if (empty($params))
+			$St = $this->query($query);
+		else {
+			$St = $this->prepare($query);
+			$St->execute($params); }
+		switch (count($a = $St->fetchAll())) {
+		case 1:
+			return array_shift($a);
+		case 0:
+			return null;
+		default:
+			throw new Exception('multiple records, expected at most one'); }
+	}
+
 	function queryFetchAll(string $query, array $params = null) : array
 	{
 		if (empty($params))
