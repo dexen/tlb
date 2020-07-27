@@ -21,9 +21,19 @@ if (array_key_exists('slug', $_GET)) {
 		echo wiki_post_body_to_html($rcd); }
 	else {
 		echo '<h1>Wiki entry not found</h1>';
-		echo '<p><em>The wiki entry has not been found. Create?</em></p>'; } }
+		echo '<p><em>The wiki entry for ' .wiki_slug_to_linkH($_GET['slug']) . ' has not been found. Create?</em></p>'; } }
 
-if (noz($_GET['slug']??null) === null) {
+if (array_key_exists('slug', $_GET)) {
+	echo '<h2>Reverse index</h2>';
+
+	$a = $DB->queryFetchAll('
+		SELECT _url_slug
+		FROM post_wiki AS p
+		JOIN _wiki_slug_use AS u ON p.post_id = u.post_id
+		WHERE u.slug=?', [ $_GET['slug'] ]);
+}
+
+if (!array_key_exists('slug', $_GET)) {
 	$a = posts_process($DB->queryFetchAll('SELECT * FROM post_wiki'));
 
 	if (empty($a))
