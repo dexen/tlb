@@ -15,3 +15,14 @@ function db_pdo() : DB
 	return new DB('db.sqlite');
 }
 
+function posts_process(array $a) : array
+{
+	return array_map('post_process', $a);
+}
+
+function post_process(array $rcd) : array
+{
+	$rcd['_link_text_default'] = (($rcd['_link_text_default']??null)===null) ? $rcd['title'] : $rcd['_link_text_default'];
+	$rcd['_url_canonical'] = '?set=post_wiki&slug=' .U($rcd['_url_slug']);
+	return $rcd;
+}
