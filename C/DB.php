@@ -8,6 +8,7 @@ class DB extends PDO
 		parent::__construct(sprintf('sqlite:%s', $abs_pathname), null, null, [
 			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 		]);
+		$this->exec('PRAGMA foreign_keys = ON');
 	}
 
 	function queryFetch(string $query, array $params = null)
