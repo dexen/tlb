@@ -26,3 +26,6 @@ else {
 	echo '</ul>'; }
 
 echo '<p>ALL DONE.</p>';
+
+echo '<footer>';
+printf('<p><em>time: %.2f </em></p>', microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']);
