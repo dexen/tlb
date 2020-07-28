@@ -25,7 +25,7 @@ if (array_key_exists('slug', $_GET)) {
 				$DB->execParams('DELETE FROM _wiki_slug_use WHERE post_id = ?', [ $rcd['post_id'] ]);
 				$St = $DB->prepare('INSERT INTO _wiki_slug_use (post_id, _url_slug) VALUES (?, ?)');
 				foreach (wiki_post_to_linked_slugs($rcd) as $v)
-					$St->execute([ $rcd['post_id'], $slug ]);
+					$St->execute([ $rcd['post_id'], $v ]);
 			$DB->commit();
 header('Location: ?set=post_wiki&slug=' .$slug);
 die();

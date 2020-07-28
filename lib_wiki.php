@@ -59,6 +59,6 @@ function wiki_post_to_linked_slugs(array $rcd) : array
 {
 	$matches = [];
 	preg_match_all(wiki_slug_re(), $rcd['body'], $matches);
-	return $matches[1];
+	return array_unique($matches[1]);
 td(compact('rcd', 'matches', 'a'));
 }
