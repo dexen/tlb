@@ -1,6 +1,7 @@
 <?php
 
 function td(...$a) {
+	echo '<pre>';
 	foreach ($a as $v)
 		echo H(var_export($v, $return = true));
 	die('td()');

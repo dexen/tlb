@@ -36,4 +36,29 @@ class DB extends PDO
 			$St->execute($params); }
 		return $St->fetchAll();
 	}
+
+	function execParams(string $sql, array $params = null) : int
+	{
+		if (empty($params))
+			return $this->exec($sql);
+		$St = $this->prepare($sql);
+		$St->execute($params);
+		return $St->rowCount();
+	}
+
+	function queryFetchOne(string $sql, array $params = null) : array
+	{
+		if (empty($params))
+			$St = $this->query($sql);
+		else {
+			$St = $this->prepare($sql);
+			$St->execute($params); }
+		switch (count($a = $St->fetchAll())) {
+		case 1:
+			return array_shift($a);
+		case 0:
+			throw new Exception('no matching record found, expected exactly one');
+		default:
+			throw new Exception('multiple matching records found, expected exactly one'); }
+	}
 }

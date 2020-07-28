@@ -8,6 +8,31 @@ $DB = db_pdo();
 if (array_key_exists('slug', $_GET)) {
 	$rcd = $DB->queryFetch('SELECT * FROM post_wiki WHERE _url_slug = ?', [ $_GET['slug']??null ]);
 
+	if (($_GET['action']??null) === 'edit') {
+		if ($rcd)
+			$slug = $rcd['_url_slug'];
+		else
+			$slug = $_GET['slug'] ?? null;
+
+		if (!empty($_POST)) {
+			$DB->beginTransaction();
+				if (empty($rcd))
+					$DB->execParams('INSERT INTO post_wiki (body, _url_slug, uuid) VALUES (?, ?, ?)',
+						[ $_POST['body'], $slug, Uuid::generateUuidV4() ] );
+				else
+					$DB->execParams('UPDATE post_wiki SET body = ? WHERE _url_slug = ?',
+						[ $_POST['body'], $slug ]);
+				$rcd = $DB->queryFetchOne('SELECT post_id, body FROM post_wiki WHERE _url_slug = ?', [ $slug ]);
+				$DB->execParams('DELETE FROM _wiki_slug_use WHERE post_id = ?', [ $rcd['post_id'] ]);
+				$St = $DB->prepare('INSERT INTO _wiki_slug_use (post_id, _url_slug) VALUES (?, ?)');
+				foreach (wiki_post_to_linked_slugs($rcd) as $v)
+					$St->execute([ $rcd['post_id'], $v ]);
+			$DB->commit();
+header('Location: ?set=post_wiki&slug=' .$slug);
+die();
+		}
+}
+
 	if ($rcd === null)
 		header('HTTP/1.1 404'); }
 
@@ -15,10 +40,27 @@ echo '<!DOCTYPE html>';
 echo '<html>';
 echo '<body>';
 
+if (($_GET['action']??null) === 'edit') {
+	if ($rcd)
+		$slug = $rcd['_url_slug'];
+	else
+		$slug = $_GET['slug'] ?? null;
+
+	echo '<form method="post" method="?set=post_wiki&amp;slug=', HU($slug) ,'&amp;action=edit">';
+		echo '<legend>post_wiki edit</legend>';
+
+		echo '<button type="submit" style="width: 100%; min-height: 3ex">save</button>';
+		$rows = max(count(explode("\n", $rcd['body']??null))+3, 20);
+		echo '<label>body:<br><textarea name="body" style="width: 100%" rows="', H($rows), '">', H($rcd['body']??null), '</textarea></label>';
+		echo '<button type="submit" style="width: 100%; min-height: 3ex">save</button>';
+	echo '</form>'; }
+
 if (array_key_exists('slug', $_GET)) {
 	if ($rcd) {
-		echo wiki_post_title_to_html($rcd);
-		echo wiki_post_body_to_html($rcd); }
+		echo wiki_post_title_to_htmlH($rcd);
+		echo wiki_post_body_to_htmlH($rcd);
+		echo '<hr>';
+		echo wiki_slug_to_edit_linkH($rcd['_url_slug']); }
 	else {
 		echo '<h1>Wiki entry not found</h1>';
 		echo '<p><em>The wiki entry for ' .wiki_slug_to_linkH($_GET['slug']) . ' has not been found. Create?</em></p>'; } }
@@ -27,10 +69,10 @@ if (array_key_exists('slug', $_GET)) {
 	echo '<h2>Reverse index</h2>';
 
 	$a = $DB->queryFetchAll('
-		SELECT _url_slug
+		SELECT p._url_slug
 		FROM post_wiki AS p
 		JOIN _wiki_slug_use AS u ON p.post_id = u.post_id
-		WHERE u.slug=?', [ $_GET['slug'] ]);
+		WHERE u._url_slug=?', [ $_GET['slug'] ]);
 }
 
 if (!array_key_exists('slug', $_GET)) {
