@@ -2,7 +2,6 @@
 
 require '../init.php';
 
-
 $DB = db_pdo();
 
 if (array_key_exists('slug', $_GET)) {
@@ -26,7 +25,7 @@ if (array_key_exists('slug', $_GET)) {
 				$DB->execParams('DELETE FROM _wiki_slug_use WHERE post_id = ?', [ $rcd['post_id'] ]);
 				$St = $DB->prepare('INSERT INTO _wiki_slug_use (post_id, _url_slug) VALUES (?, ?)');
 				foreach (wiki_post_to_linked_slugs($rcd) as $v)
-					$St->execute([ $rcd['post_id'], $v ]);
+					$St->execute([ $rcd['post_id'], $slug ]);
 			$DB->commit();
 header('Location: ?set=post_wiki&slug=' .$slug);
 die();
@@ -38,6 +37,9 @@ die();
 
 echo '<!DOCTYPE html>';
 echo '<html>';
+echo '<head>';
+echo '<meta charset="utf-8">';
+echo '</head>';
 echo '<body>';
 
 if (($_GET['action']??null) === 'edit') {
@@ -46,7 +48,7 @@ if (($_GET['action']??null) === 'edit') {
 	else
 		$slug = $_GET['slug'] ?? null;
 
-	echo '<form method="post" method="?set=post_wiki&amp;slug=', HU($slug) ,'&amp;action=edit">';
+	echo '<form method="post" action="?set=post_wiki&amp;slug=', HU($slug) ,'&amp;action=edit" enctype="multipart/form-data">';
 		echo '<legend>post_wiki edit</legend>';
 
 		echo '<button type="submit" style="width: 100%; min-height: 3ex">save</button>';
