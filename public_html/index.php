@@ -62,7 +62,7 @@ if (array_key_exists('slug', $_GET)) {
 		echo wiki_post_title_to_htmlH($rcd);
 		echo wiki_post_body_to_htmlH($rcd);
 		echo '<hr>';
-		echo wiki_slug_to_edit_linkH($rcd['_url_slug']); }
+		echo wiki_post_edit_formH($rcd); }
 	else {
 		echo '<h1>Wiki entry not found</h1>';
 		echo '<p><em>The wiki entry for ' .wiki_slug_to_linkH($_GET['slug']) . ' has not been found. Create?</em></p>'; } }

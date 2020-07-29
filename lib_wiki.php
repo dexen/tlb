@@ -17,12 +17,14 @@ function wiki_posts_readable_by_slugP(string $slug) : bool
 	return count($DB->queryFetchAll('SELECT _url_slug FROM post_wiki WHERE _url_slug = ? LIMIT 1', [ $slug ])) > 0;
 }
 
-function wiki_slug_to_edit_linkH(string $slug) : string
+function wiki_post_edit_formH(array $rcd) : string
 {
-	if (wiki_posts_readable_by_slugP($slug))
-		return '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'&amp;action=edit">Edit ' .H($slug) .'</a>';
-	else
-		return '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'&amp;action=edit" style="color: red;">Create ' .H($slug) .'</a>';
+	return '
+		<form>
+			<input type="hidden" name="set" value="post_wiki"/>
+			<input type="hidden" name="slug" value="' .H($rcd['_url_slug']) .'"/>
+			<button name="action" value="edit">Edit ' .H($rcd['_url_slug']) .'</button>
+		</form>';
 }
 
 function wiki_xxx(array $matches) : string
