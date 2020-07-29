@@ -7,13 +7,13 @@ $DB = db_pdo();
 if (array_key_exists('slug', $_GET)) {
 	$rcd = $DB->queryFetch('SELECT * FROM post_wiki WHERE _url_slug = ?', [ $_GET['slug']??null ]);
 
-	if (($_GET['action']??null) === 'edit') {
+	if (($_GET['form']??null) === 'edit') {
 		if ($rcd)
 			$slug = $rcd['_url_slug'];
 		else
 			$slug = $_GET['slug'] ?? null;
 
-		if (!empty($_POST)) {
+		if (($_POST['action']??null) === 'save-edit') {
 			$DB->beginTransaction();
 				if (empty($rcd))
 					$DB->execParams('INSERT INTO post_wiki (body, _url_slug, uuid) VALUES (?, ?, ?)',
@@ -42,18 +42,18 @@ echo '<meta charset="utf-8">';
 echo '</head>';
 echo '<body>';
 
-if (($_GET['action']??null) === 'edit') {
+if (($_GET['form']??null) === 'edit') {
 	if ($rcd)
 		$slug = $rcd['_url_slug'];
 	else
 		$slug = $_GET['slug'] ?? null;
 
-	echo '<form method="post" action="?set=post_wiki&amp;slug=', HU($slug) ,'&amp;action=edit" enctype="multipart/form-data">';
+	echo '<form method="post" action="?set=post_wiki&amp;slug=', HU($slug) ,'&amp;form=edit" enctype="multipart/form-data">';
 		echo '<legend>post_wiki edit</legend>';
 
 		$rows = max(count(explode("\n", $rcd['body']??null))+3, 20);
 		echo '<label>body:<br><textarea name="body" style="width: 100%" rows="', H($rows), '">', H($rcd['body']??null), '</textarea></label>';
-		echo '<p><button type="submit" style="width: 100%; min-height: 8ex">save</button></p>';
+		echo '<p><button type="submit" name="action" value="save-edit" style="width: 100%; min-height: 8ex">save</button></p>';
 	echo '</form>'; }
 
 if (array_key_exists('slug', $_GET)) {
