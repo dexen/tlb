@@ -49,11 +49,14 @@ if (($_GET['form']??null) === 'edit') {
 		$slug = $_GET['slug'] ?? null;
 
 	echo '<form method="post" action="?set=post_wiki&amp;slug=', HU($slug) ,'&amp;form=edit" enctype="multipart/form-data">';
+
+		echo '<fieldset>';
 		echo '<legend>post_wiki edit</legend>';
 
 		$rows = max(count(explode("\n", $rcd['body']??null))+3, 20);
 		echo '<label>body:<br><textarea name="body" style="width: 100%" rows="', H($rows), '">', H($rcd['body']??null), '</textarea></label>';
 		echo '<p><button type="submit" name="action" value="save-edit" style="width: 100%; min-height: 8ex">save</button></p>';
+		echo '</fieldset>';
 	echo '</form>'; }
 
 if (array_key_exists('slug', $_GET)) {
