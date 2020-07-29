@@ -82,12 +82,13 @@ if (array_key_exists('slug', $_GET)) {
 }
 
 if (!array_key_exists('slug', $_GET)) {
+	echo '<h1>Wiki services</h1>';
 	$a = posts_process($DB->queryFetchAll('SELECT * FROM post_wiki'));
 
 	if (empty($a))
 		echo '<em>no wiki posts</em>';
 	else {
-		echo '<h1>Wiki post index</h1>';
+		echo '<h2>Post index</h2>';
 		echo '<ul>';
 			foreach ($a as $rcd) {
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
