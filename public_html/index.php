@@ -51,12 +51,12 @@ if (($_GET['action']??null) === 'edit') {
 	echo '<form method="post" action="?set=post_wiki&amp;slug=', HU($slug) ,'&amp;action=edit" enctype="multipart/form-data">';
 		echo '<legend>post_wiki edit</legend>';
 
-		echo '<p><button type="submit" style="width: 100%; min-height: 3ex">save</button></p>';
-		echo '<p><button type="submit" style="width: 50%; min-height: 3ex">cancel</button></p>';
+		echo '<p><button type="submit" style="width: 100%; min-height: 8ex">save</button></p>';
+		echo '<p><button type="submit" style="width: 50%; min-height: 8ex">cancel</button></p>';
 		$rows = max(count(explode("\n", $rcd['body']??null))+3, 20);
 		echo '<label>body:<br><textarea name="body" style="width: 100%" rows="', H($rows), '">', H($rcd['body']??null), '</textarea></label>';
-		echo '<p><button type="submit" style="width: 100%; min-height: 3ex">save</button></p>';
-		echo '<p><button type="submit" style="width: 50%; min-height: 3ex">cancel</button></p>';
+		echo '<p><button type="submit" style="width: 100%; min-height: 8ex">save</button></p>';
+		echo '<p><button type="submit" style="width: 50%; min-height: 8ex">cancel</button></p>';
 	echo '</form>'; }
 
 if (array_key_exists('slug', $_GET)) {
