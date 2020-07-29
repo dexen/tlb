@@ -31,6 +31,15 @@ function wiki_post_edit_formH(array $rcd) : string
 		</form>';
 }
 
+function wiki_maintenance_refresh_slug_reverse_index_formH() : string
+{
+	$action_name = 'Refresh slug reverse index';
+	return '
+		<form method="post" action="?set=post_wiki&amp;form=maintenance">
+			<button name="action" value="rebuild-slug-reverse-index" style="width: 50%; min-height: 8ex">' .H($action_name) .'</button>
+		</form>';
+}
+
 function wiki_xxx(array $matches) : string
 {
 	$slug = $matches[1];
@@ -67,4 +76,18 @@ function wiki_post_to_linked_slugs(array $rcd) : array
 	preg_match_all(wiki_slug_re(), $rcd['body'], $matches);
 	return array_unique($matches[1]);
 td(compact('rcd', 'matches', 'a'));
+}
+
+function wiki_maintenance_rebuild_slug_reverse_index()
+{
+	$DB = db_pdo();
+
+	$DB->beginTransaction();
+		$DB->exec('DELETE FROM _wiki_slug_use');
+		$a = $DB->queryFetchAll('SELECT * FROM post_wiki');
+		$St = $DB->prepare('INSERT INTO _wiki_slug_use (post_id, _url_slug) VALUES (?, ?)');
+		foreach ($a as $rcd)
+			foreach (wiki_post_to_linked_slugs($rcd) as $slug)
+				$St->execute([ $rcd['post_id'], $slug ]);
+	$DB->commit();
 }
