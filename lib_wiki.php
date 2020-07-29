@@ -19,11 +19,15 @@ function wiki_posts_readable_by_slugP(string $slug) : bool
 
 function wiki_post_edit_formH(array $rcd) : string
 {
+	if (wiki_posts_readable_by_slugP($rcd['_url_slug']))
+		$action_name = 'Edit';
+	else
+		$action_name = 'Create';
 	return '
 		<form>
 			<input type="hidden" name="set" value="post_wiki"/>
 			<input type="hidden" name="slug" value="' .H($rcd['_url_slug']) .'"/>
-			<button name="form" value="edit">Edit ' .H($rcd['_url_slug']) .'</button>
+			<button name="form" value="edit" style="width: 50%; min-height: 8ex">' .H($action_name) .' ' .H($rcd['_url_slug']) .'</button>
 		</form>';
 }
 

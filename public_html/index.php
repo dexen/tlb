@@ -67,7 +67,9 @@ if (array_key_exists('slug', $_GET)) {
 		echo wiki_post_edit_formH($rcd); }
 	else {
 		echo '<h1>Wiki entry not found</h1>';
-		echo '<p><em>The wiki entry for ' .wiki_slug_to_linkH($_GET['slug']) . ' has not been found. Create?</em></p>'; } }
+		echo '<hr>';
+		echo '<p><em>The wiki entry for ' .wiki_slug_to_linkH($_GET['slug']) . ' has not been found. Create?</em></p>';
+		echo wiki_post_edit_formH([ '_url_slug' => $_GET['slug'] ]); } }
 
 if (array_key_exists('slug', $_GET)) {
 	echo '<h2>Reverse index</h2>';
