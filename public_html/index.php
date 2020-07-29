@@ -77,20 +77,22 @@ if (array_key_exists('slug', $_GET)) {
 		echo '<p><em>The wiki entry for ' .wiki_slug_to_linkH($_GET['slug']) . ' has not been found. Create?</em></p>';
 		echo wiki_post_edit_formH([ '_url_slug' => $_GET['slug'] ]); } }
 
-if (array_key_exists('slug', $_GET)) {
-	echo '<h2>Reverse index</h2>';
-
-	$a = $DB->queryFetchAll('
-		SELECT p._url_slug
+	$riA = $DB->queryFetchAll('
+		SELECT p.*
 		FROM post_wiki AS p
 		JOIN _wiki_slug_use AS u ON p.post_id = u.post_id
-		WHERE u._url_slug=?', [ $_GET['slug'] ]);
-}
+		WHERE u._url_slug= ?', [ $_GET['slug']??null ]);
 
-if (!array_key_exists('slug', $_GET)) {
 	echo '<h1>Wiki services</h1>';
 	$a = posts_process($DB->queryFetchAll('SELECT * FROM post_wiki'));
+	echo '<h2>Reverse index</h2>';
+		echo '<ul>';
+			foreach (posts_process($riA) as $rcd) {
+				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
+			}
+		echo '</ul>';
 
+if (!array_key_exists('slug', $_GET)) {
 	if (empty($a))
 		echo '<em>no wiki posts</em>';
 	else {
