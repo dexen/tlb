@@ -61,7 +61,7 @@ if (($_GET['form']??null) === 'edit') {
 
 		$rows = max(count(explode("\n", $rcd['body']??null))+3, 20);
 		echo '<label>body:<br><textarea name="body" style="width: 100%" rows="', H($rows), '">', H($rcd['body']??null), '</textarea></label>';
-		echo '<p><button type="submit" name="action" value="save-edit" style="width: 100%; min-height: 8ex">save</button></p>';
+		echo '<p><button type="submit" name="action" value="save-edit" style="width: 100%; min-height: 8ex">Save <var>' .H($slug) .'</var></button></p>';
 		echo '</fieldset>';
 	echo '</form>'; }
 

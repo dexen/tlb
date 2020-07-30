@@ -27,7 +27,7 @@ function wiki_post_edit_formH(array $rcd) : string
 		<form>
 			<input type="hidden" name="set" value="post_wiki"/>
 			<input type="hidden" name="slug" value="' .H($rcd['_url_slug']) .'"/>
-			<button name="form" value="edit" style="width: 50%; min-height: 8ex">' .H($action_name) .' ' .H($rcd['_url_slug']) .'</button>
+			<button name="form" value="edit" style="width: 50%; min-height: 8ex">' .H($action_name) .' <var>' .H($rcd['_url_slug']) .'</var></button>
 		</form>';
 }
 
