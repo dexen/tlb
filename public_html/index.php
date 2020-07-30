@@ -163,4 +163,4 @@ if (!array_key_exists('slug', $_GET)) {
 		echo wiki_maintenance_refresh_slug_reverse_index_formH(); }
 
 echo '<footer>';
-printf('<p><a href="?set=post_wiki">index</a> | <em>time: %.3f </em></p>', microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']);
+printf('<p><a href="?set=post_wiki">wiki main page</a> | <em>time: %.3f </em></p>', microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']);
