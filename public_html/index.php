@@ -99,7 +99,7 @@ if (array_key_exists('slug', $_GET)) {
 		echo '</ul>';
 
 if (!array_key_exists('slug', $_GET)) {
-	if (true) {
+	if (false) {
 		$a = posts_process($DB->queryFetchAll('SELECT * FROM post_wiki'));
 		echo '<h2>Post index</h2>';
 		if (empty($a))
