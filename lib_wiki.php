@@ -64,10 +64,15 @@ function wiki_slug_to_linkH(string $slug) : string
 	return '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'">' .H(wiki_camel_to_spaced($slug)) .'</a>';
 }
 
+function wiki_para_processH(string $para) : string
+{
+	return '<p>' .wiki_text_to_linkedH($para) .'</p>';
+}
+
 function wiki_post_body_to_htmlH(array $rcd) : string
 {
 	$str = $rcd['body'];
-	return '<p>' .implode('</p><p>', array_map('wiki_text_to_linkedH', array_map('H', explode("\n\n", $str)))) .'</p>';
+	return implode(array_map('wiki_para_processH', array_map('H', explode("\n\n", $str))));
 }
 
 function wiki_post_to_linked_slugs(array $rcd) : array
