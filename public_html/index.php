@@ -21,17 +21,24 @@ if (array_key_exists('slug', $_GET)) {
 
 		if (($_POST['action']??null) === 'save-edit') {
 			$DB->beginTransaction();
+				$DB->execParams('
+					DELETE FROM _wiki_slug_use
+					WHERE post_id IN (SELECT post_id FROM post_wiki WHERE _url_slug = ?)', [ $slug ]);
 				if (empty($rcd))
 					$DB->execParams('INSERT INTO post_wiki (body, _url_slug, uuid) VALUES (?, ?, ?)',
 						[ $_POST['body'], $slug, Uuid::generateUuidV4() ] );
+				else if (empty($_POST['body']))
+					$DB->execParams('
+						DELETE FROM post_wiki WHERE _url_slug = ? ',
+						[ $slug ] );
 				else
 					$DB->execParams('UPDATE post_wiki SET body = ? WHERE _url_slug = ?',
 						[ $_POST['body'], $slug ]);
-				$rcd = $DB->queryFetchOne('SELECT post_id, body FROM post_wiki WHERE _url_slug = ?', [ $slug ]);
-				$DB->execParams('DELETE FROM _wiki_slug_use WHERE post_id = ?', [ $rcd['post_id'] ]);
-				$St = $DB->prepare('INSERT INTO _wiki_slug_use (post_id, _url_slug) VALUES (?, ?)');
-				foreach (wiki_post_to_linked_slugs($rcd) as $v)
-					$St->execute([ $rcd['post_id'], $v ]);
+				$rcd = $DB->queryFetch('SELECT post_id, body FROM post_wiki WHERE _url_slug = ?', [ $slug ]);
+				if ($rcd) {
+					$St = $DB->prepare('INSERT INTO _wiki_slug_use (post_id, _url_slug) VALUES (?, ?)');
+					foreach (wiki_post_to_linked_slugs($rcd) as $v)
+						$St->execute([ $rcd['post_id'], $v ]); }
 			$DB->commit();
 header('Location: ?set=post_wiki&slug=' .$slug);
 die();
