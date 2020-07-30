@@ -34,6 +34,9 @@ if (array_key_exists('slug', $_GET)) {
 				else
 					$DB->execParams('UPDATE post_wiki SET body = ? WHERE _url_slug = ?',
 						[ $_POST['body'], $slug ]);
+
+				$DB->execParams('UPDATE post_wiki SET _mtime = strftime(\'%s\', \'now\') WHERE _url_slug = ?', [$slug]);
+
 				$rcd = $DB->queryFetch('SELECT post_id, body FROM post_wiki WHERE _url_slug = ?', [ $slug ]);
 				if ($rcd) {
 					$St = $DB->prepare('INSERT INTO _wiki_slug_use (post_id, _url_slug) VALUES (?, ?)');
@@ -131,6 +134,13 @@ if (!array_key_exists('slug', $_GET)) {
 		echo '<h2>Orphan pages</h2>';
 		echo '<ul>';
 			foreach (posts_process($mpA) as $rcd)
+				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
+		echo '</ul>';
+
+		echo '<h2>Recent change</h2>';
+		$rA = posts_process($DB->queryFetchAll('SELECT * FROM post_wiki ORDER BY _mtime DESC LIMIT 10'));
+		echo '<ul>';
+			foreach (posts_process($rA) as $rcd)
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
 		echo '</ul>';
 
