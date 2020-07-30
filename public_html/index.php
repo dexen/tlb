@@ -91,7 +91,6 @@ if (array_key_exists('slug', $_GET)) {
 		WHERE u._url_slug= ?', [ $_GET['slug']??null ]);
 
 	echo '<h1>Wiki services</h1>';
-	$a = posts_process($DB->queryFetchAll('SELECT * FROM post_wiki'));
 	echo '<h2>Reverse index</h2>';
 		echo '<ul>';
 			foreach (posts_process($riA) as $rcd) {
@@ -100,10 +99,11 @@ if (array_key_exists('slug', $_GET)) {
 		echo '</ul>';
 
 if (!array_key_exists('slug', $_GET)) {
-	if (empty($a))
-		echo '<em>no wiki posts</em>';
-	else {
+	if (true) {
+		$a = posts_process($DB->queryFetchAll('SELECT * FROM post_wiki'));
 		echo '<h2>Post index</h2>';
+		if (empty($a))
+			echo '<em>no wiki posts</em>';
 		echo '<ul>';
 			foreach ($a as $rcd) {
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
