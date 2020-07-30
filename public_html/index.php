@@ -115,6 +115,18 @@ if (!array_key_exists('slug', $_GET)) {
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
 		echo '</ul>';
 
+		$mpA = $DB->queryFetchAll('
+			SELECT p._url_slug
+			FROM post_wiki AS p
+			LEFT JOIN _wiki_slug_use AS u ON p._url_slug = u._url_slug
+			WHERE u._url_slug IS NULL' );
+
+		echo '<h2>Orphan pages</h2>';
+		echo '<ul>';
+			foreach (posts_process($mpA) as $rcd)
+				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
+		echo '</ul>';
+
 		echo '<h2>Maintenance tasks</h2>';
 		echo wiki_maintenance_refresh_slug_reverse_index_formH(); }
 
