@@ -5,9 +5,9 @@ function wiki_camel_to_spaced(string $str) : string
 	return preg_replace('/([a-z0-9])([A-Z])/', '\\1 \\2', $str);
 }
 
-function wiki_post_title_to_htmlH(array $rcd) : string
+function wiki_slug_to_title(string $slug) : string
 {
-	return '<h1>' .H(wiki_camel_to_spaced($rcd['_url_slug'])) .'</h1>';
+	return wiki_camel_to_spaced($slug);
 }
 
 function wiki_posts_readable_by_slugP(string $slug) : bool

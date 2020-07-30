@@ -55,6 +55,7 @@ echo '<!DOCTYPE html>';
 echo '<html>';
 echo '<head>';
 echo '<meta charset="utf-8">';
+echo '<title>' .H(wiki_camel_to_spaced($rcd['_url_slug']??null)) .'</title>';
 echo '</head>';
 echo '<body>';
 
@@ -77,7 +78,7 @@ if (($_GET['form']??null) === 'edit') {
 
 if (array_key_exists('slug', $_GET)) {
 	if ($rcd) {
-		echo wiki_post_title_to_htmlH($rcd);
+		echo '<h1>' .H(wiki_slug_to_title($rcd['_url_slug'])) .'</h1>';
 		echo wiki_post_body_to_htmlH($rcd);
 		echo '<hr>';
 		if (($_GET['form']??null) !== 'edit')
