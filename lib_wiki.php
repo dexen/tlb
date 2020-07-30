@@ -1,7 +1,9 @@
 <?php
 
-function wiki_camel_to_spaced(string $str) : string
+function wiki_camel_to_spaced(string $str = null) : ?string
 {
+	if ($str === null)
+		return null;
 	return preg_replace('/([a-z0-9])([A-Z])/', '\\1 \\2', $str);
 }
 
