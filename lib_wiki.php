@@ -64,9 +64,18 @@ function wiki_slug_to_linkH(string $slug) : string
 	return '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'">' .H(wiki_camel_to_spaced($slug)) .'</a>';
 }
 
-function wiki_para_processH(string $para) : string
+function wiki_text_separatorH(string $paraH) : string
 {
-	return '<p>' .wiki_text_to_linkedH($para) .'</p>';
+	if (strncmp($paraH, '----', 4) === 0)
+		return '<hr>' .substr($paraH, 4);
+	else
+		return $paraH;
+}
+
+function wiki_para_processH(string $paraH) : string
+{
+	$paraH = wiki_text_separatorH($paraH);
+	return '<p>' .wiki_text_to_linkedH($paraH) .'</p>';
 }
 
 function wiki_post_body_to_htmlH(array $rcd) : string
