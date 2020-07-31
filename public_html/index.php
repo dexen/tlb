@@ -5,6 +5,14 @@ require '../init.php';
 $DB = db_pdo();
 
 if (($_GET['set']??null) === 'post_wiki') {
+	if (($_GET['action']??null)==='search')
+		$query = $_GET['q']??null;
+	else
+		$query = null;
+	$sA = $DB->queryFetchAll('SELECT * FROM post_wiki WHERE _url_slug LIKE \'%\' || ? || \'%\' ', [ $query ] );
+	if (count($sA) === 1)
+		die(header('Location: ?set=post_wiki&slug=' .U($sA[0]['_url_slug'])));
+
 	if (($_GET['form']??null) === 'maintenance') {
 		if (($_POST['action']??null) === 'rebuild-slug-reverse-index')
 			wiki_maintenance_rebuild_slug_reverse_index();
@@ -104,15 +112,10 @@ if (array_key_exists('slug', $_GET)) {
 			}
 		echo '</ul>';
 
-	if (($_GET['action']??null)==='search')
-		$query = $_GET['q']??null;
-	else
-		$query = null;
-	$sA = $DB->queryFetchAll('SELECT * FROM post_wiki WHERE _url_slug LIKE \'%\' || ? || \'%\' ', [ $query ] );
 	echo '<h2>Search</h2>';
 	echo '<form>';
 	echo '<input type="hidden" name="set" value="post_wiki"/><input type="hidden" name="slug" value="' .H($_GET['slug']??null) .'"/>';
-	echo '<input name="q" placeholder="query" value="' .H($_GET['q']??null) .'" ' .($query?'autofocus':null) .'/><button name="action" value="search" type="submit">Search</button>';
+	echo '<input name="q" placeholder="query" value="' .H($_GET['q']??null) .'" ' .($query?'autofocus':null) .'/><button name="action" value="search-slugs" type="submit">Search</button>';
 	echo '</form>';
 	echo '<ul>';
 		foreach (posts_process($sA) as $rcd)
