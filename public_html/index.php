@@ -117,10 +117,13 @@ if (array_key_exists('slug', $_GET)) {
 	echo '<input type="hidden" name="set" value="post_wiki"/><input type="hidden" name="slug" value="' .H($_GET['slug']??null) .'"/>';
 	echo '<input name="q" placeholder="query" value="' .H($_GET['q']??null) .'" ' .($query?'autofocus':null) .'/><button name="action" value="search-slugs" type="submit">Search</button>';
 	echo '</form>';
-	echo '<ul>';
-		foreach (posts_process($sA) as $rcd)
-			echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
-	echo '</ul>';
+	if (empty($sA))
+		echo '<p><em>no matches</em></p>';
+	else {
+		echo '<ul>';
+			foreach (posts_process($sA) as $rcd)
+				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
+		echo '</ul>'; }
 
 if (!array_key_exists('slug', $_GET)) {
 	if (false) {
