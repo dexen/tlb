@@ -7,6 +7,8 @@ $DB = db_pdo();
 $action = $_GET['action']??null;
 $query = null;
 $sA = [];
+$rcd = null;
+$slug = $_GET['slug']??null;
 
 if (($_GET['set']??null) === 'post_wiki') {
 	if (strncmp($action, 'search-', 7) === 0)
@@ -91,7 +93,7 @@ if (($_GET['form']??null) === 'edit') {
 		echo '</fieldset>';
 	echo '</form>'; }
 
-else {
+else if ($slug !== null) {
 	if ($rcd) {
 		echo '<h1>' .H(wiki_slug_to_title($rcd['_url_slug'])) .'</h1>';
 		echo wiki_post_body_to_htmlH($rcd);
@@ -101,7 +103,7 @@ else {
 	else {
 		echo '<h1>Wiki entry not found</h1>';
 		echo '<hr>';
-		echo '<p><em>The wiki entry for ' .wiki_slug_to_linkH($_GET['slug']) . ' has not been found. Create?</em></p>';
+		echo '<p><em>The wiki entry for ' .wiki_slug_to_linkH($slug) . ' has not been found. Create?</em></p>';
 		if (($_GET['form']??null) !== 'edit')
 			echo wiki_post_edit_formH([ '_url_slug' => $_GET['slug'] ]); } }
 
