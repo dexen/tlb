@@ -4,12 +4,17 @@ require '../init.php';
 
 $DB = db_pdo();
 
+$action = $_GET['action']??null;
+$query = null;
+$sA = [];
+
 if (($_GET['set']??null) === 'post_wiki') {
-	if (($_GET['action']??null)==='search')
+	if (strncmp($action, 'search-', 7) === 0)
 		$query = $_GET['q']??null;
-	else
-		$query = null;
-	$sA = $DB->queryFetchAll('SELECT * FROM post_wiki WHERE _url_slug LIKE \'%\' || ? || \'%\' ', [ $query ] );
+
+	if ($action === 'search-slug')
+		$sA = $DB->queryFetchAll('SELECT * FROM post_wiki WHERE _url_slug LIKE \'%\' || ? || \'%\' ', [ $query ] );
+
 	if (count($sA) === 1)
 		die(header('Location: ?set=post_wiki&slug=' .U($sA[0]['_url_slug'])));
 
@@ -115,7 +120,7 @@ if (array_key_exists('slug', $_GET)) {
 	echo '<h2>Search</h2>';
 	echo '<form>';
 	echo '<input type="hidden" name="set" value="post_wiki"/><input type="hidden" name="slug" value="' .H($_GET['slug']??null) .'"/>';
-	echo '<input name="q" placeholder="query" value="' .H($query) .'" ' .($query?'autofocus':null) .'/><button name="action" value="search" type="submit">Search</button>';
+	echo '<input name="q" placeholder="query" value="' .H($query) .'" ' .($query?'autofocus':null) .'/><button name="action" value="search-slug" type="submit">slug</button>';
 	echo '</form>';
 	if (($query !== null) && empty($sA))
 		echo '<p><em>no matches</em></p>';
