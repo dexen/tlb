@@ -91,7 +91,7 @@ if (($_GET['form']??null) === 'edit') {
 		echo '</fieldset>';
 	echo '</form>'; }
 
-if (array_key_exists('slug', $_GET)) {
+else {
 	if ($rcd) {
 		echo '<h1>' .H(wiki_slug_to_title($rcd['_url_slug'])) .'</h1>';
 		echo wiki_post_body_to_htmlH($rcd);
