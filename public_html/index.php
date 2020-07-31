@@ -112,14 +112,14 @@ if (array_key_exists('slug', $_GET)) {
 		WHERE u._url_slug= ?', [ $_GET['slug']??null ]);
 
 	echo '<h1>Wiki services</h1>';
-	echo '<h2>Reverse index</h2>';
+	echo '<h2>Reverse index</h2> <a class="service_header_help" href="?set=post_wiki&amp;slug=WikiReverseSlugIndex">?</a>';
 		echo '<ul>';
 			foreach (posts_process($riA) as $rcd) {
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
 			}
 		echo '</ul>';
 
-	echo '<h2>Search</h2>';
+	echo '<h2>Search</h2> <a class="service_header_help" href="?set=post_wiki&amp;slug=WikiSearch">?</a>';
 	echo '<form>';
 	echo '<input type="hidden" name="set" value="post_wiki"/><input type="hidden" name="slug" value="' .H($_GET['slug']??null) .'"/>';
 	echo '<input name="q" placeholder="query" value="' .H($query) .'" ' .($query?'autofocus':null) .'/><button name="action" value="search-slug" type="submit">slug</button> | <button name="action" value="search-content" type="submit">content</button>';
@@ -150,7 +150,7 @@ if (!array_key_exists('slug', $_GET)) {
 			LEFT JOIN post_wiki AS p ON u._url_slug = p._url_slug
 			WHERE p._url_slug IS NULL' );
 
-		echo '<h2>Missing articles</h2>';
+		echo '<h2>Missing pages</h2> <a class="service_header_help" href="?set=post_wiki&amp;slug=WikiMissingPagesIndex">?</a>';
 		echo '<ul>';
 			foreach (posts_process($mpA) as $rcd)
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
@@ -162,20 +162,20 @@ if (!array_key_exists('slug', $_GET)) {
 			LEFT JOIN _wiki_slug_use AS u ON p._url_slug = u._url_slug
 			WHERE u._url_slug IS NULL' );
 
-		echo '<h2>Orphan pages</h2>';
+		echo '<h2>Orphan pages</h2> <a class="service_header_help" href="?set=post_wiki&amp;slug=WikiOrphanPageIndex">?</a>';
 		echo '<ul>';
 			foreach (posts_process($mpA) as $rcd)
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
 		echo '</ul>';
 
-		echo '<h2>Recent change</h2>';
+		echo '<h2>Recent changes</h2> <a class="service_header_help" href="?set=post_wiki&amp;slug=WikiRecentChangesIndex">?</a>';
 		$rA = posts_process($DB->queryFetchAll('SELECT * FROM post_wiki ORDER BY _mtime DESC LIMIT 10'));
 		echo '<ul>';
 			foreach (posts_process($rA) as $rcd)
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
 		echo '</ul>';
 
-		echo '<h2>Maintenance tasks</h2>';
+		echo '<h2>Maintenance tasks</h2> <a class="service_header_help" href="?set=post_wiki&amp;slug=WikiRecentChangesIndex">?</a>';
 		echo wiki_maintenance_refresh_slug_reverse_index_formH(); }
 
 echo '<footer>';
