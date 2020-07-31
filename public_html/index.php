@@ -115,9 +115,9 @@ if (array_key_exists('slug', $_GET)) {
 	echo '<h2>Search</h2>';
 	echo '<form>';
 	echo '<input type="hidden" name="set" value="post_wiki"/><input type="hidden" name="slug" value="' .H($_GET['slug']??null) .'"/>';
-	echo '<input name="q" placeholder="query" value="' .H($_GET['q']??null) .'" ' .($query?'autofocus':null) .'/><button name="action" value="search-slugs" type="submit">Search</button>';
+	echo '<input name="q" placeholder="query" value="' .H($query) .'" ' .($query?'autofocus':null) .'/><button name="action" value="search" type="submit">Search</button>';
 	echo '</form>';
-	if (empty($sA))
+	if (($query !== null) && empty($sA))
 		echo '<p><em>no matches</em></p>';
 	else {
 		echo '<ul>';
