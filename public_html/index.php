@@ -97,6 +97,7 @@ if (($_GET['form']??null) === 'edit') {
 else if ($slug !== null) {
 	if ($rcd) {
 		echo '<h1><img
+			alt="TlbInstance at ' .H(tlb_address()) .'"
 			src="visual-hash-png.php?size=32&amp;id=' .HU(tlb_address_id()) .'"
 			srcset="visual-hash-png.php?size=64&amp;id=' .HU(tlb_address_id()) .' 2x,
 				visual-hash-png.php?size=96&amp;id=' .HU(tlb_address_id()) .' 3x,
