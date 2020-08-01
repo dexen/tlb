@@ -2,7 +2,7 @@
 
 $id = $_GET['id']??null;
 $size = $_GET['size']??null;
-if (empty($id) || empty($size) || ($size > 4096) || ($size<= 0)) {
+if (empty($id) || empty($size) || ($size > 4096) || ($size <= 0)) {
 	header('HTTP/1.1 400 Bad Request');
 	die('bad request'); }
 
@@ -52,8 +52,7 @@ $pattern = [
 	[ $A, $B, $B, $B, $A, $A, $A, $B ],
 	[ $A, $B, $B, $B, $A, $A, $A, $B ],
 	[ $A, $B, $B, $B, $A, $A, $A, $B ],
-	[ $A, $A, $A, $A, $B, $B, $B, $B ],
-];
+	[ $A, $A, $A, $A, $B, $B, $B, $B ], ];
 
 $gengen = function(int $size, $A, $B) use($pattern) : array
 {
