@@ -8,7 +8,14 @@ $action = $_GET['action']??null;
 $query = null;
 $sA = [];
 $rcd = null;
+$set = $_GET['set']??null;
 $slug = $_GET['slug']??null;
+
+if ($set === null)
+	die(header('Location: ?set=post_wiki'));
+
+if (($set === 'post_wiki') && ($slug === null))
+	die(header('Location: ?set=post_wiki&slug=WelcomeWikiVisitors'));
 
 if (($_GET['set']??null) === 'post_wiki') {
 	if (strncmp($action, 'search-', 7) === 0)
