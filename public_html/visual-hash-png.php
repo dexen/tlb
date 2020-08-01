@@ -41,15 +41,18 @@ $B[0] = ord($id[$n++]);
 $B[1] = ord($id[$n++]);
 $B[2] = ord($id[$n++]);
 
+define('_', $A);
+define('B', $B);
+
 $pattern = [
-	[ $A, $A, $A, $A, $B, $B, $B, $B ],
-	[ $A, $B, $B, $B, $A, $A, $A, $B ],
-	[ $A, $B, $B, $B, $A, $A, $A, $B ],
-	[ $A, $B, $B, $B, $A, $A, $A, $B ],
-	[ $A, $B, $B, $B, $A, $A, $A, $B ],
-	[ $A, $B, $B, $B, $A, $A, $A, $B ],
-	[ $A, $B, $B, $B, $A, $A, $A, $B ],
-	[ $A, $A, $A, $A, $B, $B, $B, $B ], ];
+	[ _, _, _, _, B, B, B, B ],
+	[ _, B, B, B, _, _, _, B ],
+	[ _, B, B, B, _, _, _, B ],
+	[ _, B, B, B, _, _, _, B ],
+	[ _, B, B, B, _, _, _, B ],
+	[ _, B, B, B, _, _, _, B ],
+	[ _, B, B, B, _, _, _, B ],
+	[ _, _, _, _, B, B, B, B ], ];
 
 $gengen = function(int $size, $A, $B) use($pattern) : array
 {
