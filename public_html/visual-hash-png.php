@@ -20,8 +20,8 @@ $png_IHDR = function(int $width, int $height, int $bit_depth, int $color_type) u
 	return $png_chunk('IHDR', $data);
 };
 
-$png_IEND = fn() => $png_chunk('IEND', '');
 $png_IDAT = fn(string $data) => $png_chunk('IDAT', $data);
+$png_IEND = fn() => $png_chunk('IEND', '');
 
 $true_colour = 2;
 $true_colour_with_alpha = 6;
