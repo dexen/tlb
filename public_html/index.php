@@ -71,6 +71,17 @@ die();
 echo '<!DOCTYPE html>';
 echo '<html lang="' .H(tlb_config('i18n.lang')) .'">';
 echo '<head>';
+echo '
+<style>
+	a {
+		line-height: 120%; }
+	a.broken-link {
+		color: #d00; }
+	a.broken-link:visited {
+		color: #b00; }
+	li {
+		margin-bottom: .58rem; }
+</style>';
 echo '<meta charset="utf-8">';
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
 if ($rcd)

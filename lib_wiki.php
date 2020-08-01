@@ -48,7 +48,7 @@ function wiki_xxx(array $matches) : string
 	if (wiki_posts_readable_by_slugP($slug))
 		return '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'">' .H($slug) .'</a>';
 	else
-		return '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'&amp;form=edit" style="color: red;">' .H($slug) .'</a>';
+		return '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'&amp;form=edit" class="broken-link">' .H($slug) .'</a>';
 }
 
 function wiki_text_to_linkedH(string $str) : string
