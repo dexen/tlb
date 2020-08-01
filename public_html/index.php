@@ -73,6 +73,8 @@ echo '<html lang="' .H(tlb_config('i18n.lang')) .'">';
 echo '<head>';
 echo '<meta charset="utf-8">';
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
+if ($rcd)
+	echo '<meta name="description" content="' .H(wiki_post_meta($rcd)) .'">';
 echo '<title>' .H(wiki_camel_to_spaced($rcd['_url_slug']??null)) .'</title>';
 echo '</head>';
 echo '<body style="max-width: 60ch">';

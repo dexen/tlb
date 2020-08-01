@@ -107,3 +107,9 @@ function wiki_maintenance_rebuild_slug_reverse_index()
 				$St->execute([ $rcd['post_id'], $slug ]);
 	$DB->commit();
 }
+
+function wiki_post_meta(array $rcd) : string
+{
+	return sprintf('Wiki page for %s',
+		$rcd['_url_slug'] );
+}
