@@ -6,11 +6,6 @@ if (empty($id) || empty($size) || ($size > 4096) || ($size<= 0)) {
 	header('HTTP/1.1 400 Bad Request');
 	die('bad request'); }
 
-$size = (int)$size;
-if ($size !== 8) {
-	header('HTTP/1.1 400 Bad Request');
-	die('bad request'); }
-
 header('Content-Type: image/png');
 header('Content-Disposition: inline; filename="visual-hash-' .rawurlencode($id) .'.png"');
 header('Cache-Control: public, max-age=365000000');
@@ -49,7 +44,7 @@ $B[0] = ord($id[$n++]);
 $B[1] = ord($id[$n++]);
 $B[2] = ord($id[$n++]);
 
-$SLOPAA = [
+$pattern = [
 	[ $A, $A, $A, $A, $B, $B, $B, $B ],
 	[ $A, $B, $B, $B, $A, $A, $A, $B ],
 	[ $A, $B, $B, $B, $A, $A, $A, $B ],
@@ -59,6 +54,28 @@ $SLOPAA = [
 	[ $A, $B, $B, $B, $A, $A, $A, $B ],
 	[ $A, $A, $A, $A, $B, $B, $B, $B ],
 ];
+
+$gengen = function(int $size, $A, $B) use($pattern) : array
+{
+	if (($size%8)) {
+		header('HTTP/1.1 400 Bad Request');
+		die('bad request - size must be a multiple of 8'); }
+
+	$factor = $size / 8;
+
+		# in case we screw up
+	$blank_px = [ 0, 0, 0xFE, 0x80 ];
+	$blank_sl = array_fill(0, $size, $blank_px);
+	$ret = array_fill(0, $size, $blank_sl);
+
+	for ($y = 0; $y < $size; ++$y)
+		for ($x = 0; $x < $size; ++$x)
+			$ret[$y][$x] = $pattern[$y/$factor][$x/$factor];
+
+	return $ret;;
+};
+
+$SLOPAA = $gengen($size, $A, $B);
 
 $compress = fn(string $data) => gzdeflate($data, $level = 9, ZLIB_ENCODING_DEFLATE);
 

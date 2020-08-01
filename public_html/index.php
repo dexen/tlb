@@ -95,7 +95,7 @@ if (($_GET['form']??null) === 'edit') {
 
 else if ($slug !== null) {
 	if ($rcd) {
-		echo '<h1><img src="visual-hash-png.php?size=8&amp;id=' .HU(tlb_address_id()) .'" width=32 height=32/> ' .H(wiki_slug_to_title($rcd['_url_slug'])) .'</h1>';
+		echo '<h1><img src="visual-hash-png.php?size=32&amp;id=' .HU(tlb_address_id()) .'" width=32 height=32/> ' .H(wiki_slug_to_title($rcd['_url_slug'])) .'</h1>';
 		echo wiki_post_body_to_htmlH($rcd);
 		echo '<hr>';
 		if (($_GET['form']??null) !== 'edit')
