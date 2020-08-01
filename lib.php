@@ -45,3 +45,4 @@ function post_process(array $rcd) : array
 }
 
 require 'lib_wiki.php';
+require 'lib_tlb.php';
