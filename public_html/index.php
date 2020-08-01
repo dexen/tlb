@@ -128,10 +128,10 @@ else if ($slug !== null) {
 			}
 		echo '</ul>';
 
-	echo '<h2>Search <a class="help" href="?set=post_wiki&amp;slug=WikiSearch">?</a></h2>';
 	echo '<form>';
+	echo '<label><h2>Search <a class="help" href="?set=post_wiki&amp;slug=WikiSearch">?</a></h2>';
+	echo '<input name="q" placeholder="query" value="' .H($query) .'" ' .($query?'autofocus':null) .'/></label><button name="action" value="search-slug" type="submit">slug</button> | <button name="action" value="search-content" type="submit">content</button>';
 	echo '<input type="hidden" name="set" value="post_wiki"/><input type="hidden" name="slug" value="' .H($_GET['slug']??null) .'"/>';
-	echo '<input name="q" placeholder="query" value="' .H($query) .'" ' .($query?'autofocus':null) .'/><button name="action" value="search-slug" type="submit">slug</button> | <button name="action" value="search-content" type="submit">content</button>';
 	echo '</form>';
 	if (($query !== null) && empty($sA))
 		echo '<p><em>no matches</em></p>';
