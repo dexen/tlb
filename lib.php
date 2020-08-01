@@ -32,6 +32,11 @@ function db_pdo() : DB
 	return new DB('db.sqlite');
 }
 
+function config_db_pdo() : DB
+{
+	return new DB('config.sqlite');
+}
+
 function posts_process(array $a) : array
 {
 	return array_map('post_process', $a);

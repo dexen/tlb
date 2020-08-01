@@ -1,3 +1,5 @@
 /db.sqlite
 /db.sqlite-*
+/config.sqlite
+/config.sqlite-*
 /public_html/adminer/

@@ -43,3 +43,17 @@ function tlb_address_id()
 {
 	return sha1(tlb_address() ."\x00" .tlb_address_hash_salt());
 }
+
+function tlb_config(string $key, string $default = null) : string
+{
+	$CDB = config_db_pdo();
+	$rcd = $CDB->queryFetch('SELECT value FROM config WHERE key = ?', [ $key ]);
+	if ($rcd === null)
+		$v = $default;
+	else
+		$v = array_shift($rcd);
+
+	if ($v === null)
+		throw new Exception(sprintf('unsupported config: "%s"', $key));
+	return $v;
+}
