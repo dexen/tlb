@@ -69,7 +69,7 @@ die();
 		header('HTTP/1.1 404'); }
 
 echo '<!DOCTYPE html>';
-echo '<html>';
+echo '<html lang="' .H(tlb_config('i18n.lang')) .'">';
 echo '<head>';
 echo '<meta charset="utf-8">';
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
