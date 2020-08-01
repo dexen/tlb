@@ -72,6 +72,7 @@ echo '<!DOCTYPE html>';
 echo '<html>';
 echo '<head>';
 echo '<meta charset="utf-8">';
+echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
 echo '<title>' .H(wiki_camel_to_spaced($rcd['_url_slug']??null)) .'</title>';
 echo '</head>';
 echo '<body style="max-width: 60ch">';
