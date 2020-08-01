@@ -109,13 +109,13 @@ if (($_GET['form']??null) === 'edit') {
 
 else if ($slug !== null) {
 	if ($rcd) {
-		echo '<h1><img
+		echo '<h1><a href="?set=post_wiki"><img
 			alt="TlbInstance at ' .H(tlb_address()) .'"
 			src="visual-hash-png.php?size=32&amp;id=' .HU(tlb_address_id()) .'"
 			srcset="visual-hash-png.php?size=64&amp;id=' .HU(tlb_address_id()) .' 2x,
 				visual-hash-png.php?size=96&amp;id=' .HU(tlb_address_id()) .' 3x,
 				visual-hash-png.php?size=128&amp;id=' .HU(tlb_address_id()) .' 4x"
-			width="32" height="32"/> ' .H(wiki_slug_to_title($rcd['_url_slug'])) .'</h1>';
+			width="32" height="32"/></a> ' .H(wiki_slug_to_title($rcd['_url_slug'])) .'</h1>';
 		echo wiki_post_body_to_htmlH($rcd);
 		echo '<hr>';
 		if (($_GET['form']??null) !== 'edit')
