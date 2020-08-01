@@ -30,9 +30,6 @@ $png_IDAT = fn(string $data) => $png_chunk('IDAT', $data);
 $true_colour = 2;
 $true_colour_with_alpha = 6;
 
-echo $png_header();
-echo $png_IHDR($size, $size, $bit_dept = 8, $true_colour_with_alpha);
-
 $A = [ 0, 0, 0, 0xff ];
 $B = [ 0xff, 0xff, 0xff, 0xff ];
 
@@ -77,18 +74,17 @@ $gengen = function(int $size, $A, $B) use($pattern) : array
 $SLOPAA = $gengen($size, $A, $B);
 
 $compress = fn(string $data) => gzdeflate($data, $level = 9, ZLIB_ENCODING_DEFLATE);
-
 $filter_type_none = "\x00";
 $filter = fn(array /* of strings */ $SLA) => $filter_type_none .implode($filter_type_none, $SLA);
-
 	# value pack to pixel string
 $vp2ps = fn(array /* of RGBA */ $a) => pack('CCCC', ...$a);
 $slvp2ps = fn(array $a) => implode(array_map($vp2ps, $a));
 $scanline_serialize = fn(array /* of arrays */ $SLOPAA) => array_map($slvp2ps, $SLOPAA);
 
+echo $png_header();
+echo $png_IHDR($size, $size, $bit_dept = 8, $true_colour_with_alpha);
 echo $png_IDAT(
 	$compress(
 		$filter(
 			$scanline_serialize($SLOPAA) ) ) );
-
 echo $png_IEND();
