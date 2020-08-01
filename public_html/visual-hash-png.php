@@ -12,6 +12,8 @@ if ($size !== 8) {
 	die('bad request'); }
 
 header('Content-Type: image/png');
+header('Content-Disposition: inline; filename="visual-hash-' .rawurlencode($id) .'.png"');
+header('Cache-Control: public, max-age=365000000');
 
 $png_header = function() : string { return "\x89PNG\x0d\x0a\x1a\x0a"; };
 $png_chunk = fn(string $type, string $data) => pack('N', strlen($data)) .$type .$data .pack('N', crc32($type .$data));
