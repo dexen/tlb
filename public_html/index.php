@@ -197,15 +197,17 @@ if (!array_key_exists('slug', $_GET)) {
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
 		echo '</ul>';
 
+		echo '<h2>Maintenance tasks <a class="help" href="?set=post_wiki&amp;slug=WikiRecentChangesIndex">?</a></h2>';
+		echo wiki_maintenance_refresh_slug_reverse_index_formH(); }
+
+	if ($slug === 'WikiRecentChangesIndex') {
 		echo '<h2>Recent changes <a class="help" href="?set=post_wiki&amp;slug=WikiRecentChangesIndex">?</a></h2>';
 		$rA = posts_process($DB->queryFetchAll('SELECT * FROM post_wiki ORDER BY _mtime DESC LIMIT 10'));
 		echo '<ul>';
 			foreach (posts_process($rA) as $rcd)
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
-		echo '</ul>';
+		echo '</ul>'; }
 
-		echo '<h2>Maintenance tasks <a class="help" href="?set=post_wiki&amp;slug=WikiRecentChangesIndex">?</a></h2>';
-		echo wiki_maintenance_refresh_slug_reverse_index_formH(); }
 
 echo '<footer>';
 printf('<p><a href="?set=post_wiki">instance main page</a> | <em>time: %.3f </em></p>', microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']);
