@@ -6,10 +6,6 @@ if (empty($id) || empty($size) || ($size > 4096) || ($size <= 0)) {
 	header('HTTP/1.1 400 Bad Request');
 	die('bad request'); }
 
-header('Content-Type: image/png');
-header('Content-Disposition: inline; filename="visual-hash-' .rawurlencode($id) .'.png"');
-header('Cache-Control: public, max-age=365000000');
-
 $png_header = function() : string { return "\x89PNG\x0d\x0a\x1a\x0a"; };
 $png_chunk = fn(string $type, string $data) => pack('N', strlen($data)) .$type .$data .pack('N', crc32($type .$data));
 
@@ -83,6 +79,10 @@ $filter = fn(array /* of strings */ $SLA) => $filter_type_none .implode($filter_
 $vp2ps = fn(array /* of RGBA */ $a) => pack('CCCC', ...$a);
 $slvp2ps = fn(array $a) => implode(array_map($vp2ps, $a));
 $scanline_serialize = fn(array /* of arrays */ $SLOPAA) => array_map($slvp2ps, $SLOPAA);
+
+header('Content-Type: image/png');
+header('Content-Disposition: inline; filename="visual-hash-' .rawurlencode($id) .'.png"');
+header('Cache-Control: public, max-age=365000000');
 
 echo $png_header();
 echo $png_IHDR($size, $size, $bit_dept = 8, $true_colour_with_alpha);
