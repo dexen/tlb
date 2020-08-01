@@ -140,7 +140,7 @@ else if ($slug !== null) {
 		JOIN _wiki_slug_use AS u ON p.post_id = u.post_id
 		WHERE u._url_slug= ?', [ $_GET['slug']??null ]);
 
-	echo '<h1>Wiki services</h1>';
+	echo '<h1>Wiki services <a href="?set=post_wiki&amp;slug=TlbWikiService">?</a></h1>';
 	echo '<h2>Reverse index <a class="help" href="?set=post_wiki&amp;slug=WikiReverseSlugIndex">?</a></h2>';
 		echo '<ul>';
 			foreach (posts_process($riA) as $rcd) {
