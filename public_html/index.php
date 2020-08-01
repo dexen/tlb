@@ -74,7 +74,7 @@ echo '<head>';
 echo '<meta charset="utf-8">';
 echo '<title>' .H(wiki_camel_to_spaced($rcd['_url_slug']??null)) .'</title>';
 echo '</head>';
-echo '<body>';
+echo '<body style="max-width: 60ch">';
 
 if (($_GET['form']??null) === 'edit') {
 	if ($rcd)
