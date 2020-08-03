@@ -264,6 +264,7 @@ echo '<div class="column-4 bodylike">';
 	foreach (tlb_connections() as $c) {
 		echo '<div class="instance-box">';
 			if (($_GET['form']??null) === 'edit') {
+				$crcd = wiki_rcd_relevant_from_connection($c, $slug);
 				echo '<fieldset>';
 					echo '<label>body:<br>
 						<textarea style="width: 100%" rows="', H($rows), '">' .H($crcd['body']) .'</textarea></label>';
@@ -278,7 +279,8 @@ echo '<div class="column-4 bodylike">';
 				width="32" height="32"/></a> Connection: ' .H($c) .'</h2>';
 			http_flush();
 
-			$crcd = wiki_rcd_relevant_from_connection($c, $slug);
+			if (!isset($crcd))
+				$crcd = wiki_rcd_relevant_from_connection($c, $slug);
 
 			$v = wiki_post_body_to_htmlH($crcd);
 			if ($v === '<p></p>')
