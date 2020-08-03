@@ -297,11 +297,13 @@ echo '<div class="column-4 bodylike">';
 			if (!isset($crcd))
 				$crcd = wiki_rcd_relevant_from_connection($c, $slug);
 
-			$v = wiki_post_body_to_htmlH($crcd);
-			if ($v === '<p></p>')
-				echo '<p><em>--</em></p>';
-			else
-				echo $v;
+			echo '<div class="content-body">';
+				$v = wiki_post_body_to_htmlH($crcd);
+				if ($v === '<p></p>')
+					echo '<p><em>--</em></p>';
+				else
+					echo $v;
+			echo '</div>';
 
 			echo '<h2>Reverse index <a class="help" href="?set=post_wiki&amp;slug=WikiReverseSlugIndex">?</a></h2>';
 				echo '<ul>';
