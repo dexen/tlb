@@ -70,5 +70,13 @@ function array_one(array $a)
 		return array_shift($a); }
 }
 
+	# perform actions specific to this server & this configuration
+	# to flush the whole HTTP pipeline
+function http_flush()
+{
+	ob_flush();
+	flush();
+}
+
 require 'lib_wiki.php';
 require 'lib_tlb.php';

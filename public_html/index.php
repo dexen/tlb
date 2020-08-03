@@ -276,6 +276,8 @@ echo '<div class="column-4 bodylike">';
 					visual-hash-png.php?size=96&amp;id=' .HU(tlb_address_id($c)) .' 3x,
 					visual-hash-png.php?size=128&amp;id=' .HU(tlb_address_id($c)) .' 4x"
 				width="32" height="32"/></a> Connection: ' .H($c) .'</h2>';
+			http_flush();
+
 			$crcd = wiki_rcd_relevant_from_connection($c, $slug);
 
 			$v = wiki_post_body_to_htmlH($crcd);
@@ -289,7 +291,8 @@ echo '<div class="column-4 bodylike">';
 					foreach (posts_process(wiki_reverse_index_from_connection($c, $slug)) as $rcd)
 						echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
 				echo '</ul>';
-		echo '</div>'; }
+		echo '</div>';
+		http_flush(); }
 echo '</div>';
 
 echo '</div>';
