@@ -126,6 +126,10 @@ echo '
 
 	.instance-box {
 		border: .5em solid #c4e8ff; }
+
+	.content-body img {
+		max-width: 100%; }
+
 </style>';
 echo '<meta charset="utf-8">';
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
@@ -164,7 +168,9 @@ else if ($slug !== null) {
 				visual-hash-png.php?size=96&amp;id=' .HU(tlb_address_id()) .' 3x,
 				visual-hash-png.php?size=128&amp;id=' .HU(tlb_address_id()) .' 4x"
 			width="32" height="32"/></a> ' .H(wiki_slug_to_title($rcd['_url_slug'])) .'</h1>';
-		echo wiki_post_body_to_htmlH($rcd);
+		echo '<div class="content-body">';
+			echo wiki_post_body_to_htmlH($rcd);
+		echo '</div>';
 		echo '<hr>';
 		if (($_GET['form']??null) !== 'edit')
 			echo wiki_post_edit_formH($rcd); }
