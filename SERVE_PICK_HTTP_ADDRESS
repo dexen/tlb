@@ -20,8 +20,7 @@ host=localhost
 port="${address#${host}:}"
 
 for n in `seq 1 1000`; do
-		# silly is a state of mind, stupid is a way of life
-	if timeout 1 nc -q0 -p "$port" "$host" "$port" < /dev/null; then
+	if timeout 1 ./PORT_TEST "$host" "$port"; then
 		address="$host:$port"
 echo Using address "$address"
 		echo -n $address > "$addr_file"

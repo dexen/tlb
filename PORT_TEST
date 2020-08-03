@@ -1,0 +1,10 @@
+#!/usr/bin/php
+<?php
+
+ini_set('error_reporting', E_ALL);
+
+$socket = socket_create(AF_INET, SOCK_STREAM,  SOL_TCP);
+socket_set_option($socket, SOL_SOCKET, SO_REUSEADDR, 1);
+	# this specific options prevents blind detection of busy port
+socket_set_option($socket, SOL_SOCKET, SO_REUSEPORT, 0);
+die((int)!@socket_bind($socket, gethostbyname($argv[1]), $argv[2]));
