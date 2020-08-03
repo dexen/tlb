@@ -88,6 +88,21 @@ echo '
 		color: #b00; }
 	li {
 		margin-bottom: .58rem; }
+	.columns {
+		display: flex;
+		flex-wrap: wrap;
+	}
+	.column-4 {
+		flex-grow: 4;
+		flex-shrink: 0;
+		flex-basis: 60ch;
+	}
+	body {
+		margin: 0;
+	}
+	.bodylike {
+		margin: .5em;
+	}
 </style>';
 echo '<meta charset="utf-8">';
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
@@ -95,7 +110,10 @@ if ($rcd)
 	echo '<meta name="description" content="' .H(wiki_post_meta($rcd)) .'">';
 echo '<title>' .H(wiki_camel_to_spaced($rcd['_url_slug']??null)) .'</title>';
 echo '</head>';
-echo '<body style="max-width: 60ch">';
+echo '<body>';
+
+echo '<div class="columns">';
+echo '<div class="column-4 bodylike">';
 
 if (($_GET['form']??null) === 'edit') {
 	if ($rcd)
@@ -208,6 +226,18 @@ if (!array_key_exists('slug', $_GET)) {
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
 		echo '</ul>'; }
 
+echo '</div>';
 
-echo '<footer>';
+echo '<div class="column-4 bodylike">';
+	echo 'foo';
+echo '</div>';
+
+echo '<div class="column-4 bodylike">';
+	echo 'bar';
+echo '</div>';
+
+
+echo '</div>';
+
+echo '<footer class="bodylike">';
 printf('<p><a href="?set=post_wiki">instance main page</a> | <em>time: %.3f </em></p>', microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']);
