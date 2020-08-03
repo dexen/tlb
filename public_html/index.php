@@ -228,6 +228,15 @@ if (!array_key_exists('slug', $_GET)) {
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
 		echo '</ul>'; }
 
+	if ($slug === 'TlbConfiguration') {
+		echo '<h2>Configuration <a class="help" href="?set=post_wiki&amp;slug=TlbConfiguration">?</a></h2>';
+		echo '<form method="post" action="?service=TlbConfig">';
+			echo '<label>TlbWikiFriends  <a class="help" href="?set=post_wiki&amp;slug=TlbWikiFriends">?</a><br>';
+			echo '<textarea name="wiki_friends" rows="7" cols="40" style="min-width: 100%"></textarea></label>';
+			echo '<button type="submit" name="action" value="save-wiki_friends">Save</button>';
+		echo '</form>';
+	}
+
 echo '</div>';
 
 echo '<div class="column-4 bodylike">';
