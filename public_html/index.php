@@ -113,6 +113,10 @@ echo '
 	.bodylike {
 		margin: .5em;
 	}
+	button.strut-12 {
+		min-height: 6ex;
+		min-width: 100%;
+	}
 	* {
 		box-sizing: border-box;  }
 </style>';
@@ -243,7 +247,7 @@ if (!array_key_exists('slug', $_GET)) {
 		echo '<form method="post" action="?service=TlbConfig">';
 			echo '<label id="TlbFederationConnections">TlbFederationConnections  <a class="help" href="?set=post_wiki&amp;slug=TlbFederationConnections">?</a><br>';
 			echo '<textarea name="data[federation.connections]" rows="7" cols="40" style="min-width: 100%">' .H(tlb_config('federation.connections')) .'</textarea></label>';
-			echo '<button type="submit" name="action" value="save-federation-connections">Save</button>';
+			echo '<button type="submit" name="action" value="save-federation-connections" class="strut-12">Save</button>';
 		echo '</form>';
 	}
 
