@@ -225,7 +225,7 @@ if (!array_key_exists('slug', $_GET)) {
 		echo '<h2>Maintenance tasks <a class="help" href="?set=post_wiki&amp;slug=WikiRecentChangesIndex">?</a></h2>';
 		echo wiki_maintenance_refresh_slug_reverse_index_formH(); }
 
-	if ($slug === 'WikiOrphanPageIndex')
+	if ($slug === 'WikiOrphanPageIndex') {
 		$mpA = $DB->queryFetchAll('
 			SELECT u._url_slug
 			FROM _wiki_slug_use AS u
@@ -235,7 +235,7 @@ if (!array_key_exists('slug', $_GET)) {
 		echo '<ul>';
 			foreach (posts_process($mpA) as $rcd)
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
-		echo '</ul>';
+		echo '</ul>'; }
 
 	if ($slug === 'WikiRecentChangesIndex') {
 		echo '<h2>Recent changes <a class="help" href="?set=post_wiki&amp;slug=WikiRecentChangesIndex">?</a></h2>';
