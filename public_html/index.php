@@ -37,7 +37,7 @@ if (($_GET['set']??null) === 'post_wiki') {
 		$sA = $DB->queryFetchAll('SELECT * FROM post_wiki WHERE (_url_slug || \' \' || body)LIKE \'%\' || ? || \'%\' ', [ $query ] );
 
 	if (count($sA) === 1)
-		die(header('Location: ?set=post_wiki&slug=' .U($sA[0]['_url_slug'])));
+		die(header('Location: ?set=post_wiki&slug=' .U(array_one($sA)['_url_slug']) .'&action=search-result-single&q=' .U($query)));
 
 	if (($_GET['form']??null) === 'maintenance') {
 		if (($_POST['action']??null) === 'rebuild-slug-reverse-index')
