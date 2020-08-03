@@ -278,7 +278,11 @@ echo '<div class="column-4 bodylike">';
 				width="32" height="32"/></a> Connection: ' .H($c) .'</h2>';
 			$crcd = wiki_rcd_relevant_from_connection($c, $slug);
 
-			echo wiki_post_body_to_htmlH($crcd);
+			$v = wiki_post_body_to_htmlH($crcd);
+			if ($v === '<p></p>')
+				echo '<p><em>--</em></p>';
+			else
+				echo $v;
 
 			echo '<h2>Reverse index <a class="help" href="?set=post_wiki&amp;slug=WikiReverseSlugIndex">?</a></h2>';
 				echo '<ul>';
