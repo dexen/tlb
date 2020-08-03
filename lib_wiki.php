@@ -124,7 +124,7 @@ function wiki_rcd_relevant_from_connection(string $connection, string $_url_slug
 {
 	$curl = tlb_connection_url($connection);
 	$url = $curl .'/wiki-text.php?slug=' .U($_url_slug);
-	$body = file_get_contents($url);
+	$body = tlb_download_connection($url);
 	return compact('_url_slug', 'body');
 }
 
@@ -132,7 +132,7 @@ function wiki_reverse_index_from_connection(string $connection, string $_url_slu
 {
 	$curl = tlb_connection_url($connection);
 	$url = $curl .'/wiki-reverse-index.php?slug=' .U($_url_slug);
-	$slugA = array_filter(explode(',', file_get_contents($url)), 'strlen');
+	$slugA = array_filter(explode(',', tlb_download_connection($url)), 'strlen');
 
 	$body = null;
 	return array_map(

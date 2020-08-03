@@ -90,3 +90,19 @@ function tlb_connection_url(string $key) : string
 						tlb_connection_records(),
 						fn($rcd) => (($rcd[0]??null) === $key) || (isset($rcd[1]) && ($rcd[1] === $key)) ) ) );
 }
+
+function tlb_download_connection($url) : string
+{
+	$a = parse_url($url);
+	$h = curl_init($url);
+	if ($use_tor_proxy = preg_match('/[.]onion$/', $a['host']??null)) {
+		curl_setopt($h, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5_HOSTNAME);
+		curl_setopt($h, CURLOPT_PROXY, 'localhost:9050'); }
+	else {
+		curl_setopt($h, CURLOPT_PROXYTYPE, null);
+		curl_setopt($h, CURLOPT_PROXY, null); }
+	curl_setopt($h, CURLOPT_RETURNTRANSFER, true);
+	$v = curl_exec($h);
+#tp(compact('url', 'v', 'use_tor_proxy'));
+	return $v;
+}
