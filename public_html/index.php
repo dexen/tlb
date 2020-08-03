@@ -263,6 +263,13 @@ echo '</div>';
 echo '<div class="column-4 bodylike">';
 	foreach (tlb_connections() as $c) {
 		echo '<div class="instance-box">';
+			$crcd = wiki_rcd_relevant_from_connection($c, $slug);
+			if (($_GET['form']??null) === 'edit') {
+				echo '<fieldset>';
+					echo '<label>body:<br>
+						<textarea style="width: 100%" rows="', H($rows), '">' .H($crcd['body']) .'</textarea></label>';
+				echo '</fieldset>'; }
+
 			echo '<h2><a href="?set=post_wiki"><img
 				alt="TlbInstance at ' .H($c) .'"
 				src="visual-hash-png.php?size=32&amp;id=' .HU(tlb_address_id($c)) .'"
@@ -270,7 +277,8 @@ echo '<div class="column-4 bodylike">';
 					visual-hash-png.php?size=96&amp;id=' .HU(tlb_address_id($c)) .' 3x,
 					visual-hash-png.php?size=128&amp;id=' .HU(tlb_address_id($c)) .' 4x"
 				width="32" height="32"/></a> Connection: ' .H($c) .'</h2>';
-			echo wiki_post_body_to_htmlH(wiki_rcd_relevant_from_connection($c, $slug));
+
+			echo wiki_post_body_to_htmlH($crcd);
 		echo '</div>'; }
 echo '</div>';
 
