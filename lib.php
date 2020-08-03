@@ -11,6 +11,8 @@ function H(string $str = null) : ?string { return ($str === null) ? $str : htmls
 function U(string $str = null) : ?string { return ($str === null) ? $str : rawurlencode($str); }
 function HU(string $str = null) : ?string { return ($str === null) ? $str : htmlspecialchars(rawurlencode($str)); }
 
+function lf(string $str = null) : ?string { return is_null($str) ? null : str_replace("\r\n", "\n", $str);}
+
 function noz($v)
 {
 	if (is_array($v))

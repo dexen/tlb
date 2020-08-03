@@ -50,14 +50,14 @@ if (array_key_exists('slug', $_GET)) {
 					WHERE post_id IN (SELECT post_id FROM post_wiki WHERE _url_slug = ?)', [ $slug ]);
 				if (empty($rcd))
 					$DB->execParams('INSERT INTO post_wiki (body, _url_slug, uuid) VALUES (?, ?, ?)',
-						[ $_POST['body'], $slug, Uuid::generateUuidV4() ] );
+						[ lf($_POST['body']), $slug, Uuid::generateUuidV4() ] );
 				else if (empty($_POST['body']))
 					$DB->execParams('
 						DELETE FROM post_wiki WHERE _url_slug = ? ',
 						[ $slug ] );
 				else
 					$DB->execParams('UPDATE post_wiki SET body = ? WHERE _url_slug = ?',
-						[ $_POST['body'], $slug ]);
+						[ lf($_POST['body']), $slug ]);
 
 				$DB->execParams('UPDATE post_wiki SET _mtime = strftime(\'%s\', \'now\') WHERE _url_slug = ?', [$slug]);
 
