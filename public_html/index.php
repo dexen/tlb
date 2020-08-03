@@ -119,6 +119,9 @@ echo '
 	}
 	* {
 		box-sizing: border-box;  }
+	.instance-box {
+		border: .5em solid #c4e8ff;
+	}
 </style>';
 echo '<meta charset="utf-8">';
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
@@ -258,7 +261,17 @@ echo '<div class="column-4 bodylike">';
 echo '</div>';
 
 echo '<div class="column-4 bodylike">';
-	echo 'bar';
+	foreach (tlb_connections() as $c) {
+		echo '<div class="instance-box">';
+			echo '<h2><a href="?set=post_wiki"><img
+				alt="TlbInstance at ' .H($c) .'"
+				src="visual-hash-png.php?size=32&amp;id=' .HU(tlb_address_id($c)) .'"
+				srcset="visual-hash-png.php?size=64&amp;id=' .HU(tlb_address_id($c)) .' 2x,
+					visual-hash-png.php?size=96&amp;id=' .HU(tlb_address_id($c)) .' 3x,
+					visual-hash-png.php?size=128&amp;id=' .HU(tlb_address_id($c)) .' 4x"
+				width="32" height="32"/></a> Connection: ' .H($c) .'</h2>';
+			echo wiki_post_body_to_htmlH(wiki_rcd_relevant_from_connection($c, $slug));
+		echo '</div>'; }
 echo '</div>';
 
 

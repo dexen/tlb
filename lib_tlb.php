@@ -7,8 +7,10 @@ function tlb_address_hash_salt() : string
 	return -1;
 }
 
-function tlb_address() : string
+function tlb_address(string $address = null) : string
 {
+	if ($address !== null)
+		return $address;
 	$protocol = $_SERVER['SERVER_PROTOCOL']??null;
 	if ($protocol === null)
 		throw new Exception('unknown protocol');
@@ -39,9 +41,9 @@ function tlb_address() : string
 		return $schema .'//' .$host .':' .$port;
 }
 
-function tlb_address_id()
+function tlb_address_id(string $address = null)
 {
-	return sha1(tlb_address() ."\x00" .tlb_address_hash_salt());
+	return sha1(tlb_address($address) ."\x00" .tlb_address_hash_salt($address));
 }
 
 function tlb_config(string $key, string $default = null) : string
@@ -62,4 +64,28 @@ function wiki_config_save(string $key, string $value)
 {
 	$CDB = config_db_pdo();
 	$rcd = $CDB->execParams('UPDATE config SET value = ? WHERE key = ?', [ $value, $key ]);
+}
+
+function tlb_connection_records() : array /* of arrays */
+{
+	return
+		array_map(fn($str) => explode(' ', $str),
+			array_filter(
+				explode("\n", tlb_config('federation.connections')) ) );
+}
+
+function tlb_connections() : array
+{
+	return
+		array_map('current',
+			tlb_connection_records() );
+}
+
+function tlb_connection_url(string $key) : string
+{
+	return
+			array_map(fn($rcd) => isset($rcd[1]) ? $rcd[1] : $rcd[0],
+				array_filter(
+					tlb_connection_records(),
+					fn($rcd) => ($rcd[0] === $key) || (isset($rcd[1]) && ($rcd[1] === $key)) ) )[0];
 }

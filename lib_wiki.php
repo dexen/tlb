@@ -113,3 +113,11 @@ function wiki_post_meta(array $rcd) : string
 	return sprintf('Wiki page for %s',
 		$rcd['_url_slug'] );
 }
+
+function wiki_rcd_relevant_from_connection(string $connection, string $_url_slug) : array
+{
+	$curl = tlb_connection_url($connection);
+	$url = $curl .'/wiki-text.php?slug=' .U($_url_slug);
+	$body = file_get_contents($url);
+	return compact('_url_slug', 'body');
+}
