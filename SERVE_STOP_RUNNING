@@ -7,18 +7,22 @@ cd "$(dirname "$0")"
 dir="$(realpath "${1:-.tlb}")"
 pidfiles=("$dir/php.pid" "$dir/tor.pid")
 
+	# the server app's PID is the process group id of the PHP processes
+	# we signal it to also reach the forked-off PHP processes
+
 for pn in "${pidfiles[@]}"; do
 	if [ -e "$pn" ] && kill -0 "$(cat "$pn")" 2>/dev/null; then
-		kill -HUP "$(cat "$pn")"
+			# the -PID is super important for cleanup of forked-off PHP processes
+		kill -INT "-$(cat "$pn")"
 	fi
 done
 for pn in "${pidfiles[@]}"; do
 	if [ -e "$pn" ] && kill -0 "$(cat "$pn")" 2>/dev/null; then
-		kill "$(cat "$pn")"
+		kill -- "-$(cat "$pn")"
 	fi
 done
 for pn in "${pidfiles[@]}"; do
 	if [ -e "$pn" ] && kill -0 "$(cat "$pn")" 2>/dev/null; then
-		kill -9 "$(cat "$pn")"
+		kill -KILL "$(cat "$pn")"
 	fi
 done
