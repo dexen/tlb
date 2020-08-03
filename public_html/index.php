@@ -270,7 +270,7 @@ echo '<div class="column-4 bodylike">';
 						<textarea style="width: 100%" rows="', H($rows), '">' .H($crcd['body']) .'</textarea></label>';
 				echo '</fieldset>'; }
 
-			echo '<h2><a href="?set=post_wiki"><img
+			echo '<h2><a href="' .H(wiki_connection_post_url($c, $slug)) .'"><img
 				alt="TlbInstance at ' .H($c) .'"
 				src="visual-hash-png.php?size=32&amp;id=' .HU(tlb_address_id($c)) .'"
 				srcset="visual-hash-png.php?size=64&amp;id=' .HU(tlb_address_id($c)) .' 2x,

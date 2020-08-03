@@ -114,6 +114,12 @@ function wiki_post_meta(array $rcd) : string
 		$rcd['_url_slug'] );
 }
 
+function wiki_connection_post_url(string $connection, string $slug) : string
+{
+	$curl = tlb_connection_url($connection);
+	return $curl .'?set=post_wiki&slug=' .U($slug);
+}
+
 function wiki_rcd_relevant_from_connection(string $connection, string $_url_slug) : array
 {
 	$curl = tlb_connection_url($connection);
