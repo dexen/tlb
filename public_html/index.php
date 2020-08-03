@@ -92,36 +92,40 @@ echo '
 <style>
 	a {
 		line-height: 120%; }
+
 	a.broken-link {
 		color: #d00; }
+
 	a.broken-link:visited {
 		color: #b00; }
+
 	li {
 		margin-bottom: .58rem; }
+
 	.columns {
 		display: flex;
-		flex-wrap: wrap;
-	}
+		flex-wrap: wrap; }
+
 	.column-4 {
 		flex-grow: 4;
 		flex-shrink: 0;
-		flex-basis: 60ch;
-	}
+		flex-basis: 60ch; }
+
 	body {
-		margin: 0;
-	}
+		margin: 0; }
+
 	.bodylike {
-		margin: .5em;
-	}
+		margin: .5em; }
+
 	button.strut-12 {
 		min-height: 6ex;
-		min-width: 100%;
-	}
+		min-width: 100%; }
+
 	* {
 		box-sizing: border-box;  }
+
 	.instance-box {
-		border: .5em solid #c4e8ff;
-	}
+		border: .5em solid #c4e8ff; }
 </style>';
 echo '<meta charset="utf-8">';
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
