@@ -84,8 +84,9 @@ function tlb_connections() : array
 function tlb_connection_url(string $key) : string
 {
 	return
-			array_map(fn($rcd) => isset($rcd[1]) ? $rcd[1] : $rcd[0],
-				array_filter(
-					tlb_connection_records(),
-					fn($rcd) => ($rcd[0] === $key) || (isset($rcd[1]) && ($rcd[1] === $key)) ) )[0];
+			array_one(
+				array_map(fn($rcd) => isset($rcd[1]) ? $rcd[1] : $rcd[0],
+					array_filter(
+						tlb_connection_records(),
+						fn($rcd) => (($rcd[0]??null) === $key) || (isset($rcd[1]) && ($rcd[1] === $key)) ) ) );
 }
