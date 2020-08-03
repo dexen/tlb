@@ -51,7 +51,7 @@ function wiki_xxx(array $matches) : string
 		return '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'&amp;form=edit" class="broken-link">' .H($slug) .'</a>';
 }
 
-function wiki_img_re() : string { return '#(https?://[^\\s]+[.](jpe?g|gif|png))#'; }
+function wiki_img_re() : string { return '#(https?://[^\\s]+[.](jpe?g|gif|png|svg))#'; }
 
 function wiki_text_to_linkedH(string $str) : string
 {
