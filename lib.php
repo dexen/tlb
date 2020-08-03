@@ -51,5 +51,11 @@ function post_process(array $rcd) : array
 	return $rcd;
 }
 
+function http_cache_prevent()
+{
+	header('Cache-Control: no-store, no-cache, must-revalidate');
+	header('Expires: Thu, 19 Nov 1981 08:52:00 GMT');
+}
+
 require 'lib_wiki.php';
 require 'lib_tlb.php';

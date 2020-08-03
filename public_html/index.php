@@ -2,6 +2,8 @@
 
 require '../init.php';
 
+http_cache_prevent();
+
 $DB = db_pdo();
 
 $action = $_GET['action']??null;
