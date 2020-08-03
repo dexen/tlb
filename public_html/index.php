@@ -262,6 +262,7 @@ echo '</div>';
 
 echo '<div class="column-4 bodylike">';
 	foreach (tlb_connections() as $c) {
+		unset($crcd);
 		echo '<div class="instance-box">';
 			if (($_GET['form']??null) === 'edit') {
 				$crcd = wiki_rcd_relevant_from_connection($c, $slug);
