@@ -227,10 +227,13 @@ if (!array_key_exists('slug', $_GET)) {
 
 	if ($slug === 'WikiOrphanPageIndex') {
 		$mpA = $DB->queryFetchAll('
-			SELECT u._url_slug
-			FROM _wiki_slug_use AS u
-			LEFT JOIN post_wiki AS p ON u._url_slug = p._url_slug
-			WHERE p._url_slug IS NULL' );
+			SELECT p._url_slug
+			FROM post_wiki AS p
+			JOIN _wiki_slug_use AS u USING(post_id)
+			LEFT JOIN post_wiki AS pp ON u._url_slug = pp._url_slug
+			WHERE pp._url_slug IS NULL
+			GROUP BY p._url_slug
+			ORDER BY MAX(p._mtime) DESC' );
 		echo '<h2>Orphan pages <a class="help" href="?set=post_wiki&amp;slug=WikiOrphanPageIndex">?</a></h2>';
 		echo '<ul>';
 			foreach (posts_process($mpA) as $rcd)
