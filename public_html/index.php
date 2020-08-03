@@ -195,7 +195,7 @@ else if ($slug !== null) {
 	else {
 		echo '<ul>';
 			foreach (posts_process($sA) as $rcd)
-				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
+				echo '<li><a href="', H($rcd['_url_canonical']), '&amp;action=search-selected-result&amp;q=' .HU($query) .'#:~:text=' .HU($query) .'">', H($rcd['_link_text_default']), '</a></li>';
 		echo '</ul>'; }
 
 if (!array_key_exists('slug', $_GET)) {
