@@ -210,18 +210,6 @@ if (!array_key_exists('slug', $_GET)) {
 			}
 		echo '</ul>'; }
 
-		echo '<h2>Missing pages <a class="help" href="?set=post_wiki&amp;slug=WikiMissingPagesIndex">?</a></h2>';
-		echo '<ul>';
-			foreach (posts_process($mpA) as $rcd)
-				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
-		echo '</ul>';
-
-		$mpA = $DB->queryFetchAll('
-			SELECT p._url_slug
-			FROM post_wiki AS p
-			LEFT JOIN _wiki_slug_use AS u ON p._url_slug = u._url_slug
-			WHERE u._url_slug IS NULL' );
-
 		echo '<h2>Maintenance tasks <a class="help" href="?set=post_wiki&amp;slug=WikiRecentChangesIndex">?</a></h2>';
 		echo wiki_maintenance_refresh_slug_reverse_index_formH(); }
 
@@ -235,6 +223,19 @@ if (!array_key_exists('slug', $_GET)) {
 			GROUP BY p._url_slug
 			ORDER BY MAX(p._mtime) DESC' );
 		echo '<h2>Orphan pages <a class="help" href="?set=post_wiki&amp;slug=WikiOrphanPageIndex">?</a></h2>';
+		echo '<ul>';
+			foreach (posts_process($mpA) as $rcd)
+				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
+		echo '</ul>'; }
+
+	if ($slug === 'WikiMissingPagesIndex') {
+		$mpA = $DB->queryFetchAll('
+			SELECT p._url_slug
+			FROM post_wiki AS p
+			LEFT JOIN _wiki_slug_use AS u ON p._url_slug = u._url_slug
+			WHERE u._url_slug IS NULL' );
+
+		echo '<h2>Missing pages <a class="help" href="?set=post_wiki&amp;slug=WikiMissingPagesIndex">?</a></h2>';
 		echo '<ul>';
 			foreach (posts_process($mpA) as $rcd)
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
