@@ -1,0 +1,33 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$0")"
+
+if ! which php >/dev/null; then echo Error: could not find php program binary. Please install PHP.; exit 1; fi
+if ! which tor >/dev/null; then echo Error: could not find tor program binary. Please install TOR.; exit 1; fi
+
+rm -f .tlb/tor-hidden-service/hostname
+
+./SERVE_INIT_STORAGE
+./SERVE_STOP_RUNNING
+./SERVE_PICK_HTTP_ADDRESS .tlb localhost 7172
+
+./SERVE_PHP &
+./SERVE_TOR &
+
+sleep 1
+
+for n in 0 1 1 2 2 2 2 2 2; do
+	if [ -e .tlb/php.pid -a -e .tlb/tor.pid -a -e .tlb/http_address -a -e .tlb/tor-hidden-service/hostname ]; then
+		break
+	fi
+	echo -n .
+	sleep $n
+done
+
+echo
+./SERVE_SHOW_ADDRESSES
+echo The service is running...
+wait
+echo The service has quit.

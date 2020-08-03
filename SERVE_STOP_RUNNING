@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$0")"
+
+dir="$(realpath "${1:-.tlb}")"
+pidfiles=("$dir/php.pid" "$dir/tor.pid")
+
+for pn in "${pidfiles[@]}"; do
+	if [ -e "$pn" ] && kill -0 "$(cat "$pn")" 2>/dev/null; then
+		kill -HUP "$(cat "$pn")"
+	fi
+done
+for pn in "${pidfiles[@]}"; do
+	if [ -e "$pn" ] && kill -0 "$(cat "$pn")" 2>/dev/null; then
+		kill "$(cat "$pn")"
+	fi
+done
+for pn in "${pidfiles[@]}"; do
+	if [ -e "$pn" ] && kill -0 "$(cat "$pn")" 2>/dev/null; then
+		kill -9 "$(cat "$pn")"
+	fi
+done

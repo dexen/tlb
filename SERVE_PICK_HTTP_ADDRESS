@@ -1,0 +1,34 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$0")"
+
+dir="${1:-.tlb}"
+addr_file="$dir/http_address"
+default_host="$2"
+default_port="$3"
+
+if [ ! -s "$addr_file" ]; then
+	if [ ! "$default_host" -o ! "$default_port" ]; then echo no default host port provided in arguments; exit 1; fi
+	echo "$default_host:$default_port" > "$addr_file"
+fi
+
+address="$(< "$addr_file")"
+	# i don't know how to extract it nicely
+host=localhost
+port="${address#${host}:}"
+
+for n in `seq 1 1000`; do
+		# silly is a state of mind, stupid is a way of life
+	if timeout 1 nc -q0 -p "$port" "$host" "$port" < /dev/null; then
+		address="$host:$port"
+echo Using address "$address"
+		echo -n $address > "$addr_file"
+		exit
+	fi
+	port=$(( $port + $n ))
+done
+
+echo "could not find free port (in $n attempts), giving up"
+exit 1

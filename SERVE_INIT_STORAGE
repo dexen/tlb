@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$0")"
+
+dir="$(realpath "${1:-.tlb}")"
+torrc="$dir/torrc"
+DataDirectory="$dir/tor-data"
+HiddenServiceDir="$dir/tor-hidden-service"
+
+mkdir -p "$dir"; chmod go-rwx "$dir"
+
+if [ ! -e "$torrc" ]; then touch "$torrc"; fi
+mkdir -p "$DataDirectory"
+mkdir -p "$HiddenServiceDir"
+chmod go-rwx "$HiddenServiceDir"

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$0")"
+
+dir="$(realpath "${1:-.tlb}")"
+pid_file="$dir/php.pid"
+addr_file="$dir/http_address"
+
+echo $BASHPID > "$pid_file"
+
+exec php -S "$(< "$addr_file")" -t public_html

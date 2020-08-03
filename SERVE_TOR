@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$0")"
+
+dir="$(realpath "${1:-.tlb}")"
+pid_file="$dir/tor.pid"
+addr_file="$dir/http_address"
+torrc="$dir/torrc"
+DataDirectory="$dir/tor-data"
+HiddenServiceDir="$dir/tor-hidden-service"
+
+echo $BASHPID > "$pid_file"
+
+exec tor --hush \
+	-f "$torrc" --SocksPort 0 \
+	--DataDirectory "$DataDirectory" --HiddenServiceDir "$HiddenServiceDir" \
+	--HiddenServiceSingleHopMode 1 \
+	--HiddenServiceNonAnonymousMode 1 \
+	--HiddenServicePort "80 $(< "$addr_file")"
