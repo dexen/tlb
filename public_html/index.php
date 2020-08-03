@@ -12,6 +12,14 @@ $sA = [];
 $rcd = null;
 $set = $_GET['set']??null;
 $slug = $_GET['slug']??null;
+$service = $_GET['service']??null;
+
+if ($service === 'TlbConfig') {
+	if (($_POST['action']??null) === 'save-federation-connections') {
+		$data = $_POST['data'];
+		wiki_config_save('federation.connections', lf($data['federation.connections']));
+		header('Location: ?set=post_wiki&slug=TlbConfiguration#TlbFederationConnections');
+		die(); } }
 
 if ($set === null)
 	die(header('Location: ?set=post_wiki'));
@@ -233,9 +241,9 @@ if (!array_key_exists('slug', $_GET)) {
 	if ($slug === 'TlbConfiguration') {
 		echo '<h2>Configuration <a class="help" href="?set=post_wiki&amp;slug=TlbConfiguration">?</a></h2>';
 		echo '<form method="post" action="?service=TlbConfig">';
-			echo '<label>TlbWikiFriends  <a class="help" href="?set=post_wiki&amp;slug=TlbWikiFriends">?</a><br>';
-			echo '<textarea name="wiki_friends" rows="7" cols="40" style="min-width: 100%"></textarea></label>';
-			echo '<button type="submit" name="action" value="save-wiki_friends">Save</button>';
+			echo '<label id="TlbFederationConnections">TlbFederationConnections  <a class="help" href="?set=post_wiki&amp;slug=TlbFederationConnections">?</a><br>';
+			echo '<textarea name="data[federation.connections]" rows="7" cols="40" style="min-width: 100%">' .H(tlb_config('federation.connections')) .'</textarea></label>';
+			echo '<button type="submit" name="action" value="save-federation-connections">Save</button>';
 		echo '</form>';
 	}
 

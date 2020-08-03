@@ -57,3 +57,9 @@ function tlb_config(string $key, string $default = null) : string
 		throw new Exception(sprintf('unsupported config: "%s"', $key));
 	return $v;
 }
+
+function wiki_config_save(string $key, string $value)
+{
+	$CDB = config_db_pdo();
+	$rcd = $CDB->execParams('UPDATE config SET value = ? WHERE key = ?', [ $value, $key ]);
+}
