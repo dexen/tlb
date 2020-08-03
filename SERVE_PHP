@@ -10,4 +10,6 @@ addr_file="$dir/http_address"
 
 echo $BASHPID > "$pid_file"
 
+export PHP_CLI_SERVER_WORKERS=8
+
 exec php -S "$(< "$addr_file")" -t public_html
