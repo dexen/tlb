@@ -71,7 +71,8 @@ function tlb_connection_records() : array /* of arrays */
 	return
 		array_map(fn($str) => explode(' ', $str),
 			array_filter(
-				explode("\n", tlb_config('federation.connections')) ) );
+				explode("\n", tlb_config('federation.connections')),
+				fn($str) => ($str !== '') && ($str[0] !== '#') ) );
 }
 
 function tlb_connections() : array
