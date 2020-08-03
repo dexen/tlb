@@ -221,9 +221,8 @@ else if ($slug !== null) {
 				echo '<li><a href="', H($rcd['_url_canonical']), '&amp;action=search-selected-result&amp;q=' .HU($query) .'#:~:text=' .HU($query) .'">', H($rcd['_link_text_default']), '</a></li>';
 		echo '</ul>'; }
 
-if (!array_key_exists('slug', $_GET)) {
-	if (false) {
-		$a = posts_process($DB->queryFetchAll('SELECT * FROM post_wiki'));
+	if ($slug === 'WikiPostIndex') {
+		$a = posts_process($DB->queryFetchAll('SELECT * FROM post_wiki ORDER BY _url_slug'));
 		echo '<h2>Post index</h2>';
 		if (empty($a))
 			echo '<em>no wiki posts</em>';
@@ -233,7 +232,8 @@ if (!array_key_exists('slug', $_GET)) {
 			}
 		echo '</ul>'; }
 
-		echo '<h2>Maintenance tasks <a class="help" href="?set=post_wiki&amp;slug=WikiRecentChangesIndex">?</a></h2>';
+	if ($slug === 'TlbMaintenaceTask') {
+		echo '<h2>Maintenance tasks <a class="help" href="?set=post_wiki&amp;slug=TlbMaintenaceTask">?</a></h2>';
 		echo wiki_maintenance_refresh_slug_reverse_index_formH(); }
 
 	if ($slug === 'WikiOrphanPageIndex') {
