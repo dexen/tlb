@@ -59,5 +59,16 @@ function http_cache_prevent()
 	header('Expires: Thu, 19 Nov 1981 08:52:00 GMT');
 }
 
+function array_one(array $a)
+{
+	switch (count($a)) {
+	case 0:
+		throw new Exception('expected exactly one item, got none');
+	default:
+		throw new Exception('expected exactly one item, got multiple');
+	case 1:
+		return array_shift($a); }
+}
+
 require 'lib_wiki.php';
 require 'lib_tlb.php';
