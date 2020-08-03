@@ -90,6 +90,9 @@ echo '<html lang="' .H(tlb_config('i18n.lang')) .'">';
 echo '<head>';
 echo '
 <style>
+	html, body {
+		background: #bbc3bb; }
+
 	a {
 		line-height: 120%; }
 
@@ -114,9 +117,6 @@ echo '
 	body {
 		margin: 0; }
 
-	.bodylike {
-		margin: .5em; }
-
 	button.strut-12 {
 		min-height: 6ex;
 		min-width: 100%; }
@@ -124,12 +124,22 @@ echo '
 	* {
 		box-sizing: border-box;  }
 
-	.instance-box {
-		border: .5em solid #c4e8ff; }
+	.page-with-shadow {
+		margin: 4px;
+		background: white;
+		box-shadow: 2px 1px 4px rgba(0, 0, 0, 0.33); }
+
+	.connection-box {
+		box-shadow: inset 0px 0px 4ex 0px #c4e8ff; }
+
+	.htmlike {
+		display: flow-root; }
+
+	.bodylike {
+		margin: .5rem; }
 
 	.content-body img {
 		max-width: 100%; }
-
 </style>';
 echo '<meta charset="utf-8">';
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
@@ -140,7 +150,10 @@ echo '</head>';
 echo '<body>';
 
 echo '<div class="columns">';
-echo '<div class="column-4 bodylike">';
+echo '<div class="column-4">';
+echo '<div class="page-with-shadow">';
+echo '<div class="htmlike">';
+echo '<section class="bodylike">';
 
 if (($_GET['form']??null) === 'edit') {
 	if ($rcd)
@@ -268,16 +281,27 @@ if (!array_key_exists('slug', $_GET)) {
 		echo '</form>';
 	}
 
+echo '</section>';
+echo '</div>';
+echo '</div>';
 echo '</div>';
 
-echo '<div class="column-4 bodylike">';
+echo '<div class="column-4">';
+echo '<div class="page-with-shadow">';
+echo '<div class="htmlike">';
+echo '<section class="bodylike">';
 	echo '--';
+echo '</section>';
+echo '</div>';
+echo '</div>';
 echo '</div>';
 
-echo '<div class="column-4 bodylike">';
+echo '<div class="column-4">';
 	foreach (tlb_connections() as $c) {
 		unset($crcd);
-		echo '<div class="instance-box">';
+		echo '<div class="page-with-shadow">';
+		echo '<div class="connection-box htmlike">';
+		echo '<section class="bodylike">';
 			if (($_GET['form']??null) === 'edit') {
 				$crcd = wiki_rcd_relevant_from_connection($c, $slug);
 				echo '<fieldset>';
@@ -310,11 +334,16 @@ echo '<div class="column-4 bodylike">';
 					foreach (posts_process(wiki_reverse_index_from_connection($c, $slug)) as $rcd)
 						echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
 				echo '</ul>';
+		echo '</section>';
+		echo '</div>';
 		echo '</div>';
 		http_flush(); }
 echo '</div>';
-
+echo '</div>';
 echo '</div>';
 
-echo '<footer class="bodylike">';
+echo '<footer class="">';
+echo '<div class="page-with-shadow">';
+echo '<div class="htmlike">';
+echo '<section class="bodylike">';
 printf('<p><a href="?set=post_wiki">instance main page</a> | <em>time: %.3f </em></p>', microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']);
