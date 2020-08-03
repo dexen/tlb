@@ -279,6 +279,12 @@ echo '<div class="column-4 bodylike">';
 			$crcd = wiki_rcd_relevant_from_connection($c, $slug);
 
 			echo wiki_post_body_to_htmlH($crcd);
+
+			echo '<h2>Reverse index <a class="help" href="?set=post_wiki&amp;slug=WikiReverseSlugIndex">?</a></h2>';
+				echo '<ul>';
+					foreach (posts_process(wiki_reverse_index_from_connection($c, $slug)) as $rcd)
+						echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
+				echo '</ul>';
 		echo '</div>'; }
 echo '</div>';
 
