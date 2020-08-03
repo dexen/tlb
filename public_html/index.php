@@ -257,7 +257,7 @@ if (!array_key_exists('slug', $_GET)) {
 echo '</div>';
 
 echo '<div class="column-4 bodylike">';
-	echo 'foo';
+	echo '--';
 echo '</div>';
 
 echo '<div class="column-4 bodylike">';
@@ -281,7 +281,6 @@ echo '<div class="column-4 bodylike">';
 			echo wiki_post_body_to_htmlH($crcd);
 		echo '</div>'; }
 echo '</div>';
-
 
 echo '</div>';
 
