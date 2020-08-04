@@ -90,7 +90,7 @@ function wiki_slug_to_linkH(string $slug) : string
 function wiki_text_separatorH(string $paraH) : string
 {
 	if (strncmp($paraH, '----', 4) === 0)
-		return '<hr>' .substr($paraH, 4);
+		return '</p><hr><p>' .substr($paraH, 4);
 	else
 		return $paraH;
 }

@@ -437,7 +437,6 @@ echo '<div class="column-4">';
 		http_flush(); }
 echo '</div>';
 echo '</div>';
-echo '</div>';
 
 echo '<footer class="">';
 echo '<div class="page-with-shadow">';
