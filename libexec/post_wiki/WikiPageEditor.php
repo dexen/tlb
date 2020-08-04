@@ -27,7 +27,7 @@
 						$St->execute([ $rcd['post_id'], $v ]); }
 			$DB->commit();
 
-			header_response_code('303');
+			header_response_code(303);
 			if ($action === 'save-see')
 				die(header('Location: ?set=post_wiki&slug=' .U($slug)));
 			else
