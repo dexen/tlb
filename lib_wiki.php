@@ -116,6 +116,12 @@ function wiki_line_processH(string $line) : string
 		$ret[] = "</p>\n<hr>\n<p>";
 		$line = $matches[1]; }
 
+	if (preg_match("/^[\t][ ]:[\t](.*)/", $line, $matches)
+		|| preg_match("/^[ ][ ]:[ ](.*)/", $line, $matches)) {
+		$ret[] = "<dl><dt></dt>\n\t<dd>";
+		$line = $matches[1];
+		$ter[] = "</dd></dl>\n"; }
+
 	if (preg_match('/^[*](.*)/', $line, $matches)) {
 		$ret[] = "</p>\n<ul>\n\t<li>";
 		$line = $matches[1];
