@@ -39,7 +39,7 @@ if ($set === 'post_wiki') {
 		$sA = $DB->queryFetchAll('SELECT * FROM post_wiki WHERE (_url_slug || \' \' || body) LIKE ? ', [ $qq ] );
 
 	if (count($sA) === 1)
-		die(header('Location: ?set=post_wiki&slug=' .U(array_one($sA)['_url_slug']) .'&service=WikiSearchResultSingle&query=' .U($query) .'#:~:text=' .U($query))); }
+		die(header('Location: ?set=post_wiki&slug=' .U(array_one($sA)['_url_slug']) .'&service=WikiSearchResultSingle&query=' .U($query))); }
 
 if ($set === 'post_wiki') {
 	if (($_GET['form']??null) === 'maintenance') {
@@ -226,7 +226,7 @@ else if ($slug !== null) {
 	else {
 		echo '<ul>';
 			foreach (posts_process($sA) as $rcd)
-				echo '<li><a href="', H($rcd['_url_canonical']), '&amp;action=search-selected-result&amp;q=' .HU($query) .'#:~:text=' .HU($query) .'">', H($rcd['_link_text_default']), '</a></li>';
+				echo '<li><a href="', H($rcd['_url_canonical']), '&amp;service=' .HU($service) .'&amp;query=' .HU($query) .'">', H($rcd['_link_text_default']), '</a></li>';
 		echo '</ul>'; }
 
 	if ($slug === 'WikiPostIndex') {
