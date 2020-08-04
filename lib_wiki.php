@@ -105,6 +105,7 @@ function wiki_para_processH(string $paraH) : string
 function wiki_line_processH(string $line) : string
 {
 	$ret = [];
+	$ter = [];
 
 	$str = $line;
 
@@ -115,9 +116,14 @@ function wiki_line_processH(string $line) : string
 		$ret[] = "</p>\n<hr>\n<p>";
 		$line = $matches[1]; }
 
+	if (preg_match('/^[*](.*)/', $line, $matches)) {
+		$ret[] = '<ul><li>';
+		$line = $matches[1];
+		$ter[] = '</li></ul>'; }
+
 	$ret[] = H($line);
 
-	return implode($ret);
+	return implode($ret).implode(array_reverse($ter));
 }
 
 function wiki_post_body_to_htmlH(array $rcd) : string
