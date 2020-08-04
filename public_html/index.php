@@ -15,11 +15,12 @@ $slug = $_GET['slug']??null;
 $service = $_GET['service']??null;
 $form = $_GET['form']??null;
 $post_data = $_POST['data']??null;
+$post_meta = $_POST['meta']??null;
 
 if ($set === 'post_wiki') {
 	$rcd = $DB->queryFetch('SELECT * FROM post_wiki WHERE _url_slug = ?', [ $slug ]);
 	if ($service === 'WikiPageEditor')
-		ex('../libexec/post_wiki/WikiPageEditor.php', compact('action', 'service', 'form', 'slug', 'rcd', 'post_data'));
+		ex('../libexec/post_wiki/WikiPageEditor.php', compact('action', 'service', 'form', 'slug', 'rcd', 'post_data', 'post_meta'));
 }
 
 if ($service === 'TlbConfig') {
@@ -143,6 +144,33 @@ echo '
 		height: 0;
 		display: inline-block; }
 
+	textarea.inputAwaitingSave {
+		animation: inputAwaitingSaveIntro .2s 1;
+		animation: inputAwaitingSave .4s infinite alternate;
+	}
+
+	textarea.inputCompletedSave {
+		animation: inputCompletedSave 1.2s 1;
+	}
+
+	textarea:invalid {
+		background: red;
+	}
+
+	@keyframes inputAwaitingSaveIntro {
+		to { background-color: #bbb; }
+	}
+
+	@keyframes inputAwaitingSave {
+		from { background-color: #ddd; }
+		to { background-color: #bbb; }
+	}
+
+	@keyframes inputCompletedSave {
+		from { background-color: #afa; }
+		to { background-color: #fff; }
+	}
+
 </style>';
 echo '<meta charset="utf-8">';
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
@@ -164,23 +192,68 @@ if (($_GET['form']??null) === 'edit') {
 	else
 		$slug = $_GET['slug'] ?? null;
 
-	echo '<form method="post" action="?set=post_wiki&amp;slug=', HU($slug) ,'&amp;service=WikiPageEditor&amp;form=edit" enctype="multipart/form-data">';
+	echo '<form method="post" action="?set=post_wiki&amp;slug=', HU($slug) ,'&amp;service=WikiPageEditor&amp;form=edit" enctype="multipart/form-data" ' ?>
+
+		onkeydown="
+			if (event.ctrlKey || event.metaKey) {
+				switch (event.key) {
+				case 's':
+					event.preventDefault();
+					document.getElementById('xs').click();
+					break;
+				case 'Enter':
+					event.preventDefault();
+					document.getElementById('xm').click();
+					break;
+				default:
+					return true; }
+			}
+		"
+
+		onsubmit="
+			document.getElementById('xa').classList.add('inputAwaitingSave');
+			document.getElementById('xa').readOnly = true;
+			document.getElementById('x1').value = document.getElementById('xa').selectionStart;
+			document.getElementById('x9').value = document.getElementById('xa').selectionEnd;
+			return true;
+		"
+
+	<?php
+	'
+	>';
 
 		echo '<fieldset>';
 		echo '<legend>post_wiki edit</legend>';
 
+		echo '<input id="x1" type="hidden" name="meta[selectionStart]" value="' .H($_GET['selectionStart']??null) .'"/>';
+		echo '<input id="x9" type="hidden" name="meta[selectionEnd]" value="' .H($_GET['selectionEnd']??null) .'"/>';
+
 		$rows = max(count(explode("\n", $rcd['body']??null))+3, 20);
-		echo '<label>body:<br><textarea name="data[body]" style="width: 100%" rows="', H($rows), '">', H($rcd['body']??null), '</textarea></label>';
+		echo '<label>body:<br><textarea id="xa" name="data[body]" style="width: 100%" ';
+			if ($_GET['selectionStart']??null)
+				echo ' class="inputCompletedSave"';
+		echo ' rows="', H($rows), '">', H($rcd['body']??null), '</textarea></label>';
 
 		echo '<p style="text-align: right">
-			<button type="submit" name="action" value="save-edit" class="strut-6 strut-right">Save & keep editing</var></button>
+			<button type="submit" id="xs" name="action" value="save-edit" class="strut-6 strut-right">Save & keep editing <kbd>[^S]</kbd></var></button>
 		</p>';
 
 		echo '<p>
-			<button type="submit" name="action" value="save-see" class="strut-12">Save <var>' .H($slug) .'</var></button>
+			<button type="submit" id="xm" name="action" value="save-see" class="strut-12">Save <var>' .H($slug) .'</var> <kbd>[^M]</kbd></button>
 		</p>';
 		echo '</fieldset>';
-	echo '</form>'; }
+	echo '</form>';
+	echo <<<'EOS'
+		<script>
+			document.getElementById('xa').focus();
+			document.getElementById('xa').setSelectionRange(-1, -1);
+			if (String(document.getElementById('x1').value).length)
+			document.getElementById('xa').setSelectionRange(
+				document.getElementById('x1').value,
+				document.getElementById('x9').value );
+
+		</script>
+EOS; }
 
 else if ($slug !== null) {
 	if ($rcd) {

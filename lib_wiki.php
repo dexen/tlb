@@ -29,8 +29,23 @@ function wiki_post_edit_formH(array $rcd) : string
 		<form>
 			<input type="hidden" name="set" value="post_wiki"/>
 			<input type="hidden" name="slug" value="' .H($rcd['_url_slug']) .'"/>
-			<button name="form" value="edit" class="strut-12">' .H($action_name) .' <var>' .H($rcd['_url_slug']) .'</var></button>
-		</form>';
+			<button name="form" id="xm" value="edit" class="strut-12">' .H($action_name) .' <var>' .H($rcd['_url_slug']) .'</var> <kbd>[^E]</kbd></button>
+		</form>' .
+		<<<'EOS'
+			<script>
+				function handleCtrlEnterEdit(event) {
+			if (event.ctrlKey || event.metaKey) {
+				switch (event.key) {
+				case 'e':
+					event.preventDefault();
+					document.getElementById('xm').click();
+					break;
+				default:
+					return true; } }
+				};
+				document.getElementsByTagName('html')[0].addEventListener('keyup', handleCtrlEnterEdit, false);
+			</script>
+EOS;
 }
 
 function wiki_maintenance_refresh_slug_reverse_index_formH() : string
