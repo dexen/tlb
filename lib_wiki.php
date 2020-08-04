@@ -123,10 +123,10 @@ function wiki_line_start(string $line, array &$ret, array &$ter) : string
 		$line = $matches[2];
 		$ter[] = "</dd></dl>\n"; }
 
-	if (preg_match('/^[*](.*)/', $line, $matches)) {
-		$ret[] = "</p>\n<ul>\n\t<li>";
-		$line = $matches[1];
-		$ter[] = "</li>\n</ul>\n<p>\n"; }
+	if (preg_match('/^([*]+)(.*)/', $line, $matches)) {
+		$ret[] = "</p>\n" .str_repeat("<ul>\n\t<li>", strlen($matches[1]));
+		$line = $matches[2];
+		$ter[] = str_repeat("</li>\n</ul>", strlen($matches[1])) ."\n<p>\n"; }
 
 	return $line;
 }
