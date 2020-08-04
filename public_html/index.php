@@ -124,6 +124,9 @@ echo '
 	.connection-box {
 		box-shadow: inset 0px 0px 4ex 0px #c4e8ff; }
 
+	.saved-box {
+		animation: htmlikeCompletedSave 2.4s 1; }
+
 	.htmlike {
 		display: flow-root; }
 
@@ -171,6 +174,10 @@ echo '
 		to { background-color: #fff; }
 	}
 
+	@keyframes htmlikeCompletedSave {
+		from { box-shadow: inset 0px 0px 4ex 0px #afa; }
+		to { box-shadow: inset 0px 0px 4ex 0px #fff; } }
+
 </style>';
 echo '<meta charset="utf-8">';
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
@@ -183,7 +190,7 @@ echo '<body>';
 echo '<div class="columns">';
 echo '<div class="column-4">';
 echo '<div class="page-with-shadow">';
-echo '<div class="htmlike">';
+echo '<div class="htmlike" id="xh">';
 echo '<section class="bodylike">';
 
 if (($_GET['form']??null) === 'edit') {

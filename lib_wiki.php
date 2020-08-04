@@ -33,6 +33,9 @@ function wiki_post_edit_formH(array $rcd) : string
 		</form>' .
 		<<<'EOS'
 			<script>
+			if (window.location.hash === '#article-saved') {
+				document.getElementById('xh').classList.add('saved-box');
+				history.replaceState(null, null, ' '); }
 				function handleCtrlEnterEdit(event) {
 			if (event.ctrlKey || event.metaKey) {
 				switch (event.key) {
