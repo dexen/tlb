@@ -78,5 +78,26 @@ function http_flush()
 	flush();
 }
 
+define('EX_DIR_PREFIX', realpath('../libexec'));
+
+function in_dirP(string $pathname, string $in_dir) : bool
+{
+	$pathname = realpath($pathname);
+		# the trailing suffix is for pattern matching - to ensure we're not *extending* the name of the dir
+	$prefix = realpath($in_dir) .'/';
+	return (strncmp($pathname, $prefix, strlen($prefix))) === 0;
+}
+
+function ex(string $pathname, array $data = [])
+{
+	if (!in_dirP($pathname, '../libexec'))
+		throw new Exception(sprintf('not in the designated directory'));
+
+	unset($data['data']);
+	extract($data);
+
+	require func_get_arg(0);
+}
+
 require 'lib_wiki.php';
 require 'lib_tlb.php';
