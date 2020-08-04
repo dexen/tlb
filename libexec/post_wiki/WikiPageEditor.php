@@ -2,7 +2,7 @@
 
 	$DB = db_pdo();
 
-		if ($action === 'save-edit') {
+		if (($action === 'save-edit') || ($action === 'save-see')) {
 			$DB->beginTransaction();
 				$DB->execParams('
 					DELETE FROM _wiki_slug_use
@@ -25,4 +25,10 @@
 					$St = $DB->prepare('INSERT INTO _wiki_slug_use (post_id, _url_slug) VALUES (?, ?)');
 					foreach (wiki_post_to_linked_slugs($rcd) as $v)
 						$St->execute([ $rcd['post_id'], $v ]); }
-			$DB->commit(); }
+			$DB->commit();
+
+			if ($action === 'save-see')
+				die(header('Location: ?set=post_wiki&slug=' .U($slug)));
+			else
+				die(header('Location: ?set=post_wiki&slug=' .U($slug) .'&service=' .U($service) .'&form=' .U($form)));
+		}

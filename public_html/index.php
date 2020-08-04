@@ -19,7 +19,7 @@ $post_data = $_POST['data']??null;
 if ($set === 'post_wiki') {
 	$rcd = $DB->queryFetch('SELECT * FROM post_wiki WHERE _url_slug = ?', [ $slug ]);
 	if ($service === 'WikiPageEditor')
-		ex('../libexec/post_wiki/WikiPageEditor.php', compact('action', 'slug', 'rcd', 'post_data'));
+		ex('../libexec/post_wiki/WikiPageEditor.php', compact('action', 'service', 'form', 'slug', 'rcd', 'post_data'));
 }
 
 if ($service === 'TlbConfig') {
@@ -104,6 +104,14 @@ echo '
 		min-height: 6ex;
 		min-width: 100%; }
 
+	button.strut-6 {
+		min-height: 6ex;
+		min-width: 50%; }
+
+	button.strut-right {
+		text-aling: right;
+	}
+
 	* {
 		box-sizing: border-box;  }
 
@@ -163,7 +171,14 @@ if (($_GET['form']??null) === 'edit') {
 
 		$rows = max(count(explode("\n", $rcd['body']??null))+3, 20);
 		echo '<label>body:<br><textarea name="data[body]" style="width: 100%" rows="', H($rows), '">', H($rcd['body']??null), '</textarea></label>';
-		echo '<p><button type="submit" name="action" value="save-edit" style="width: 100%; min-height: 8ex">Save <var>' .H($slug) .'</var></button></p>';
+
+		echo '<p style="text-align: right">
+			<button type="submit" name="action" value="save-edit" class="strut-6 strut-right">Save & keep editing</var></button>
+		</p>';
+
+		echo '<p>
+			<button type="submit" name="action" value="save-see" class="strut-12">Save <var>' .H($slug) .'</var></button>
+		</p>';
 		echo '</fieldset>';
 	echo '</form>'; }
 
