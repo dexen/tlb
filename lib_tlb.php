@@ -103,6 +103,7 @@ function tlb_download_connection($url) : string
 		curl_setopt($h, CURLOPT_PROXYTYPE, null);
 		curl_setopt($h, CURLOPT_PROXY, null); }
 	curl_setopt($h, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($h, CURLOPT_TIMEOUT, 3);
 	$v = curl_exec($h);
 #tp(compact('url', 'v', 'use_tor_proxy'));
 	return $v;
