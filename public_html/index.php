@@ -6,13 +6,19 @@ http_cache_prevent();
 
 $DB = db_pdo();
 
-$action = $_GET['action']??null;
+$action = $_POST['action']??null;
 $query = null;
 $sA = [];
 $rcd = null;
 $set = $_GET['set']??null;
 $slug = $_GET['slug']??null;
 $service = $_GET['service']??null;
+$form = $_GET['form']??null;
+$post_data = $_POST['data']??null;
+
+if ($set === 'post_wiki') {
+	$rcd = $DB->queryFetch('SELECT * FROM post_wiki WHERE _url_slug = ?', [ $slug ]);
+}
 
 if ($service === 'TlbConfig') {
 	if (($_POST['action']??null) === 'save-federation-connections') {
