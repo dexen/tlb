@@ -311,7 +311,9 @@ else if ($slug !== null) {
 		echo '<input type="hidden" name="set" value="post_wiki"/><input type="hidden" name="slug" value="' .H($_GET['slug']??null) .'"/>';
 	echo '</form>';
 
-	if (($query !== null) && empty($sA))
+	if (($query !== null) && ($service === 'WikiSearchResultSingle'))
+		echo '<p><em>opened the sole match</em></p>';
+	else if (($query !== null) && empty($sA))
 		echo '<p><em>no matches</em></p>';
 	else {
 		echo '<ul>';
