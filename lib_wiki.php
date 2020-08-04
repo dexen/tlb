@@ -102,24 +102,25 @@ function wiki_para_processH(string $paraH) : string
 	return '<p>' .wiki_text_to_linkedH($paraH) .'</p>';
 }
 
-function wiki_line_processH(string $line) : string
+function wiki_line_restH(string $str) : string
 {
-	$ret = [];
-	$ter = [];
+	return H($str);
+}
 
-	$str = $line;
-
-	if ($str === '')
+function wiki_line_start(string $line, array &$ret, array &$ter) : string
+{
+	if ($line === '') {
 		$ret[] = "</p>\n\n<p>";
+		return ''; }
 
 	if (preg_match('/^----(.*)/', $line, $matches)) {
 		$ret[] = "</p>\n<hr>\n<p>";
 		$line = $matches[1]; }
 
-	if (preg_match("/^[\t][ ]:[\t](.*)/", $line, $matches)
-		|| preg_match("/^[ ][ ]:[ ](.*)/", $line, $matches)) {
-		$ret[] = "<dl><dt></dt>\n\t<dd>";
-		$line = $matches[1];
+	if (preg_match("/^[\t]([^:]+):[\t](.*)/", $line, $matches)
+		|| preg_match("/^[ ]([^:]+):[ ](.*)/", $line, $matches)) {
+		$ret[] = "<dl><dt>" .wiki_line_restH($matches[1]) ."</dt>\n\t<dd>";
+		$line = $matches[2];
 		$ter[] = "</dd></dl>\n"; }
 
 	if (preg_match('/^[*](.*)/', $line, $matches)) {
@@ -127,9 +128,17 @@ function wiki_line_processH(string $line) : string
 		$line = $matches[1];
 		$ter[] = "</li>\n</ul>\n<p>\n"; }
 
-	$ret[] = H($line);
+	return $line;
+}
 
-	return implode($ret).implode(array_reverse($ter));
+function wiki_line_processH(string $line) : string
+{
+	$ret = [];
+	$ter = [];
+
+	$str = wiki_line_start($line, $ret, $ter);
+
+	return implode($ret) .wiki_line_restH($str) .implode(array_reverse($ter));
 }
 
 function wiki_post_body_to_htmlH(array $rcd) : string
