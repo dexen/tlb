@@ -55,7 +55,7 @@ function wiki_maintenance_refresh_slug_reverse_index_formH() : string
 {
 	$action_name = 'Refresh slug reverse index';
 	return '
-		<form method="post" action="?set=post_wiki&amp;form=maintenance">
+		<form method="post" action="?set=post_wiki&amp;slug=WikiReverseSlugIndex&amp;service=WikiReverseSlugIndex">
 			<button name="action" value="rebuild-slug-reverse-index" style="width: 50%; min-height: 8ex">' .H($action_name) .'</button>
 		</form>';
 }

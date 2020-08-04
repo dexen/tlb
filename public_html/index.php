@@ -50,11 +50,10 @@ if ($set === 'post_wiki') {
 	if (count($sA) === 1)
 		die(header('Location: ?set=post_wiki&slug=' .U(array_one($sA)['_url_slug']) .'&service=WikiSearchResultSingle&query=' .U($query))); }
 
-if ($set === 'post_wiki') {
-	if (($_GET['form']??null) === 'maintenance') {
+	if ($service === 'WikiReverseSlugIndex') {
 		if (($_POST['action']??null) === 'rebuild-slug-reverse-index')
 			wiki_maintenance_rebuild_slug_reverse_index();
-			echo '<a href="?">ALL DONE.</a>'; die(); } }
+			echo '<a href="?">ALL DONE.</a>'; die(); }
 
 if (array_key_exists('slug', $_GET)) {
 	$rcd = $DB->queryFetch('SELECT * FROM post_wiki WHERE _url_slug = ?', [ $_GET['slug']??null ]);
@@ -332,7 +331,7 @@ else if ($slug !== null) {
 			}
 		echo '</ul>'; }
 
-	if ($slug === 'TlbMaintenaceTask') {
+	if (($slug === 'TlbMaintenaceTask') || ($slug === 'WikiReverseSlugIndex')) {
 		echo '<h2>Maintenance tasks <a class="help" href="?set=post_wiki&amp;slug=TlbMaintenaceTask">?</a></h2>';
 		echo wiki_maintenance_refresh_slug_reverse_index_formH(); }
 
