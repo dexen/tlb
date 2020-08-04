@@ -11,7 +11,7 @@ if ! which tor >/dev/null; then echo Error: could not find tor program binary. P
 rm -f .tlb/tor-hidden-service/hostname
 
 ./SERVE_INIT_STORAGE
-./SERVE_STOP_RUNNING
+./STOP_RUNNING
 ./SERVE_PICK_HTTP_ADDRESS .tlb localhost 7172
 
 ./SERVE_PHP &
