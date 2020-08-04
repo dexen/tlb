@@ -27,18 +27,21 @@ if ($set === null)
 if (($set === 'post_wiki') && ($slug === null))
 	die(header('Location: ?set=post_wiki&slug=WelcomeWikiVisitors'));
 
-if (($_GET['set']??null) === 'post_wiki') {
-	if (strncmp($action, 'search-', 7) === 0)
-		$query = $_GET['q']??null;
+if ($set === 'post_wiki') {
+	if (strncmp($service, 'WikiSearch', 10) === 0)
+		$query = $_GET['query']??null;
 
-	if ($action === 'search-slug')
-		$sA = $DB->queryFetchAll('SELECT * FROM post_wiki WHERE _url_slug LIKE \'%\' || ? || \'%\' ', [ $query ] );
-	else if ($action === 'search-content')
-		$sA = $DB->queryFetchAll('SELECT * FROM post_wiki WHERE (_url_slug || \' \' || body)LIKE \'%\' || ? || \'%\' ', [ $query ] );
+	$qq = '%' .$query .'%';
+
+	if ($service === 'WikiSearchSlug')
+		$sA = $DB->queryFetchAll('SELECT * FROM post_wiki WHERE _url_slug LIKE ? ', [ $qq ] );
+	else if ($action === 'WikiSearchContent')
+		$sA = $DB->queryFetchAll('SELECT * FROM post_wiki WHERE (_url_slug || \' \' || body) LIKE ? ', [ $qq ] );
 
 	if (count($sA) === 1)
-		die(header('Location: ?set=post_wiki&slug=' .U(array_one($sA)['_url_slug']) .'&action=search-result-single&q=' .U($query) .'#:~:text=' .U($query)));
+		die(header('Location: ?set=post_wiki&slug=' .U(array_one($sA)['_url_slug']) .'&service=WikiSearchResultSingle&query=' .U($query) .'#:~:text=' .U($query))); }
 
+if ($set === 'post_wiki') {
 	if (($_GET['form']??null) === 'maintenance') {
 		if (($_POST['action']??null) === 'rebuild-slug-reverse-index')
 			wiki_maintenance_rebuild_slug_reverse_index();
@@ -209,10 +212,15 @@ else if ($slug !== null) {
 		echo '</ul>';
 
 	echo '<form>';
-	echo '<label><h2>Search <a class="help" href="?set=post_wiki&amp;slug=WikiSearch">?</a></h2>';
-	echo '<input name="q" placeholder="query" value="' .H($query) .'" ' .($query?'autofocus':null) .'/></label><button name="action" value="search-slug" type="submit">slug</button> | <button name="action" value="search-content" type="submit">content</button>';
-	echo '<input type="hidden" name="set" value="post_wiki"/><input type="hidden" name="slug" value="' .H($_GET['slug']??null) .'"/>';
+		echo '<label>
+			<h2>Search <a class="help" href="?set=post_wiki&amp;slug=WikiSearch">?</a></h2>';
+		echo '<input name="query" placeholder="query" value="' .H($query) .'" ' .($query?'autofocus':null) .'/></label>';
+		echo '<button name="service" value="WikiSearchSlug" type="submit">slug</button>';
+		echo ' | ';
+		echo '<button name="service" value="WikiSearchContent" type="submit">content</button>';
+		echo '<input type="hidden" name="set" value="post_wiki"/><input type="hidden" name="slug" value="' .H($_GET['slug']??null) .'"/>';
 	echo '</form>';
+
 	if (($query !== null) && empty($sA))
 		echo '<p><em>no matches</em></p>';
 	else {
