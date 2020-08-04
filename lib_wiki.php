@@ -113,7 +113,7 @@ function wiki_line_start(string $line, array &$ret, array &$ter) : string
 		$ret[] = "</p>\n\n<p>";
 		return ''; }
 
-	if (preg_match('/^----(.*)/', $line, $matches)) {
+	if (preg_match('/^-{4,}(.*)/', $line, $matches)) {
 		$ret[] = "</p>\n<hr>\n<p>";
 		$line = $matches[1]; }
 
