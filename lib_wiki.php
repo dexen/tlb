@@ -117,9 +117,9 @@ function wiki_line_processH(string $line) : string
 		$line = $matches[1]; }
 
 	if (preg_match('/^[*](.*)/', $line, $matches)) {
-		$ret[] = "<ul>\n\t<li>";
+		$ret[] = "</p>\n<ul>\n\t<li>";
 		$line = $matches[1];
-		$ter[] = "</li>\n</ul>\n"; }
+		$ter[] = "</li>\n</ul>\n<p>\n"; }
 
 	$ret[] = H($line);
 
