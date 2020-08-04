@@ -18,6 +18,8 @@ $post_data = $_POST['data']??null;
 
 if ($set === 'post_wiki') {
 	$rcd = $DB->queryFetch('SELECT * FROM post_wiki WHERE _url_slug = ?', [ $slug ]);
+	if ($service === 'WikiPageEditor')
+		ex('../libexec/post_wiki/WikiPageEditor.php', compact('action', 'slug', 'rcd', 'post_data'));
 }
 
 if ($service === 'TlbConfig') {
@@ -61,34 +63,6 @@ if (array_key_exists('slug', $_GET)) {
 			$slug = $rcd['_url_slug'];
 		else
 			$slug = $_GET['slug'] ?? null;
-
-		if (($_POST['action']??null) === 'save-edit') {
-			$DB->beginTransaction();
-				$DB->execParams('
-					DELETE FROM _wiki_slug_use
-					WHERE post_id IN (SELECT post_id FROM post_wiki WHERE _url_slug = ?)', [ $slug ]);
-				if (empty($rcd))
-					$DB->execParams('INSERT INTO post_wiki (body, _url_slug, uuid) VALUES (?, ?, ?)',
-						[ lf($_POST['body']), $slug, Uuid::generateUuidV4() ] );
-				else if (empty($_POST['body']))
-					$DB->execParams('
-						DELETE FROM post_wiki WHERE _url_slug = ? ',
-						[ $slug ] );
-				else
-					$DB->execParams('UPDATE post_wiki SET body = ? WHERE _url_slug = ?',
-						[ lf($_POST['body']), $slug ]);
-
-				$DB->execParams('UPDATE post_wiki SET _mtime = strftime(\'%s\', \'now\') WHERE _url_slug = ?', [$slug]);
-
-				$rcd = $DB->queryFetch('SELECT post_id, body FROM post_wiki WHERE _url_slug = ?', [ $slug ]);
-				if ($rcd) {
-					$St = $DB->prepare('INSERT INTO _wiki_slug_use (post_id, _url_slug) VALUES (?, ?)');
-					foreach (wiki_post_to_linked_slugs($rcd) as $v)
-						$St->execute([ $rcd['post_id'], $v ]); }
-			$DB->commit();
-header('Location: ?set=post_wiki&slug=' .$slug);
-die();
-		}
 }
 
 	if ($rcd === null)
@@ -182,13 +156,13 @@ if (($_GET['form']??null) === 'edit') {
 	else
 		$slug = $_GET['slug'] ?? null;
 
-	echo '<form method="post" action="?set=post_wiki&amp;slug=', HU($slug) ,'&amp;form=edit" enctype="multipart/form-data">';
+	echo '<form method="post" action="?set=post_wiki&amp;slug=', HU($slug) ,'&amp;service=WikiPageEditor&amp;form=edit" enctype="multipart/form-data">';
 
 		echo '<fieldset>';
 		echo '<legend>post_wiki edit</legend>';
 
 		$rows = max(count(explode("\n", $rcd['body']??null))+3, 20);
-		echo '<label>body:<br><textarea name="body" style="width: 100%" rows="', H($rows), '">', H($rcd['body']??null), '</textarea></label>';
+		echo '<label>body:<br><textarea name="data[body]" style="width: 100%" rows="', H($rows), '">', H($rcd['body']??null), '</textarea></label>';
 		echo '<p><button type="submit" name="action" value="save-edit" style="width: 100%; min-height: 8ex">Save <var>' .H($slug) .'</var></button></p>';
 		echo '</fieldset>';
 	echo '</form>'; }
