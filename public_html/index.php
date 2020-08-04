@@ -143,6 +143,18 @@ echo '
 
 	.content-body img {
 		max-width: 100%; }
+
+		/* display:none; would prevent submisson */
+	button.carryover-submit {
+		overflow: hidden;
+		visibility: hidden;
+		margin: 0;
+		border: 0;
+		padding: 0;
+		width: 0;
+		height: 0;
+		display: inline-block; }
+
 </style>';
 echo '<meta charset="utf-8">';
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
@@ -214,7 +226,10 @@ else if ($slug !== null) {
 	echo '<form>';
 		echo '<label>
 			<h2>Search <a class="help" href="?set=post_wiki&amp;slug=WikiSearch">?</a></h2>';
+
 		echo '<input name="query" placeholder="query" value="' .H($query) .'" ' .($query?'autofocus':null) .'/></label>';
+		if ($service)
+			echo '<button type="submit" class="carryover-submit" name="service" value="' .H($service) .'">carryover :-)</button>';
 		echo '<button name="service" value="WikiSearchSlug" type="submit">slug</button>';
 		echo ' | ';
 		echo '<button name="service" value="WikiSearchContent" type="submit">content</button>';
