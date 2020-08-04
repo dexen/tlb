@@ -104,12 +104,20 @@ function wiki_para_processH(string $paraH) : string
 
 function wiki_line_processH(string $line) : string
 {
-	if ($line === '')
-		return '</p><p>';
-	else if ($line === '----')
-		return '</p><hr><p>';
+	$ret = [];
+
+	$str = $line;
+
+	if ($str === '')
+		$ret[] = "</p>\n\n<p>";
+
+	if ($str === '----')
+		$ret[] = "</p>\n<hr>\n<p>";
+
 	else
-		return H($line);
+		$ret[] = H($str);
+
+	return implode($ret);
 }
 
 function wiki_post_body_to_htmlH(array $rcd) : string
