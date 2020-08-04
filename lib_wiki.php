@@ -111,11 +111,11 @@ function wiki_line_processH(string $line) : string
 	if ($str === '')
 		$ret[] = "</p>\n\n<p>";
 
-	if ($str === '----')
+	if (preg_match('/^----(.*)/', $line, $matches)) {
 		$ret[] = "</p>\n<hr>\n<p>";
+		$line = $matches[1]; }
 
-	else
-		$ret[] = H($str);
+	$ret[] = H($line);
 
 	return implode($ret);
 }
