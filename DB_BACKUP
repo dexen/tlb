@@ -1,0 +1,18 @@
+#!/usr/bin/env rc
+
+flag e +
+
+mkdir -p db-backup/
+
+dtslug = `{date '+%Y-%m-%d-%H-%M-%S'}
+configDumpFile = db-backup/backup- ^ $dtslug ^ -config.sql
+dbDumpFile = db-backup/backup- ^ $dtslug ^ -db.sql
+
+echo .dump | sqlite3 config.sqlite > $configDumpFile
+echo .dump | sqlite3 db.sqlite > $dbDumpFile
+
+@ {
+	cd db-backup
+	du -ks * }
+
+echo ALL DONE.

@@ -2,4 +2,5 @@
 /db.sqlite-*
 /config.sqlite
 /config.sqlite-*
+/db-backup/
 /.tlb/
