@@ -190,7 +190,7 @@ echo '<div class="columns">';
 echo '<div class="column-4">';
 echo '<div class="page-with-shadow">';
 echo '<div class="htmlike" id="xh">';
-echo '<section class="bodylike">';
+echo '<div class="bodylike">';
 
 if (($_GET['form']??null) === 'edit') {
 	if ($rcd)
@@ -263,6 +263,7 @@ EOS; }
 
 else if ($slug !== null) {
 	if ($rcd) {
+echo '<article>';
 		echo '<h1><a href="?set=post_wiki"><img
 			alt="TlbInstance at ' .H(tlb_address()) .'"
 			src="visual-hash-png.php?size=32&amp;id=' .HU(tlb_address_id()) .'"
@@ -273,6 +274,7 @@ else if ($slug !== null) {
 		echo '<div class="content-body">';
 			echo wiki_post_body_to_htmlH($rcd);
 		echo '</div>';
+echo '</article>';
 		echo '<hr>';
 		if (($_GET['form']??null) !== 'edit')
 			echo wiki_post_edit_formH($rcd); }
@@ -378,7 +380,7 @@ else if ($slug !== null) {
 		echo '</form>';
 	}
 
-echo '</section>';
+echo '</div>';
 echo '</div>';
 echo '</div>';
 echo '</div>';
