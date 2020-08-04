@@ -44,7 +44,7 @@ if ($set === 'post_wiki') {
 
 	if ($service === 'WikiSearchSlug')
 		$sA = $DB->queryFetchAll('SELECT * FROM post_wiki WHERE _url_slug LIKE ? ', [ $qq ] );
-	else if ($action === 'WikiSearchContent')
+	else if ($service === 'WikiSearchContent')
 		$sA = $DB->queryFetchAll('SELECT * FROM post_wiki WHERE (_url_slug || \' \' || body) LIKE ? ', [ $qq ] );
 
 	if (count($sA) === 1)
