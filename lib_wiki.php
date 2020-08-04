@@ -106,6 +106,8 @@ function wiki_line_processH(string $line) : string
 {
 	if ($line === '')
 		return '</p><p>';
+	else if ($line === '----')
+		return '</p><hr><p>';
 	else
 		return H($line);
 }
