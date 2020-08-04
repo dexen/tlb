@@ -95,16 +95,26 @@ function wiki_text_separatorH(string $paraH) : string
 		return $paraH;
 }
 
+	# JUNKME
 function wiki_para_processH(string $paraH) : string
 {
 	$paraH = wiki_text_separatorH($paraH);
 	return '<p>' .wiki_text_to_linkedH($paraH) .'</p>';
 }
 
+function wiki_line_processH(string $line) : string
+{
+	if ($line === '')
+		return '</p><p>';
+	else
+		return H($line);
+}
+
 function wiki_post_body_to_htmlH(array $rcd) : string
 {
-	$str = $rcd['body'];
-	return implode(array_map('wiki_para_processH', array_map('H', explode("\n\n", $str))));
+	return '<p>' .implode(
+		"\n",
+		array_map('wiki_line_processH', explode("\n", $rcd['body']) ) ) .'</p>';
 }
 
 function wiki_post_to_linked_slugs(array $rcd) : array
