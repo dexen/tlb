@@ -1,0 +1,11 @@
+#!/usr/bin/env rc
+
+flag e +
+
+fn myPhpFiles {
+	find -name '*.php' -type f | egrep -v '/public_html/adminer/'
+}
+
+echo Files: `{myPhpFiles | wc -l}
+echo Lines: `{myPhpFiles | xargs cat | wc -l}
+echo Lines: `{myPhpFiles | xargs cat | wc -c}
