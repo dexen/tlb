@@ -114,9 +114,36 @@ function wiki_words_to_links(string $str, array $data) : array # [ $a, $data ]
 
 function wiki_linear_formatting(string $str, array $data) : array # [ $a, $data ]
 {
-	$str = preg_replace("/'''(.*)'''/", '<b>\\1</b>', $str);
-	$str = preg_replace("/''(.*)''/", '<em>\\1</em>', $str);
-	$str = preg_replace("/~~(.*)~~/", '<strike>\\1</strike>', $str);
+	$str = preg_replace_callback(
+		"/'''(.*)'''/U",
+		function ($matches) use(&$data)
+		{
+			$data[] = '<b>';
+			$data[] = '</b>';
+			return '%' .(count($data)-1) .'$s' .$matches[1] .'%' .count($data) .'$s';
+		},
+		$str );
+
+	$str = preg_replace_callback(
+		"/''(.*)''/U",
+		function ($matches) use(&$data)
+		{
+			$data[] = '<em>';
+			$data[] = '</em>';
+			return '%' .(count($data)-1) .'$s' .$matches[1] .'%' .count($data) .'$s';
+		},
+		$str );
+
+	$str = preg_replace_callback(
+		"/~~(.*)~~/U",
+		function ($matches) use(&$data)
+		{
+			$data[] = '<strike>';
+			$data[] = '</strike>';
+			return '%' .(count($data)-1) .'$s' .$matches[1] .'%' .count($data) .'$s';
+		},
+		$str );
+
 	return [ $str, $data ];
 }
 
