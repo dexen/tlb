@@ -208,6 +208,13 @@ function wiki_block_formatting(string $str, array $data) : array # [ $a, $data ]
 				.$matches[2];
 			$line = null; }
 
+		if (preg_match('/^(={1,})(.+)/', $line, $matches)) {
+			$ret[] = $ctx(-1);
+			$ret[] = '<h' .(strlen($matches[1])+1) .'>';
+			$ret[] = $matches[2];
+			$ret[] = '</h' .(strlen($matches[1])+1) .'>';
+			$line = null; }
+
 		if (false
 				|| preg_match("/^[\t]([^:]+):[\t ](.*)/", $line, $matches)
 				|| preg_match("/^[ ]{4,4}([^:]+):[\t ](.*)/", $line, $matches)
