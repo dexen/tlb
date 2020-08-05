@@ -191,8 +191,10 @@ function wiki_block_formatting(string $str, array $data) : array # [ $a, $data ]
 		return implode("\n", $a);
 	};
 
-	$P = function(string $str) use(&$data)
+	$P = function(string $str = null) use(&$data) : ?string
 	{
+		if ($str === null)
+			return null;
 		$data[] = $str;
 		return '%' .count($data) .'$s';
 	};
