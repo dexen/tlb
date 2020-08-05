@@ -271,7 +271,7 @@ echo '<article>';
 				visual-hash-png.php?size=96&amp;id=' .HU(tlb_address_id()) .' 3x,
 				visual-hash-png.php?size=128&amp;id=' .HU(tlb_address_id()) .' 4x"
 			width="32" height="32"/></a> ' .H(wiki_slug_to_title($rcd['_url_slug'])) .'</h1>';
-		echo '<div class="content-body">';
+		echo '<div class="content-body">'; echo "\n\n";
 			echo wiki_post_body_to_htmlH($rcd);
 		echo '</div>';
 echo '</article>';
