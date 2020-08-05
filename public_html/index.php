@@ -249,8 +249,6 @@ if (($_GET['form']??null) === 'edit') {
 
 		$rows = max(count(explode("\n", $rcd['body']??null))+3, 20);
 		echo '<label>body:<br><textarea id="xa" name="data[body]" style="width: 100%" ';
-			if ($_GET['selectionStart']??null)
-				echo ' class="inputCompletedSave"';
 		echo ' rows="', H($rows), '">', H($rcd['body']??null), '</textarea></label>';
 
 		echo '<p style="text-align: right">
@@ -264,6 +262,10 @@ if (($_GET['form']??null) === 'edit') {
 	echo '</form>';
 	echo <<<'EOS'
 		<script>
+			if (window.location.hash === '#article-saved-continue') {
+				document.getElementById('xa').classList.add('inputCompletedSave');
+				history.replaceState(null, null, ' '); }
+
 			document.getElementById('xa').focus();
 			document.getElementById('xa').setSelectionRange(-1, -1);
 			if (String(document.getElementById('x1').value).length)
