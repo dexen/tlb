@@ -204,8 +204,9 @@ if (($_GET['form']??null) === 'edit') {
 			if (event.key === 'Escape') {
 				var TA = document.getElementById('xa');
 				if (TA.selectionStart != TA.selectionEnd) {
+					var next = TA.selectionStart-1;
 					TA.value = TA.value.slice(0, TA.selectionStart-1) + TA.value.slice(TA.selectionEnd);
-					TA.selectionEnd = TA.selectionStart; }
+					TA.selectionEnd = TA.selectionStart = next; }
 				else
 					TA.selectionStart = document.getElementById('x1').value; }
 
