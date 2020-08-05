@@ -7,7 +7,7 @@ function td(...$a) {
 	die('td()');
 }
 
-function tp(...$a) { foreach ($a as $v) var_dump($v); echo 'tp()'; }
+function tp(...$a) { echo '<pre>'; foreach ($a as $v) var_dump($v); echo '</pre>'; echo 'tp()'; }
 
 function H(string $str = null) : ?string { return ($str === null) ? $str : htmlspecialchars($str); }
 function U(string $str = null) : ?string { return ($str === null) ? $str : rawurlencode($str); }
