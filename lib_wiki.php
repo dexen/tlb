@@ -48,7 +48,7 @@ function wiki_post_edit_formH(array $rcd) : string
 				default:
 					return true; } }
 				};
-				document.getElementsByTagName('html')[0].addEventListener('keyup', handleCtrlEnterEdit, false);
+				document.getElementsByTagName('html')[0].addEventListener('keydown', handleCtrlEnterEdit, false);
 			</script>
 EOS;
 }
