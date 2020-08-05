@@ -201,23 +201,23 @@ function wiki_block_formatting(string $str, array $data) : array # [ $a, $data ]
 
 	foreach (explode("\n", $str) as $line) {
 		if ($line === '') {
-			$ret[] = $uLL(0);
-			$ret[] = $ctx(-1); }
+			$ret[] = $P($uLL(0));
+			$ret[] = $P($ctx(-1)); }
 
 		if (preg_match('/^-{4,}(.*)/', $line, $matches)) {
-			$ret[] = $uLL(0);
-			$ret[] = $ctx(-1);
+			$ret[] = $P($uLL(0));
+			$ret[] = $P($ctx(-1));
 			$line = $matches[1];
-			$ret[] = "<hr>\n"; }
+			$ret[] = $P("<hr>\n"); }
 
 		if (preg_match('/^([*]+)(.*)/', $line, $matches)) {
-			$ret[] = $ctx(-1);
-			$ret[] = $uLL($level = strlen($matches[1]))
+			$ret[] = $P($ctx(-1));
+			$ret[] = $P($uLL($level = strlen($matches[1])))
 				.$matches[2];
 			$line = null; }
 
 		if (preg_match('/^(={1,})(.+)/', $line, $matches)) {
-			$ret[] = $ctx(-1);
+			$ret[] = $P($ctx(-1));
 			$ret[] = $P('<h' .(strlen($matches[1])+1) .'>');
 			$ret[] = $matches[2];
 			$ret[] = $P('</h' .(strlen($matches[1])+1) .'>');
@@ -227,9 +227,8 @@ function wiki_block_formatting(string $str, array $data) : array # [ $a, $data ]
 				|| preg_match("/^[\t]([^:]+):[\t ](.*)/", $line, $matches)
 				|| preg_match("/^[ ]{4,4}([^:]+):[\t ](.*)/", $line, $matches)
 				|| preg_match("/^[ ]([ ]):[ ](.*)/", $line, $matches)) {
-			$ret[] = $uLL(0);
-
-			$ret[] = $ctx('dl');
+			$ret[] = $P($uLL(0));
+			$ret[] = $P($ctx('dl'));
 
 			$p = 0;
 			$ret[] = $P("<dt>" .H($matches[1]) ."</dt>\n\t<dd>");
@@ -238,9 +237,10 @@ function wiki_block_formatting(string $str, array $data) : array # [ $a, $data ]
 			$ret[] = $P("</dd>\n");
 			$line = 0; }
 
-		if (preg_match('/^[ \\t](.+)/', $line, $matches)) {
-			$ret[] = $uLL(0);
-			$ret[] = $P($ctx('pre') .$matches[1] .$ctx(-1));
+			# <pre>
+		if (preg_match('/^([ ]+|[\\t]+)(.+)/', $line, $matches)) {
+			$ret[] = $P($uLL(0));
+			$ret[] = $P($ctx('pre') .$matches[2] .$ctx(-1));
 			$line = null; }
 
 		if ($line) {
