@@ -200,7 +200,15 @@ if (($_GET['form']??null) === 'edit') {
 
 	echo '<form method="post" action="?set=post_wiki&amp;slug=', HU($slug) ,'&amp;service=WikiPageEditor&amp;form=edit" enctype="multipart/form-data" ' ?>
 
-		onkeyup="
+		onkeydown="
+			if (event.key === 'Escape') {
+				var TA = document.getElementById('xa');
+				if (TA.selectionStart != TA.selectionEnd) {
+					TA.value = TA.value.slice(0, TA.selectionStart-1) + TA.value.slice(TA.selectionEnd);
+					TA.selectionEnd = TA.selectionStart; }
+				else
+					TA.selectionStart = document.getElementById('x1').value; }
+
 			if (event.ctrlKey || event.metaKey) {
 				switch (event.key) {
 				case 's':
