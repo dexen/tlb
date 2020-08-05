@@ -29,6 +29,8 @@ function wiki_post_edit_formH(array $rcd) : string
 		<form>
 			<input type="hidden" name="set" value="post_wiki"/>
 			<input type="hidden" name="slug" value="' .H($rcd['_url_slug']) .'"/>
+			<input type="hidden" name="selectionStart" value="' .H($_GET['selectionStart']??null) .'"/>
+			<input type="hidden" name="selectionEnd" value="' .H($_GET['selectionEnd']??null) .'"/>
 			<button name="form" id="xm" value="edit" class="strut-12">' .H($action_name) .' <var>' .H($rcd['_url_slug']) .'</var> <kbd>[^E]</kbd></button>
 		</form>' .
 		<<<'EOS'

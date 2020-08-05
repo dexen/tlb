@@ -29,7 +29,7 @@
 
 			header_response_code(303);
 			if ($action === 'save-see')
-				die(header('Location: ?set=post_wiki&slug=' .U($slug) .'#article-saved'));
+				die(header('Location: ?set=post_wiki&slug=' .U($slug) .'&selectionStart=' .U($post_meta['selectionStart']) .'&selectionEnd=' .U($post_meta['selectionEnd']) .'#article-saved'));
 			else
 				die(header('Location: ?set=post_wiki&slug=' .U($slug) .'&service=' .U($service) .'&form=' .U($form) .'&selectionStart=' .U($post_meta['selectionStart']) .'&selectionEnd=' .U($post_meta['selectionEnd'])));
 		}
