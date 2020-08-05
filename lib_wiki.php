@@ -267,11 +267,11 @@ function wiki_post_body_to_htmlH(string $body) : string
 	$str = $preescape($body);
 	$data = [];
 
-	[ $str, $data ] = $XAPPLY($str, $data, 'wiki_encode_html');
+	[ $str, $data ] = $XAPPLY($str, $data, 'wiki_block_formatting');
 	[ $str, $data ] = $XAPPLY($str, $data, 'wiki_links');
 	[ $str, $data ] = $XAPPLY($str, $data, 'wiki_words_to_links');
-	[ $str, $data ] = $XAPPLY($str, $data, 'wiki_block_formatting');
 	[ $str, $data ] = $XAPPLY($str, $data, 'wiki_linear_formatting');
+	[ $str, $data ] = $XAPPLY($str, $data, 'wiki_encode_html');
 
 	return vsprintf($str, $data);
 }
