@@ -200,12 +200,16 @@ if (($_GET['form']??null) === 'edit') {
 
 	echo '<form method="post" action="?set=post_wiki&amp;slug=', HU($slug) ,'&amp;service=WikiPageEditor&amp;form=edit" enctype="multipart/form-data" ' ?>
 
-		onkeydown="
+		onkeyup="
 			if (event.ctrlKey || event.metaKey) {
 				switch (event.key) {
 				case 's':
 					event.preventDefault();
 					document.getElementById('xs').click();
+					break;
+				case 'e':
+					event.preventDefault();
+					document.getElementById('xe').click();
 					break;
 				case 'Enter':
 					event.preventDefault();
@@ -245,7 +249,7 @@ if (($_GET['form']??null) === 'edit') {
 		</p>';
 
 		echo '<p>
-			<button type="submit" id="xm" name="action" value="save-see" class="strut-12">Save <var>' .H($slug) .'</var> <kbd>[^M]</kbd></button>
+			<button type="submit" id="xe" name="action" value="save-see" class="strut-12">Save <var>' .H($slug) .'</var> <kbd>[^E]</kbd></button>
 		</p>';
 		echo '</fieldset>';
 	echo '</form>';
