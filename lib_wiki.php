@@ -191,6 +191,12 @@ function wiki_block_formatting(string $str, array $data) : array # [ $a, $data ]
 		return implode("\n", $a);
 	};
 
+	$P = function(string $str) use(&$data)
+	{
+		$data[] = $str;
+		return '%' .count($data) .'$s';
+	};
+
 	foreach (explode("\n", $str) as $line) {
 		if ($line === '') {
 			$ret[] = $uLL(0);
@@ -210,9 +216,9 @@ function wiki_block_formatting(string $str, array $data) : array # [ $a, $data ]
 
 		if (preg_match('/^(={1,})(.+)/', $line, $matches)) {
 			$ret[] = $ctx(-1);
-			$ret[] = '<h' .(strlen($matches[1])+1) .'>';
+			$ret[] = $P('<h' .(strlen($matches[1])+1) .'>');
 			$ret[] = $matches[2];
-			$ret[] = '</h' .(strlen($matches[1])+1) .'>';
+			$ret[] = $P('</h' .(strlen($matches[1])+1) .'>');
 			$line = null; }
 
 		if (false
@@ -224,10 +230,10 @@ function wiki_block_formatting(string $str, array $data) : array # [ $a, $data ]
 			$ret[] = $ctx('dl');
 
 			$p = 0;
-			$ret[] = "<dt>" .H($matches[1]) ."</dt>\n\t<dd>";
+			$ret[] = $P("<dt>" .H($matches[1]) ."</dt>\n\t<dd>");
 				# FixMe - <dd> is a flow element, we should handle that properly
 			$ret[] = $matches[2];
-			$ret[] = "</dd>\n";
+			$ret[] = $P("</dd>\n");
 			$line = 0; }
 
 		if (preg_match('/^[ \\t](.+)/', $line, $matches)) {
