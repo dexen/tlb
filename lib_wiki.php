@@ -242,11 +242,11 @@ function wiki_block_formatting(string $str, array $data) : array # [ $a, $data ]
 			$line = null; }
 
 		if ($line) {
-			$ret[] = $ctx('p');
+			$ret[] = $P($ctx('p'));
 			$ret[] = $line ."\n"; } }
 
-		$ret[] = $uLL(0);
-		$ret[] = $ctx(-1);
+		$ret[] = $P($uLL(0));
+		$ret[] = $P($ctx(-1));
 
 	return [ implode("\n", array_filter($ret, fn($v) => !is_null($v))), $data ];
 }
