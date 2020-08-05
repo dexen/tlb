@@ -82,14 +82,19 @@ function wiki_href_re() : string { return '`(https?://[][a-zA-Z0-9-._~:/?#@!$&\'
 
 function wiki_links(string $str, array $data) : array # [ $a, $data ]
 {
+	$DC = function(string $str) : string
+	{
+		return str_replace('%%', '%', $str);
+	};
+
 	$str = preg_replace_callback(
 		wiki_href_re(),
-		function(array $matches) use(&$data) : string
+		function(array $matches) use(&$data, $DC) : string
 		{
 			if ($matches[2]??null)
-				$data[] = '<img src="' .$matches[1] .'">';
+				$data[] = '<img src="' .H($DC($matches[1])) .'">';
 			else
-				$data[] = '<a href="' .$matches[3] .'">' .$matches[3] .'</a>';
+				$data[] = '<a href="' .H($DC($matches[3])) .'">' .H($DC($matches[3])) .'</a>';
 			return '%' .count($data) .'$s';
 		},
 		$str );
