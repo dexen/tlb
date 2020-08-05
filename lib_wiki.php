@@ -60,23 +60,6 @@ function wiki_maintenance_refresh_slug_reverse_index_formH() : string
 		</form>';
 }
 
-function wiki_xxx(array $matches) : string
-{
-	$slug = $matches[1];
-	if (wiki_posts_readable_by_slugP($slug))
-		return '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'">' .H($slug) .'</a>';
-	else
-		return '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'&amp;form=edit" class="broken-link">' .H($slug) .'</a>';
-}
-
-function wiki_img_re() : string { return '#(https?://[^\\s]+[.](jpe?g|gif|png|svg))#'; }
-
-function wiki_text_to_linkedH(string $str) : string
-{
-	$str = preg_replace_callback(wiki_img_re(), fn($matches) => '<img src="' .H($matches[1]) .'">', $str);
-	return preg_replace_callback(wiki_slug_re(), 'wiki_xxx', $str);
-}
-
 function wiki_slug_re() : string
 {
 	return '/\\b([A-Z][a-z]+[A-Z][a-z]+[a-zA-Z]*)\\b/';
@@ -87,65 +70,196 @@ function wiki_slug_to_linkH(string $slug) : string
 	return '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'">' .H(wiki_camel_to_spaced($slug)) .'</a>';
 }
 
-function wiki_text_separatorH(string $paraH) : string
+function wiki_encode_html(string $str, array $data) : array
 {
-	if (strncmp($paraH, '----', 4) === 0)
-		return '</p><hr><p>' .substr($paraH, 4);
-	else
-		return $paraH;
+	return [ H($str), $data ];
 }
 
-	# JUNKME
-function wiki_para_processH(string $paraH) : string
+	# https://tools.ietf.org/html/rfc3986#section-2.2
+function wiki_href_re() : string { return '`(https?://[][a-zA-Z0-9-._~:/?#@!$&\'()*+,;=]+([.]jpe?g|[.]gif|[.]png|[.]svg))|(https?://[a-zA-Z0-9-._~:/?#@!$&\'()*+,;=]+)`'; }
+
+function wiki_links(string $str, array $data) : array # [ $a, $data ]
 {
-	$paraH = wiki_text_separatorH($paraH);
-	return '<p>' .wiki_text_to_linkedH($paraH) .'</p>';
+	$str = preg_replace_callback(
+		wiki_href_re(),
+		function(array $matches) use(&$data) : string
+		{
+			if ($matches[2]??null)
+				$data[] = '<img src="' .$matches[1] .'">';
+			else
+				$data[] = '<a href="' .$matches[3] .'">' .$matches[3] .'</a>';
+			return '%' .count($data) .'$s';
+		},
+		$str );
+
+	return [ $str, $data ];
 }
 
-function wiki_line_restH(string $str) : string
+function wiki_words_to_links(string $str, array $data) : array # [ $a, $data ]
 {
-	return H($str);
+	$str = preg_replace_callback(wiki_slug_re(),
+		function(array $matches) use(&$data)
+		{
+			$slug = $matches[1];
+			if (wiki_posts_readable_by_slugP($slug))
+				$data[] = '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'">'  .$slug .'</a>';
+			else
+				$data[] = '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'&amp;form=edit" class="broken-link">' .H($slug) .'</a>';
+			return '%' .(count($data)) .'$s';
+		},
+		$str );
+
+	return [ $str, $data ];
 }
 
-function wiki_line_start(string $line, array &$ret, array &$ter) : string
+function wiki_linear_formatting(string $str, array $data) : array # [ $a, $data ]
 {
-	if ($line === '') {
-		$ret[] = "</p>\n\n<p>";
-		return ''; }
-
-	if (preg_match('/^-{4,}(.*)/', $line, $matches)) {
-		$ret[] = "</p>\n<hr>\n<p>";
-		$line = $matches[1]; }
-
-	if (preg_match("/^[\t]([^:]+):[\t](.*)/", $line, $matches)
-		|| preg_match("/^[ ]([^:]+):[ ](.*)/", $line, $matches)) {
-		$ret[] = "<dl><dt>" .wiki_line_restH($matches[1]) ."</dt>\n\t<dd>";
-		$line = $matches[2];
-		$ter[] = "</dd></dl>\n"; }
-
-	if (preg_match('/^([*]+)(.*)/', $line, $matches)) {
-		$ret[] = "</p>\n" .str_repeat("<ul>\n\t<li>", strlen($matches[1]));
-		$line = $matches[2];
-		$ter[] = str_repeat("</li>\n</ul>", strlen($matches[1])) ."\n<p>\n"; }
-
-	return $line;
+	$str = preg_replace("/'''(.*)'''/", '<b>\\1</b>', $str);
+	$str = preg_replace("/''(.*)''/", '<em>\\1</em>', $str);
+	$str = preg_replace("/~~(.*)~~/", '<strike>\\1</strike>', $str);
+	return [ $str, $data ];
 }
 
-function wiki_line_processH(string $line) : string
+function wiki_block_formatting(string $str, array $data) : array # [ $a, $data ]
 {
 	$ret = [];
-	$ter = [];
+	$p = null;
 
-	$str = wiki_line_start($line, $ret, $ter);
+	$ctx = function($v = null) : ?string
+	{
+		static $c;
+		$old = $c;
 
-	return implode($ret) .wiki_line_restH($str) .implode(array_reverse($ter));
+		if ($v === -1) {
+			$c = null;
+			if ($old)
+				return "</$old>\n";
+			else
+				return null; }
+
+		if ($v !== null)
+			$c = $v;
+		if ($v !== $old) {
+			if ($old)
+				return "\n</$old >\n<$c>\n";
+			else
+				return "<$c>\n"; }
+		return null;
+	};
+
+		# wait what?
+	$uLL = function(int $level = 0) : ?string
+	{
+		static $u = 0;
+		$a = [];
+
+		$level *= 2;
+		$lowered = false;
+
+		if ($u)
+		if ($level <= $u)
+			$a[] = "</li>";
+		if ($level)
+			if ($level === $u)
+				$a[] = str_repeat("\t", max($u-1, 0)) ."<li class=t1>";
+
+		while ($level > $u) {
+			$a[] = "\n" .str_repeat("\t", $u++) ."<ul>";
+			$a[] = str_repeat("\t", $u++) ."<li>"; }
+
+		$tt = "";
+		while ($level < $u) {
+			$lowered = true;
+			$a[] = str_repeat("\t", ($u-- -2)) ."</ul>";
+			if ($u>1)
+				$a[] = str_repeat("\t", ($u-- -2)) ."</li>";
+			else
+				$u--;
+		}
+
+		if ($lowered)
+		if ($level)
+		{
+			$a[] = str_repeat("\t", $level-1) ."<li class=t9>";
+		}
+
+		if ($lowered && !$level)
+			$a[] = '';
+
+		if (empty($a))
+			return null;
+		return implode("\n", $a);
+	};
+
+	foreach (explode("\n", $str) as $line) {
+		if ($line === '') {
+			$ret[] = $uLL(0);
+			$ret[] = $ctx(-1); }
+
+		if (preg_match('/^-{4,}(.*)/', $line, $matches)) {
+			$ret[] = $uLL(0);
+			$ret[] = $ctx(-1);
+			$line = $matches[1];
+			$ret[] = "<hr>\n"; }
+
+		if (preg_match('/^([*]+)(.*)/', $line, $matches)) {
+			$ret[] = $ctx(-1);
+			$ret[] = $uLL($level = strlen($matches[1]))
+				.$matches[2];
+			$line = null; }
+
+		if (false
+				|| preg_match("/^[\t]([^:]+):[\t ](.*)/", $line, $matches)
+				|| preg_match("/^[ ]{4,4}([^:]+):[\t ](.*)/", $line, $matches)
+				|| preg_match("/^[ ]([ ]):[ ](.*)/", $line, $matches)) {
+			$ret[] = $uLL(0);
+
+			$ret[] = $ctx('dl');
+
+			$p = 0;
+			$ret[] = "<dt>" .H($matches[1]) ."</dt>\n\t<dd>";
+				# FixMe - <dd> is a flow element, we should handle that properly
+			$ret[] = $matches[2];
+			$ret[] = "</dd>\n";
+			$line = 0; }
+
+		if (preg_match('/^[ \\t](.+)/', $line, $matches)) {
+			$ret[] = $uLL(0);
+			$ret[] = $ctx('pre');
+			$ret[] = $matches[1];
+			$line = null; }
+
+		if ($line) {
+			$ret[] = $ctx('p');
+			$ret[] = $line ."\n"; } }
+
+		$ret[] = $uLL(0);
+		$ret[] = $ctx(-1);
+
+	return [ implode("\n", array_filter($ret, fn($v) => !is_null($v))), $data ];
 }
 
-function wiki_post_body_to_htmlH(array $rcd) : string
+function wiki_post_body_to_htmlH(string $body) : string
 {
-	return '<p>' .implode(
-		"\n",
-		array_map('wiki_line_processH', explode("\n", $rcd['body']) ) ) .'</p>';
+	$preescape = fn(string $str) => str_replace('%', '%%', $str);
+
+	$XAPPLY = function(string $str, array $data, string $callback) : array /* [ $str, $data ] */
+	{
+		[$str, $newdata] = $callback($str, $data);
+		$data = $data + $newdata;
+		return [ $str, $data ];
+	};
+
+	$str = $preescape($body);
+	$data = [];
+
+	[ $str, $data ] = $XAPPLY($str, $data, 'wiki_encode_html');
+	[ $str, $data ] = $XAPPLY($str, $data, 'wiki_links');
+	[ $str, $data ] = $XAPPLY($str, $data, 'wiki_words_to_links');
+	[ $str, $data ] = $XAPPLY($str, $data, 'wiki_block_formatting');
+	[ $str, $data ] = $XAPPLY($str, $data, 'wiki_linear_formatting');
+
+	return vsprintf($str, $data);
 }
 
 function wiki_post_to_linked_slugs(array $rcd) : array

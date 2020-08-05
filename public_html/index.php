@@ -272,7 +272,7 @@ echo '<article>';
 				visual-hash-png.php?size=128&amp;id=' .HU(tlb_address_id()) .' 4x"
 			width="32" height="32"/></a> ' .H(wiki_slug_to_title($rcd['_url_slug'])) .'</h1>';
 		echo '<div class="content-body">'; echo "\n\n";
-			echo wiki_post_body_to_htmlH($rcd);
+			echo wiki_post_body_to_htmlH($rcd['body']);
 		echo '</div>';
 echo '</article>';
 		echo '<hr>';
@@ -421,7 +421,7 @@ echo '<div class="column-4">';
 				$crcd = wiki_rcd_relevant_from_connection($c, $slug);
 
 			echo '<div class="content-body">';
-				$v = wiki_post_body_to_htmlH($crcd);
+				$v = wiki_post_body_to_htmlH($crcd['body']);
 				if ($v === '<p></p>')
 					echo '<p><em>--</em></p>';
 				else
