@@ -78,7 +78,7 @@ function wiki_encode_html(string $str, array $data) : array
 }
 
 	# https://tools.ietf.org/html/rfc3986#section-2.2
-function wiki_href_re() : string { return '`(https?://[][a-zA-Z0-9-._~:/?#@!$&\'()*+,;=]+([.]jpe?g|[.]gif|[.]png|[.]svg))|(https?://[a-zA-Z0-9-._~:/?#@!$&\'()*+,;=]+)`'; }
+function wiki_href_re() : string { return '`(https?://[][a-zA-Z0-9-._~:/?#@!$&\'()*+,;=%]+([.]jpe?g|[.]gif|[.]png|[.]svg))|(https?://[a-zA-Z0-9-._~:/?#@!$&\'()*+,;=%]+)`'; }
 
 function wiki_links(string $str, array $data) : array # [ $a, $data ]
 {
