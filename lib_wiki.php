@@ -79,7 +79,7 @@ function wiki_text_to_linkedH(string $str) : string
 
 function wiki_slug_re() : string
 {
-	return '/\\b([A-Z][a-z]+[A-Z][a-z]+[a-zA-Z]+)\\b/';
+	return '/\\b([A-Z][a-z]+[A-Z][a-z]+[a-zA-Z]*)\\b/';
 }
 
 function wiki_slug_to_linkH(string $slug) : string
