@@ -246,12 +246,14 @@ function wiki_block_formatting(string $str, array $data) : array # [ $a, $data ]
 			$line = $matches[1];
 			$ret[] = $P("<hr>\n"); }
 
+			# <ul>
 		if (preg_match('/^([*]+)(.*)/', $line, $matches)) {
 			$ret[] = $P($ctx(-1));
 			$ret[] = $P($uLL($level = strlen($matches[1])))
 				.$matches[2];
 			$line = null; }
 
+			# <h2 ... h6>
 		if (preg_match('/^(={1,})(.+)/', $line, $matches)) {
 			$ret[] = $P($ctx(-1));
 			$ret[] = $P('<h' .(strlen($matches[1])+1) .'>');
