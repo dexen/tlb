@@ -159,6 +159,8 @@ function wiki_block_formatting(string $str, array $data) : array # [ $a, $data ]
 	$ret = [];
 	$p = null;
 
+	$DC = fn(string $str) => str_replace('%%', '%', $str);
+
 	$ctx = function($v = null) : ?string
 	{
 		static $c;
@@ -274,7 +276,7 @@ function wiki_block_formatting(string $str, array $data) : array # [ $a, $data ]
 			# <pre>
 		if (preg_match('/^([ ]+|[\\t]+)(.+)/', $line, $matches)) {
 			$ret[] = $P($uLL(0));
-			$ret[] = $P($ctx('pre') .H($matches[2]) .$ctx(-1));
+			$ret[] = $P($ctx('pre') .H($DC($matches[2])) .$ctx(-1));
 			$line = null; }
 
 		if ($line) {
