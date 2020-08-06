@@ -290,7 +290,6 @@ echo '<article>';
 			echo wiki_post_body_to_htmlH($rcd['body']);
 		echo '</div>';
 echo '</article>';
-		echo '<hr>';
 		if (($_GET['form']??null) !== 'edit')
 			echo wiki_post_edit_formH($rcd); }
 	else {
