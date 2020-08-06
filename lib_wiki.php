@@ -261,6 +261,8 @@ function wiki_block_formatting(string $str, array $data) : array # [ $a, $data ]
 			$ret[] = $P('</h' .(strlen($matches[1])+1) .'>');
 			$line = null; }
 
+			# <dl>
+			# empty <dt> serves as quotation
 		if (false
 				|| preg_match("/^[\t]([^:]+):[\t ](.*)/", $line, $matches)
 				|| preg_match("/^[ ]{4,4}([^:]+):[\t ](.*)/", $line, $matches)
@@ -269,7 +271,9 @@ function wiki_block_formatting(string $str, array $data) : array # [ $a, $data ]
 			$ret[] = $P($ctx('dl'));
 
 			$p = 0;
-			$ret[] = $P("<dt>" .H($matches[1]) ."</dt>\n\t<dd>");
+			$ret[] = $P("<dt>");
+			$ret[] = $matches[1];
+			$ret[] = $P("</dt>\n\t<dd>");
 				# FixMe - <dd> is a flow element, we should handle that properly
 			$ret[] = $matches[2];
 			$ret[] = $P("</dd>\n");
