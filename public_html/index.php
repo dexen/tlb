@@ -247,8 +247,6 @@ if (($_GET['form']??null) === 'edit') {
 				visual-hash-png.php?size=96&amp;id=' .HU(tlb_address_id()) .' 3x,
 				visual-hash-png.php?size=128&amp;id=' .HU(tlb_address_id()) .' 4x"
 			width="32" height="32"/></a> ' .H(wiki_slug_to_title($slug)) .'</h1>';
-		echo '<fieldset>';
-		echo '<legend>post_wiki edit</legend>';
 
 		echo '<input id="x1" type="hidden" name="meta[selectionStart]" value="' .H($_GET['selectionStart']??null) .'"/>';
 		echo '<input id="x9" type="hidden" name="meta[selectionEnd]" value="' .H($_GET['selectionEnd']??null) .'"/>';
@@ -264,7 +262,6 @@ if (($_GET['form']??null) === 'edit') {
 		echo '<p>
 			<button type="submit" id="xe" name="action" value="save-see" class="strut-12">Save <var>' .H($slug) .'</var> <kbd>[^E]</kbd></button>
 		</p>';
-		echo '</fieldset>';
 	echo '</form>';
 	echo <<<'EOS'
 		<script>
