@@ -238,8 +238,7 @@ if (($_GET['form']??null) === 'edit') {
 		"
 
 	<?php
-	'
-	>';
+		echo '>';
 
 		echo '<fieldset>';
 		echo '<legend>post_wiki edit</legend>';
