@@ -301,8 +301,15 @@ echo '</article>';
 		if (($_GET['form']??null) !== 'edit')
 			echo wiki_post_edit_formH($rcd); }
 	else {
-		echo '<h1>Wiki entry not found</h1>';
-		echo '<hr>';
+echo '<article>';
+		echo '<h1><a href="?set=post_wiki"><img
+			alt="TlbInstance at ' .H(tlb_address()) .'"
+			src="visual-hash-png.php?size=32&amp;id=' .HU(tlb_address_id()) .'"
+			srcset="visual-hash-png.php?size=64&amp;id=' .HU(tlb_address_id()) .' 2x,
+				visual-hash-png.php?size=96&amp;id=' .HU(tlb_address_id()) .' 3x,
+				visual-hash-png.php?size=128&amp;id=' .HU(tlb_address_id()) .' 4x"
+			width="32" height="32"/></a> HTTP 404 Not Found</h1>';
+echo '</article>';
 		echo '<p><em>The wiki entry for ' .wiki_slug_to_linkH($slug) . ' has not been found. Create?</em></p>';
 		if (($_GET['form']??null) !== 'edit')
 			echo wiki_post_edit_formH([ '_url_slug' => $_GET['slug'] ]); } }
