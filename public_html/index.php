@@ -309,7 +309,8 @@ echo '<article>';
 			width="32" height="32"/></a> HTTP 404 Not Found</h1>';
 echo '</article>';
 		echo '<p><em>The wiki entry for ' .wiki_slug_to_linkH($slug) . ' has not been found. Create?</em></p>'; }
-		tpl('tpl/WikiPageEditor/form.tpl', ['rcd' => ['_url_slug'=>$slug]]); }
+		tpl('tpl/WikiPageEditor/form.tpl', ['rcd' => ['_url_slug'=>$slug],
+			'selectionStart' => $_GET['selectionStart']??null, 'selectionEnd' => $_GET['selectionEnd']??null ] ); }
 
 	$riA = $DB->queryFetchAll('
 		SELECT p.*
