@@ -297,9 +297,7 @@ echo '<article>';
 		echo '<div class="content-body">'; echo "\n\n";
 			echo wiki_post_body_to_htmlH($rcd['body']);
 		echo '</div>';
-echo '</article>';
-		if (($_GET['form']??null) !== 'edit')
-			echo wiki_post_edit_formH($rcd); }
+echo '</article>'; }
 	else {
 echo '<article>';
 		echo '<h1><a href="?set=post_wiki"><img
@@ -310,9 +308,8 @@ echo '<article>';
 				visual-hash-png.php?size=128&amp;id=' .HU(tlb_address_id()) .' 4x"
 			width="32" height="32"/></a> HTTP 404 Not Found</h1>';
 echo '</article>';
-		echo '<p><em>The wiki entry for ' .wiki_slug_to_linkH($slug) . ' has not been found. Create?</em></p>';
-		if (($_GET['form']??null) !== 'edit')
-			echo wiki_post_edit_formH([ '_url_slug' => $_GET['slug'] ]); } }
+		echo '<p><em>The wiki entry for ' .wiki_slug_to_linkH($slug) . ' has not been found. Create?</em></p>'; }
+		echo wiki_post_edit_formH([ '_url_slug' => $_GET['slug'] ]); }
 
 	$riA = $DB->queryFetchAll('
 		SELECT p.*
