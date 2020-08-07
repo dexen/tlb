@@ -155,5 +155,21 @@ if (!function_exists('header_response_code')) {
 		return $previous_code;
 	} }
 
+function tlb_pathname(string $tpl_selector) : string
+{
+	return (__DIR__ .'/' .$tpl_selector);
+}
+
+function tpl(string $tpl_selector, array $data)
+{
+	if (array_key_exists('data', $data))
+		throw new Exception('unsupported index: data');
+	if (array_key_exists('tpl_selector', $data))
+		throw new Exception('unsupported index: tpl_selector');
+	extract($data);
+
+	return require tlb_pathname($tpl_selector);
+}
+
 require 'lib_wiki.php';
 require 'lib_tlb.php';
