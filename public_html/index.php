@@ -240,6 +240,7 @@ if (($_GET['form']??null) === 'edit') {
 	<?php
 		echo '>';
 
+		echo '<article>';
 		echo '<h1><a href="?set=post_wiki"><img
 			alt="TlbInstance at ' .H(tlb_address()) .'"
 			src="visual-hash-png.php?size=32&amp;id=' .HU(tlb_address_id()) .'"
@@ -254,6 +255,7 @@ if (($_GET['form']??null) === 'edit') {
 		$rows = max(count(explode("\n", $rcd['body']??null))+3, 20);
 		echo '<label>body:<br><textarea id="xa" name="data[body]" style="width: 100%" ';
 		echo ' rows="', H($rows), '">', H($rcd['body']??null), '</textarea></label>';
+		echo '</article>';
 
 		echo '<p style="text-align: right">
 			<button type="submit" id="xs" name="action" value="save-edit" class="strut-6 strut-right">Save & keep editing <kbd>[^S]</kbd></var></button>
