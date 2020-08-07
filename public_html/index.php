@@ -98,7 +98,7 @@ echo '
 		flex-basis: 60ch; }
 
 	html {
-		overflow: scroll; }
+		overflow-y: scroll; }
 
 	body {
 		margin: 0; }
