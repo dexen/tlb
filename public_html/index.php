@@ -256,8 +256,8 @@ if (($_GET['form']??null) === 'edit') {
 		echo '<input id="x9" type="hidden" name="meta[selectionEnd]" value="' .H($_GET['selectionEnd']??null) .'"/>';
 
 		$rows = max(count(explode("\n", $rcd['body']??null))+3, 20);
-		echo '<label>body:<br><textarea id="xa" name="data[body]" style="width: 100%" ';
-		echo ' rows="', H($rows), '">', H($rcd['body']??null), '</textarea></label>';
+		echo '<textarea id="xa" name="data[body]" style="width: 100%" ';
+		echo ' rows="', H($rows), '">', H($rcd['body']??null), '</textarea>';
 		echo '</article>';
 
 		echo '<p style="text-align: right">
@@ -433,8 +433,8 @@ echo '<div class="column-4">';
 			if (($_GET['form']??null) === 'edit') {
 				$crcd = wiki_rcd_relevant_from_connection($c, $slug);
 				echo '<fieldset>';
-					echo '<label>body:<br>
-						<textarea style="width: 100%" rows="', H($rows), '">' .H($crcd['body']) .'</textarea></label>';
+					echo '
+						<textarea style="width: 100%" rows="', H($rows), '">' .H($crcd['body']) .'</textarea>';
 				echo '</fieldset>'; }
 
 			echo '<h2><a href="' .H(wiki_connection_post_url($c, $slug)) .'"><img
