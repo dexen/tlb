@@ -51,7 +51,7 @@ if ($set === 'post_wiki') {
 	if (count($sA) === 1)
 		die(header('Location: ?set=post_wiki&slug=' .U(array_one($sA)['_url_slug']) .'&service=WikiSearchResultSingle&query=' .U($query))); }
 
-	if ($service === 'WikiReverseSlugIndex') {
+	if ($service === 'TlbWikiReverseSlugIndex') {
 		if (($_POST['action']??null) === 'rebuild-slug-reverse-index')
 			wiki_maintenance_rebuild_slug_reverse_index();
 			echo '<a href="?">ALL DONE.</a>'; die(); }
@@ -239,7 +239,7 @@ echo '</article>';
 		WHERE u._url_slug= ?', [ $_GET['slug']??null ]);
 
 #	echo '<h2>Wiki services <a href="?set=post_wiki&amp;slug=TlbWikiService">?</a></h2>';
-	echo '<h3>Reverse index <a class="help" href="?set=post_wiki&amp;slug=WikiReverseSlugIndex">?</a></h3>';
+	echo '<h3>Reverse index <a class="help" href="?set=post_wiki&amp;slug=TlbWikiReverseSlugIndex">?</a></h3>';
 		echo '<ul>';
 			foreach (posts_process($riA) as $rcd) {
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
@@ -280,7 +280,7 @@ echo '</article>';
 			}
 		echo '</ul>'; }
 
-	if (($slug === 'TlbMaintenaceTask') || ($slug === 'WikiReverseSlugIndex')) {
+	if (($slug === 'TlbMaintenaceTask') || ($slug === 'TlbWikiReverseSlugIndex')) {
 		echo '<h3>Maintenance tasks <a class="help" href="?set=post_wiki&amp;slug=TlbMaintenaceTask">?</a></h3>';
 		echo wiki_maintenance_refresh_slug_reverse_index_formH(); }
 
@@ -375,7 +375,7 @@ echo '<div class="column-4">';
 					echo $v;
 			echo '</div>';
 
-			echo '<h3>Reverse index <a class="help" href="?set=post_wiki&amp;slug=WikiReverseSlugIndex">?</a></h3>';
+			echo '<h3>Reverse index <a class="help" href="?set=post_wiki&amp;slug=TlbWikiReverseSlugIndex">?</a></h3>';
 				echo '<ul>';
 					foreach (posts_process(wiki_reverse_index_from_connection($c, $slug)) as $rcd)
 						echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
