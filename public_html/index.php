@@ -310,7 +310,7 @@ echo '<article>';
 echo '</article>';
 		echo '<p><em>The wiki entry for ' .wiki_slug_to_linkH($slug) . ' has not been found. Create?</em></p>'; }
 		$selectionStart = $_GET['selectionStart']??null; $selectionEnd = $_GET['selectionEnd']??null;
-		tpl('tpl/WikiPageEditor/form.tpl', compact('slug', 'rcd', 'selectionStart', 'selectionEnd')); }
+		tpl('tpl/WikiPageEditor/launch-form.tpl', compact('slug', 'rcd', 'selectionStart', 'selectionEnd')); }
 
 	$riA = $DB->queryFetchAll('
 		SELECT p.*
