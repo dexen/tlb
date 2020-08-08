@@ -337,3 +337,8 @@ function wiki_reverse_index_from_connection(string $connection, string $_url_slu
 		function($_url_slug) use($body) { return compact('_url_slug', 'body'); },
 		$slugA );
 }
+
+function wiki_edit_conflict($post_data, $post_original, $latest)
+{
+	die('edit conflict');
+}

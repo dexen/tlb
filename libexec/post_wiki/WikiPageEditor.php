@@ -14,9 +14,16 @@
 					$DB->execParams('
 						DELETE FROM post_wiki WHERE _url_slug = ? ',
 						[ $slug ] );
-				else
+				else {
+					$latest = $DB->queryFetch('SELECT * FROM post_wiki WHERE _url_slug = ?', [$slug]);
+#if (preg_match('/bbb/', $post_data['body']))td(compact('post_original', 'latest'));
+					if (lf($post_original['body']) !== lf($latest['body'])) {
+						header_response_code(409);
+						wiki_edit_conflict($post_data, $post_original, $latest);
+						exit(); }
 					$DB->execParams('UPDATE post_wiki SET body = ? WHERE _url_slug = ?',
 						[ lf($post_data['body']), $slug ]);
+				}
 
 				$DB->execParams('UPDATE post_wiki SET _mtime = strftime(\'%s\', \'now\') WHERE _url_slug = ?', [$slug]);
 
