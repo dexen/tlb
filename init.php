@@ -13,3 +13,5 @@ spl_autoload_register(function($className) {
 	require 'C/' .implode('/', $a) .'.php';
 	return true;
 });
+
+update_the_db();

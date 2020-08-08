@@ -7,7 +7,7 @@ function td(...$a) {
 	die('td()');
 }
 
-function tp(...$a) { echo '<pre>'; foreach ($a as $v) var_dump($v); echo '</pre>'; echo 'tp()'; }
+function tp(...$a) { echo '<pre>'; foreach ($a as $v) var_dump($v); echo '</pre>'; echo 'tp()'; return $a[0]; }
 
 function H(string $str = null) : ?string { return ($str === null) ? $str : htmlspecialchars($str); }
 function U(string $str = null) : ?string { return ($str === null) ? $str : rawurlencode($str); }
@@ -173,3 +173,4 @@ function tpl(string $tpl_selector, array $data)
 
 require 'lib_wiki.php';
 require 'lib_tlb.php';
+require 'lib_update.php';
