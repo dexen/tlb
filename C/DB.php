@@ -62,4 +62,18 @@ class DB extends PDO
 		default:
 			throw new Exception('multiple matching records found, expected exactly one'); }
 	}
+
+		# seems SQLite doesn't like ->prepare(PRAGMA foo = bar)
+	function pragma(string $name, int $value = null)
+	{
+		if (preg_match('/^[a-z_]+$/', $name))
+			$checked_name = $name;
+		else
+			throw new Exception(sprintf('unsupported pragma: "%s"'));
+		if ($value === null)
+			$checked_extra = null;
+		else
+			$checked_extra = sprintf(' = %d', $value);
+		return $this->queryFetch('PRAGMA ' .$checked_name .$checked_extra);
+	}
 }
