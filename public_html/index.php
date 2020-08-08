@@ -17,6 +17,7 @@ $form = $_GET['form']??null;
 $post_data = $_POST['data']??null;
 $post_meta = $_POST['meta']??null;
 $post_original = $_POST['original']??null;
+$shortcut = $_GET['shortcut']??null;
 
 if ($set === 'post_wiki') {
 	$rcd = $DB->queryFetch('SELECT * FROM post_wiki WHERE _url_slug = ?', [ $slug ]);
@@ -48,8 +49,9 @@ if ($set === 'post_wiki') {
 	else if ($service === 'WikiSearchContent')
 		$sA = $DB->queryFetchAll('SELECT * FROM post_wiki WHERE (_url_slug || \' \' || body) LIKE ? ', [ $qq ] );
 
-	if (count($sA) === 1)
-		die(header('Location: ?set=post_wiki&slug=' .U(array_one($sA)['_url_slug']) .'&service=WikiSearchResultSingle&query=' .U($query))); }
+	if ((count($sA) === 1) && ($shortcut !== 'single-hit')) {
+		header_response_code(303);
+		die(header('Location: ?set=post_wiki&slug=' .U(array_one($sA)['_url_slug']) .'&service=' .U($service) .'&query=' .U($query) .'&shortcut=single-hit')); } }
 
 	if ($service === 'TlbWikiReverseSlugIndex') {
 		if (($_POST['action']??null) === 'rebuild-slug-reverse-index')
@@ -252,14 +254,14 @@ echo '</article>';
 
 		echo '<input name="query" placeholder="query" value="' .H($query) .'" ' .($query?'autofocus':null) .'/></label>';
 		if ($service)
-			echo '<button type="submit" class="carryover-submit" name="service" value="' .H($service) .'">carryover :-)</button>';
+			echo '<button type="submit" class="over-submit" name="service" value="' .H($service) .'">carryover :-)</button>';
 		echo '<button name="service" value="WikiSearchSlug" type="submit">slug</button>';
 		echo ' | ';
 		echo '<button name="service" value="WikiSearchContent" type="submit">content</button>';
 		echo '<input type="hidden" name="set" value="post_wiki"/><input type="hidden" name="slug" value="' .H($_GET['slug']??null) .'"/>';
 	echo '</form>';
 
-	if (($query !== null) && ($service === 'WikiSearchResultSingle'))
+	if (($query !== null) && ($shortcut === 'single-hit'))
 		echo '<p><em>opened the sole match</em></p>';
 	else if (($query !== null) && empty($sA))
 		echo '<p><em>no matches</em></p>';
