@@ -284,27 +284,27 @@ echo '</article>';
 		echo '<h3>Maintenance tasks <a class="help" href="?set=post_wiki&amp;slug=TlbMaintenaceTask">?</a></h3>';
 		echo wiki_maintenance_refresh_slug_reverse_index_formH(); }
 
-	if ($slug === 'WikiOrphanPageIndex') {
+	if ($slug === 'TlbWikiOrphanPageIndex') {
 		$mpA = $DB->queryFetchAll('
 			SELECT p._url_slug
 			FROM post_wiki AS p
 			LEFT JOIN _wiki_slug_use AS u USING(_url_slug)
 			WHERE u._url_slug IS NULL
 			ORDER BY p._mtime DESC' );
-		echo '<h3>Orphan pages <a class="help" href="?set=post_wiki&amp;slug=WikiOrphanPageIndex">?</a></h3>';
+		echo '<h3>Orphan pages <a class="help" href="?set=post_wiki&amp;slug=TlbWikiOrphanPageIndex">?</a></h3>';
 		echo '<ul>';
 			foreach (posts_process($mpA) as $rcd)
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
 		echo '</ul>'; }
 
-	if ($slug === 'WikiMissingPagesIndex') {
+	if ($slug === 'TlbWikiMissingPagesIndex') {
 		$mpA = $DB->queryFetchAll('
 			SELECT p._url_slug
 			FROM post_wiki AS p
 			LEFT JOIN _wiki_slug_use AS u ON p._url_slug = u._url_slug
 			WHERE u._url_slug IS NULL' );
 
-		echo '<h3>Missing pages <a class="help" href="?set=post_wiki&amp;slug=WikiMissingPagesIndex">?</a></h3>';
+		echo '<h3>Missing pages <a class="help" href="?set=post_wiki&amp;slug=TlbWikiMissingPagesIndex">?</a></h3>';
 		echo '<ul>';
 			foreach (posts_process($mpA) as $rcd)
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
