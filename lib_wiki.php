@@ -248,7 +248,7 @@ function wiki_block_formatting(string $str, array $data) : array # [ $a, $data ]
 			# <pre>
 		if (preg_match('/^([ ]+|[\\t]+)(.+)/', $line, $matches)) {
 			$ret[] = $P($uLL(0));
-			$ret[] = $P($ctx('pre') .H($DC($matches[2])) .$ctx(-1));
+			$ret[] = $P($ctx('pre') .H($DC($matches[2])));
 			$line = null; }
 
 		if ($line) {
