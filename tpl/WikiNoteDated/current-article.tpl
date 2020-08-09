@@ -29,16 +29,26 @@ $hasToday = array_reduce($ndA, fn($carry, $rcd) => ($rcd['date'] === $ndTodayRcd
 
 if (!$hasToday) {
 	echo '<section>';
-		echo '<h3>Today, ' .$dH($ndTodayRcd) .'<button type="button" class="strut-3" style="float: right">+Add</button></h3>';
-		echo '<div style="clear: both"></div>';
+		echo '<form>';
+			echo '<input type="hidden" name="set" value="' .H($set) .'"/>';
+			echo '<input type="hidden" name="slug" value="' .H($slug) .'"/>';
+			echo '<input type="hidden" name="service" value="WikiNoteDatedEditor"/>';
+			echo '<h3>Today, ' .$dH($ndTodayRcd) .'<button type="submit" name="form" value="edit" class="strut-3" style="float: right">+Add</button></h3>';
+			echo '<div style="clear: both"></div>';
+		echo '</form>';
 	echo '</section>'; }
 
 foreach ($ndA as $nrcd) {
 	echo '<section>';
-		if ($nrcd['date'] === $ndTodayRcd['date'])
-			$v = 'Today';
-		else
-			$v = $nrcd['date'];
-		echo '<h3>' .H($v) .', ' .$dH($nrcd) .' <button type="button" class="strut-3" style="float: right">Edit</button></h3>';
-		echo '<p>' .H($nrcd['body']) .'</p>';
+		echo '<form>';
+			echo '<input type="hidden" name="set" value="' .H($set) .'"/>';
+			echo '<input type="hidden" name="slug" value="' .H($slug) .'"/>';
+			echo '<input type="hidden" name="service" value="WikiNoteDatedEditor"/>';
+			if ($nrcd['date'] === $ndTodayRcd['date'])
+				$v = 'Today';
+			else
+				$v = $nrcd['date'];
+			echo '<h3>' .H($v) .', ' .$dH($nrcd) .' <button type="submit" name="form" value="edit" class="strut-3" style="float: right">Edit</button></h3>';
+			echo '<p>' .H($nrcd['body']) .'</p>';
+		echo '</form>';
 	echo '</section>'; }

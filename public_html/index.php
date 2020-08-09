@@ -256,7 +256,7 @@ echo '<div class="column-4">';
 		echo '<div class="bodylike">';
 
 			tpl('tpl/WikiNoteDated/current-article.tpl',
-				compact('ndA', 'ndTodayRcd') );
+				compact('set', 'slug', 'ndA', 'ndTodayRcd') );
 
 		echo '</div>';
 		echo '</div>';
