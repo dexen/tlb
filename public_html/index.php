@@ -35,8 +35,7 @@ if ($service === 'TlbConfig') {
 	if (($_POST['action']??null) === 'save-federation-connections') {
 		$data = $_POST['data'];
 		wiki_config_save('federation.connections', lf($data['federation.connections']));
-		header('Location: ?set=post_wiki&slug=TlbConfiguration#TlbFederationConnections');
-		die(); } }
+		die(header('Location: ?set=post_wiki&slug=TlbConfiguration#TlbFederationConnections')); } }
 
 if ($set === 'post_wiki') {
 	if (strncmp($service, 'WikiSearch', 10) === 0)
