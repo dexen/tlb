@@ -68,12 +68,14 @@ function wiki_links(string $str, array $data) : array # [ $a, $data ]
 	return [ $str, $data ];
 }
 
-function wiki_slugs_to_links(string $str, array $data) : array # [ $a, $data ]
+function wiki_slugs_to_links(string $str, array $data) : array # [ $a, $data, $slugs ]
 {
+	$slugs = [];
+
 	$str = preg_replace_callback(wiki_slug_re(),
-		function(array $matches) use(&$data)
+		function(array $matches) use(&$data, &$slugs)
 		{
-			$slug = $matches[1];
+			$slugs[] = $slug = $matches[1];
 			if (wiki_posts_readable_by_slugP($slug))
 				$data[] = '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'">'  .$slug .'</a>';
 			else
@@ -82,7 +84,7 @@ function wiki_slugs_to_links(string $str, array $data) : array # [ $a, $data ]
 		},
 		$str );
 
-	return [ $str, $data ];
+	return [ $str, $data, $slugs ];
 }
 
 function wiki_linear_formatting(string $str, array $data) : array # [ $a, $data ]
@@ -276,13 +278,26 @@ function wiki_block_formatting(string $str, array $data) : array # [ $a, $data ]
 
 function wiki_post_body_to_htmlH(string $body) : string
 {
+	return _wiki_post_body_processing($body)[0];
+}
+
+function wiki_post_body_to_slugs(string $body) : array
+{
+	return array_unique(_wiki_post_body_processing($body)[1]);
+}
+
+function _wiki_post_body_processing(string $body) : array # [ string $html, array $slugs ]
+{
 	$preescape = fn(string $str) => str_replace('%', '%%', $str);
 
 	$XAPPLY = function(string $str, array $data, string $callback) : array /* [ $str, $data ] */
 	{
-		[$str, $newdata] = $callback($str, $data);
+		$a = $callback($str, $data);
+		[$str, $newdata] = $a;
 		$data = $data + $newdata;
-		return [ $str, $data ];
+		$a[0] = $str;
+		$a[1] = $data;
+		return $a;
 	};
 
 	$str = $preescape($body);
@@ -291,17 +306,10 @@ function wiki_post_body_to_htmlH(string $body) : string
 	[ $str, $data ] = $XAPPLY($str, $data, 'wiki_block_formatting');
 	[ $str, $data ] = $XAPPLY($str, $data, 'wiki_linear_formatting');
 	[ $str, $data ] = $XAPPLY($str, $data, 'wiki_links');
-	[ $str, $data ] = $XAPPLY($str, $data, 'wiki_slugs_to_links');
+	[ $str, $data, $slugs ] = $XAPPLY($str, $data, 'wiki_slugs_to_links');
 	[ $str, $data ] = $XAPPLY($str, $data, 'wiki_encode_html');
 
-	return vsprintf($str, $data);
-}
-
-function wiki_post_to_linked_slugs(array $rcd) : array
-{
-	$matches = [];
-	preg_match_all(wiki_slug_re(), $rcd['body'], $matches);
-	return array_unique($matches[1]);
+	return [ vsprintf($str, $data), $slugs ];
 }
 
 function wiki_maintenance_rebuild_slug_reverse_index()
@@ -313,7 +321,7 @@ function wiki_maintenance_rebuild_slug_reverse_index()
 		$a = $DB->queryFetchAll('SELECT * FROM post_wiki');
 		$St = $DB->prepare('INSERT INTO _wiki_slug_use (post_id, _url_slug) VALUES (?, ?)');
 		foreach ($a as $rcd)
-			foreach (wiki_post_to_linked_slugs($rcd) as $slug)
+			foreach (wiki_post_body_to_slugs($rcd['body']) as $slug)
 				$St->execute([ $rcd['post_id'], $slug ]);
 	$DB->commit();
 }
