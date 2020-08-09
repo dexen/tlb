@@ -1,7 +1,5 @@
 <?php
 
-	$DB = db_pdo();
-
 		if (($action === 'save-edit') || ($action === 'save-see')) {
 			$DB->beginTransaction();
 				$DB->execParams('

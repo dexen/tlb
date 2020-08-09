@@ -32,7 +32,7 @@ if ($set === 'post_wiki') {
 		header_response_code(404);
 
 	if ($service === 'WikiPageEditor')
-		ex('../libexec/post_wiki/WikiPageEditor.php', compact('action', 'service', 'form', 'slug', 'rcd', 'post_data', 'post_meta', 'post_original'));
+		ex('../libexec/post_wiki/WikiPageEditor.php', compact('DB', 'action', 'service', 'form', 'slug', 'rcd', 'post_data', 'post_meta', 'post_original'));
 
 	if ($service === 'TlbConfig') {
 		if (($_POST['action']??null) === 'save-federation-connections') {
