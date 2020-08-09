@@ -51,6 +51,6 @@ foreach ($ndA as $nrcd) {
 			else
 				$v = $nrcd['date'];
 			echo '<h3>' .H($v) .', ' .$dH($nrcd) .' <button type="submit" name="form" value="edit" class="strut-3" style="float: right">Edit</button></h3>';
-			echo '<p>' .H($nrcd['body']) .'</p>';
+			echo '<p>' .wiki_post_body_to_htmlH($nrcd['body']) .'</p>';
 		echo '</form>';
 	echo '</section>'; }
