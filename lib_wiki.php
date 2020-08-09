@@ -289,7 +289,6 @@ function wiki_post_to_linked_slugs(array $rcd) : array
 	$matches = [];
 	preg_match_all(wiki_slug_re(), $rcd['body'], $matches);
 	return array_unique($matches[1]);
-td(compact('rcd', 'matches', 'a'));
 }
 
 function wiki_maintenance_rebuild_slug_reverse_index()
