@@ -287,24 +287,24 @@ echo '</article>';
 		echo wiki_maintenance_refresh_slug_reverse_index_formH(); }
 
 	if ($slug === 'TlbWikiOrphanPageIndex') {
-		$mpA = $DB->queryFetchAll('
+		$opA = $DB->queryFetchAll('
 			SELECT p._url_slug
 			FROM post_wiki AS p
 			LEFT JOIN _wiki_slug_use AS u USING(_url_slug)
-			WHERE u._url_slug IS NULL
+			WHERE u.post_id IS NULL
 			ORDER BY p._mtime DESC' );
 		echo '<h3>Orphan pages <a class="help" href="?set=post_wiki&amp;slug=TlbWikiOrphanPageIndex">?</a></h3>';
 		echo '<ul>';
-			foreach (posts_process($mpA) as $rcd)
+			foreach (posts_process($opA) as $rcd)
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
 		echo '</ul>'; }
 
 	if ($slug === 'TlbWikiMissingPagesIndex') {
 		$mpA = $DB->queryFetchAll('
-			SELECT p._url_slug
-			FROM post_wiki AS p
-			LEFT JOIN _wiki_slug_use AS u ON p._url_slug = u._url_slug
-			WHERE u._url_slug IS NULL' );
+			SELECT u._url_slug
+			FROM _wiki_slug_use AS u
+			LEFT JOIN post_wiki AS p USING(_url_slug)
+			WHERE p.post_id IS NULL' );
 
 		echo '<h3>Missing pages <a class="help" href="?set=post_wiki&amp;slug=TlbWikiMissingPagesIndex">?</a></h3>';
 		echo '<ul>';
