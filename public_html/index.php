@@ -53,7 +53,7 @@ if ($set === 'post_wiki') {
 		header_response_code(303);
 		die(header('Location: ?set=post_wiki&slug=' .U(array_one($sA)['_url_slug']) .'&service=' .U($service) .'&query=' .U($query) .'&shortcut=single-hit')); } }
 
-	if ($service === 'TlbWikiReverseSlugIndex') {
+	if ($service === 'WikiReverseSlugIndex') {
 		if (($_POST['action']??null) === 'rebuild-slug-reverse-index')
 			wiki_maintenance_rebuild_slug_reverse_index();
 			echo '<a href="?">ALL DONE.</a>'; die(); }
@@ -240,8 +240,8 @@ echo '</article>';
 		JOIN _wiki_slug_use AS u ON p.post_id = u.post_id
 		WHERE u._url_slug= ?', [ $_GET['slug']??null ]);
 
-#	echo '<h2>Wiki services <a href="?set=post_wiki&amp;slug=TlbWikiService">?</a></h2>';
-	echo '<h3>Reverse index <a class="help" href="?set=post_wiki&amp;slug=TlbWikiReverseSlugIndex">?</a></h3>';
+#	echo '<h2>Wiki services <a href="?set=post_wiki&amp;slug=WikiService">?</a></h2>';
+	echo '<h3>Reverse index <a class="help" href="?set=post_wiki&amp;slug=WikiReverseSlugIndex">?</a></h3>';
 		echo '<ul>';
 			foreach (posts_process($riA) as $rcd) {
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
@@ -282,24 +282,24 @@ echo '</article>';
 			}
 		echo '</ul>'; }
 
-	if (($slug === 'TlbMaintenaceTask') || ($slug === 'TlbWikiReverseSlugIndex')) {
+	if (($slug === 'TlbMaintenaceTask') || ($slug === 'WikiReverseSlugIndex')) {
 		echo '<h3>Maintenance tasks <a class="help" href="?set=post_wiki&amp;slug=TlbMaintenaceTask">?</a></h3>';
 		echo wiki_maintenance_refresh_slug_reverse_index_formH(); }
 
-	if ($slug === 'TlbWikiOrphanPageIndex') {
+	if ($slug === 'WikiOrphanPageIndex') {
 		$opA = $DB->queryFetchAll('
 			SELECT p._url_slug
 			FROM post_wiki AS p
 			LEFT JOIN _wiki_slug_use AS u USING(_url_slug)
 			WHERE u.post_id IS NULL
 			ORDER BY p._mtime DESC' );
-		echo '<h3>Orphan pages <a class="help" href="?set=post_wiki&amp;slug=TlbWikiOrphanPageIndex">?</a></h3>';
+		echo '<h3>Orphan pages <a class="help" href="?set=post_wiki&amp;slug=WikiOrphanPageIndex">?</a></h3>';
 		echo '<ul>';
 			foreach (posts_process($opA) as $rcd)
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
 		echo '</ul>'; }
 
-	if ($slug === 'TlbWikiMissingPagesIndex') {
+	if ($slug === 'WikiMissingPagesIndex') {
 		$mpA = $DB->queryFetchAll('
 			SELECT u._url_slug
 			FROM _wiki_slug_use AS u
@@ -307,7 +307,7 @@ echo '</article>';
 			WHERE p.post_id IS NULL
 			GROUP BY u._url_slug' );
 
-		echo '<h3>Missing pages <a class="help" href="?set=post_wiki&amp;slug=TlbWikiMissingPagesIndex">?</a></h3>';
+		echo '<h3>Missing pages <a class="help" href="?set=post_wiki&amp;slug=WikiMissingPagesIndex">?</a></h3>';
 		echo '<ul>';
 			foreach (posts_process($mpA) as $rcd)
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
@@ -378,7 +378,7 @@ echo '<div class="column-4">';
 					echo $v;
 			echo '</div>';
 
-			echo '<h3>Reverse index <a class="help" href="?set=post_wiki&amp;slug=TlbWikiReverseSlugIndex">?</a></h3>';
+			echo '<h3>Reverse index <a class="help" href="?set=post_wiki&amp;slug=WikiReverseSlugIndex">?</a></h3>';
 				echo '<ul>';
 					foreach (posts_process(wiki_reverse_index_from_connection($c, $slug)) as $rcd)
 						echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
