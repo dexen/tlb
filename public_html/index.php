@@ -254,7 +254,7 @@ echo '</article>';
 
 		echo '<input name="query" placeholder="query" value="' .H($query) .'" ' .($query?'autofocus':null) .'/></label>';
 		if ($service)
-			echo '<button type="submit" class="over-submit" name="service" value="' .H($service) .'">carryover :-)</button>';
+			echo '<button type="submit" class="carryover-submit" name="service" value="' .H($service) .'">carryover :-)</button>';
 		echo '<button name="service" value="WikiSearchSlug" type="submit">slug</button>';
 		echo ' | ';
 		echo '<button name="service" value="WikiSearchContent" type="submit">content</button>';
