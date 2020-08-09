@@ -33,6 +33,7 @@ CREATE TABLE post_wiki_note_dated (
 	slug TEXT NOT NULL,
 	date TEXT NOT NULL,
 	body TEXT,
+	_mtime INTEGER,
 	PRIMARY KEY (slug, date)
 );
 EOS);
