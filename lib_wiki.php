@@ -68,7 +68,7 @@ function wiki_links(string $str, array $data) : array # [ $a, $data ]
 	return [ $str, $data ];
 }
 
-function wiki_words_to_links(string $str, array $data) : array # [ $a, $data ]
+function wiki_slugs_to_links(string $str, array $data) : array # [ $a, $data ]
 {
 	$str = preg_replace_callback(wiki_slug_re(),
 		function(array $matches) use(&$data)
@@ -291,7 +291,7 @@ function wiki_post_body_to_htmlH(string $body) : string
 	[ $str, $data ] = $XAPPLY($str, $data, 'wiki_block_formatting');
 	[ $str, $data ] = $XAPPLY($str, $data, 'wiki_linear_formatting');
 	[ $str, $data ] = $XAPPLY($str, $data, 'wiki_links');
-	[ $str, $data ] = $XAPPLY($str, $data, 'wiki_words_to_links');
+	[ $str, $data ] = $XAPPLY($str, $data, 'wiki_slugs_to_links');
 	[ $str, $data ] = $XAPPLY($str, $data, 'wiki_encode_html');
 
 	return vsprintf($str, $data);
