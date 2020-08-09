@@ -87,12 +87,14 @@ function wiki_words_to_links(string $str, array $data) : array # [ $a, $data ]
 
 function wiki_linear_formatting(string $str, array $data) : array # [ $a, $data ]
 {
+	$DC = fn(string $str) => str_replace('%%', '%', $str);
+
 	$str = preg_replace_callback(
 		"/`([^`]+)`/U",
-		function ($matches) use(&$data)
+		function ($matches) use(&$data, $DC)
 		{
 			$data[] = '<code>';
-			$data[] = $matches[1];
+			$data[] = H($DC($matches[1]));
 			$data[] = '</code>';
 			return '%' .(count($data)-2) .'$s' .'%' .(count($data)-1) .'$s' .'%' .count($data) .'$s';
 		},
