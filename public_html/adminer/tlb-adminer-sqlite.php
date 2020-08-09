@@ -30,11 +30,21 @@ class SqlitePasswordHandling
 	}
 }
 
+class SqliteTlbDbListing
+{
+	function databases() : array
+	{
+		return [
+			'../../db.sqlite' => 'db.sqlite',
+			'../../config.sqlite' => 'config.sqlite', ];
+	}
+}
+
 function adminer_object()
 {
 	require 'plugin.php';
 
-	return new class([new SqlitePasswordHandling(require 'sqlite-password-hash.php')]) extends AdminerPlugin {
+	return new class([new SqlitePasswordHandling(require 'sqlite-password-hash.php'), new SqliteTlbDbListing]) extends AdminerPlugin {
 
 		function XXXloginFormField($name, $heading, $value) {
 			return parent::loginFormField($name, $heading, str_replace('value="server"', 'value="sqlite"', $value));
