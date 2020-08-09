@@ -27,5 +27,17 @@ EOS);
 		update_db_version($DB, 1);
 		$DB->commit();
 	case 1:
+		$DB->beginTransaction();
+$DB->exec(<<<EOS
+CREATE TABLE post_wiki_note_dated (
+	slug TEXT NOT NULL,
+	date TEXT NOT NULL,
+	body TEXT,
+	PRIMARY KEY (slug, date)
+);
+EOS);
+		update_db_version($DB, 2);
+		$DB->commit();
+	case 2:
 		/* the current version */; }
 }
