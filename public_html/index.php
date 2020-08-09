@@ -31,11 +31,13 @@ if ($set === 'post_wiki') {
 		ex('../libexec/post_wiki/WikiPageEditor.php', compact('action', 'service', 'form', 'slug', 'rcd', 'post_data', 'post_meta', 'post_original'));
 }
 
-if ($service === 'TlbConfig') {
-	if (($_POST['action']??null) === 'save-federation-connections') {
-		$data = $_POST['data'];
-		wiki_config_save('federation.connections', lf($data['federation.connections']));
-		die(header('Location: ?set=post_wiki&slug=TlbConfiguration#TlbFederationConnections')); } }
+if ($set === 'post_wiki') {
+	if ($service === 'TlbConfig') {
+		if (($_POST['action']??null) === 'save-federation-connections') {
+			$data = $_POST['data'];
+			wiki_config_save('federation.connections', lf($data['federation.connections']));
+			die(header('Location: ?set=post_wiki&slug=TlbConfiguration#TlbFederationConnections')); } }
+}
 
 if ($set === 'post_wiki') {
 	if (strncmp($service, 'WikiSearch', 10) === 0)
