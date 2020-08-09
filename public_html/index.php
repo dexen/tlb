@@ -69,7 +69,7 @@ if (array_key_exists('slug', $_GET)) {
 }
 
 	if ($rcd === null)
-		header('HTTP/1.1 404'); }
+		header_response_code(404); }
 
 echo '<!DOCTYPE html>';
 echo '<html lang="' .H(tlb_config('i18n.lang')) .'">';
