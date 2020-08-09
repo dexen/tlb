@@ -204,7 +204,8 @@ if (($_GET['form']??null) === 'edit') {
 	else
 		$slug = $_GET['slug'] ?? null;
 
-	tpl('tpl/WikiPageEditor/form.tpl', compact('slug', 'rcd')); }
+	$textarea_rows = max(count(explode("\n", $rcd['body']??null))+3, 20);
+	tpl('tpl/WikiPageEditor/form.tpl', compact('slug', 'rcd', 'textarea_rows')); }
 
 else if ($slug !== null) {
 	if ($rcd) {
@@ -355,7 +356,7 @@ echo '<div class="column-4">';
 				$crcd = wiki_rcd_relevant_from_connection($c, $slug);
 				echo '<fieldset>';
 					echo '
-						<textarea style="width: 100%" rows="', H($rows), '">' .H($crcd['body']) .'</textarea>';
+						<textarea style="width: 100%" rows="', H($textarea_rows), '">' .H($crcd['body']) .'</textarea>';
 				echo '</fieldset>'; }
 
 			echo '<h2><a href="' .H(wiki_connection_post_url($c, $slug)) .'"><img

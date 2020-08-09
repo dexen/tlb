@@ -54,9 +54,8 @@
 		echo '<input id="x1" type="hidden" name="meta[selectionStart]" value="' .H($_GET['selectionStart']??null) .'"/>';
 		echo '<input id="x9" type="hidden" name="meta[selectionEnd]" value="' .H($_GET['selectionEnd']??null) .'"/>';
 
-		$rows = max(count(explode("\n", $rcd['body']??null))+3, 20);
 		echo '<textarea id="xa" name="data[body]" style="width: 100%" ';
-		echo ' rows="', H($rows), '">', H($rcd['body']??null), '</textarea>';
+		echo ' rows="', H($textarea_rows), '">', H($rcd['body']??null), '</textarea>';
 		echo '</article>';
 
 		echo '<input type="hidden" name="original[body]" value="' .H($rcd['body']??null) .'"/>';
