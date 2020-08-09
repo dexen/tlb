@@ -27,6 +27,8 @@ if (($set === 'post_wiki') && ($slug === null))
 
 if ($set === 'post_wiki') {
 	$rcd = $DB->queryFetch('SELECT * FROM post_wiki WHERE _url_slug = ?', [ $slug ]);
+	if ($rcd === null)
+		header_response_code(404);
 
 	if ($service === 'WikiPageEditor')
 		ex('../libexec/post_wiki/WikiPageEditor.php', compact('action', 'service', 'form', 'slug', 'rcd', 'post_data', 'post_meta', 'post_original'));
@@ -55,19 +57,6 @@ if ($set === 'post_wiki') {
 			wiki_maintenance_rebuild_slug_reverse_index();
 			echo '<a href="?">ALL DONE.</a>';
 			die(); } }
-
-if (array_key_exists('slug', $_GET)) {
-	$rcd = $DB->queryFetch('SELECT * FROM post_wiki WHERE _url_slug = ?', [ $_GET['slug']??null ]);
-
-	if (($_GET['form']??null) === 'edit') {
-		if ($rcd)
-			$slug = $rcd['_url_slug'];
-		else
-			$slug = $_GET['slug'] ?? null;
-}
-
-	if ($rcd === null)
-		header_response_code(404); }
 
 echo '<!DOCTYPE html>';
 echo '<html lang="' .H(tlb_config('i18n.lang')) .'">';
