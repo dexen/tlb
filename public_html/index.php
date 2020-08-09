@@ -53,7 +53,8 @@ if ($set === 'post_wiki') {
 	if ($service === 'WikiReverseSlugIndex') {
 		if (($_POST['action']??null) === 'rebuild-slug-reverse-index')
 			wiki_maintenance_rebuild_slug_reverse_index();
-			echo '<a href="?">ALL DONE.</a>'; die(); } }
+			echo '<a href="?">ALL DONE.</a>';
+			die(); } }
 
 if (array_key_exists('slug', $_GET)) {
 	$rcd = $DB->queryFetch('SELECT * FROM post_wiki WHERE _url_slug = ?', [ $_GET['slug']??null ]);
