@@ -241,6 +241,14 @@ echo '</article>';
 		JOIN _wiki_slug_use AS u ON p.post_id = u.post_id
 		WHERE u._url_slug= ?', [ $_GET['slug']??null ]);
 
+	echo '</div>';	# bodylike
+	echo '</div>';	# htmlike
+	echo '</div>';	# page-with-shadow
+
+	echo '<div class="page-with-shadow">';
+	echo '<div class="htmlike">';
+	echo '<div class="bodylike">';
+
 	echo '<h3>Reverse index <a class="help" href="?set=post_wiki&amp;slug=WikiReverseSlugIndex">?</a></h3>';
 		echo '<ul>';
 			foreach (posts_process($riA) as $rcd) {
