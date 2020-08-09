@@ -50,12 +50,12 @@ if ($set === 'post_wiki') {
 
 	if ((count($sA) === 1) && ($shortcut !== 'single-hit')) {
 		header_response_code(303);
-		die(header('Location: ?set=post_wiki&slug=' .U(array_one($sA)['_url_slug']) .'&service=' .U($service) .'&query=' .U($query) .'&shortcut=single-hit')); } }
+		die(header('Location: ?set=post_wiki&slug=' .U(array_one($sA)['_url_slug']) .'&service=' .U($service) .'&query=' .U($query) .'&shortcut=single-hit')); }
 
 	if ($service === 'WikiReverseSlugIndex') {
 		if (($_POST['action']??null) === 'rebuild-slug-reverse-index')
 			wiki_maintenance_rebuild_slug_reverse_index();
-			echo '<a href="?">ALL DONE.</a>'; die(); }
+			echo '<a href="?">ALL DONE.</a>'; die(); } }
 
 if (array_key_exists('slug', $_GET)) {
 	$rcd = $DB->queryFetch('SELECT * FROM post_wiki WHERE _url_slug = ?', [ $_GET['slug']??null ]);
