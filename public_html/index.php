@@ -304,7 +304,8 @@ echo '</article>';
 			SELECT u._url_slug
 			FROM _wiki_slug_use AS u
 			LEFT JOIN post_wiki AS p USING(_url_slug)
-			WHERE p.post_id IS NULL' );
+			WHERE p.post_id IS NULL
+			GROUP BY u._url_slug' );
 
 		echo '<h3>Missing pages <a class="help" href="?set=post_wiki&amp;slug=TlbWikiMissingPagesIndex">?</a></h3>';
 		echo '<ul>';
