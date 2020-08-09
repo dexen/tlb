@@ -19,6 +19,12 @@ $post_meta = $_POST['meta']??null;
 $post_original = $_POST['original']??null;
 $shortcut = $_GET['shortcut']??null;
 
+if ($set === null)
+	die(header('Location: ?set=post_wiki'));
+
+if (($set === 'post_wiki') && ($slug === null))
+	die(header('Location: ?set=post_wiki&slug=WelcomeWikiVisitors'));
+
 if ($set === 'post_wiki') {
 	$rcd = $DB->queryFetch('SELECT * FROM post_wiki WHERE _url_slug = ?', [ $slug ]);
 	if ($service === 'WikiPageEditor')
@@ -31,12 +37,6 @@ if ($service === 'TlbConfig') {
 		wiki_config_save('federation.connections', lf($data['federation.connections']));
 		header('Location: ?set=post_wiki&slug=TlbConfiguration#TlbFederationConnections');
 		die(); } }
-
-if ($set === null)
-	die(header('Location: ?set=post_wiki'));
-
-if (($set === 'post_wiki') && ($slug === null))
-	die(header('Location: ?set=post_wiki&slug=WelcomeWikiVisitors'));
 
 if ($set === 'post_wiki') {
 	if (strncmp($service, 'WikiSearch', 10) === 0)
