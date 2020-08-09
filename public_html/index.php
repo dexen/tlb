@@ -114,6 +114,10 @@ echo '
 		min-height: 6ex;
 		min-width: 50%; }
 
+	button.strut-3 {
+		min-height: 6ex;
+		min-width: 25%; }
+
 	button.strut-right {
 		text-aling: right;
 	}
@@ -249,16 +253,38 @@ echo '</article>';
 	echo '</div>';
 	echo '</div>';
 	echo '</div>';
+
 echo '</div>';
 
 echo '<div class="column-4">';
-echo '<div class="page-with-shadow">';
-echo '<div class="htmlike">';
-echo '<section class="bodylike">';
-	echo '--';
-echo '</section>';
-echo '</div>';
-echo '</div>';
+
+	$ndA = $DB->queryFetchAll('
+		SELECT *, STRFTIME(\'%w\', date) AS _day_of_week
+		FROM post_wiki_note_dated WHERE slug = ? ORDER BY date DESC', [ $slug ]);
+	$ndTodayRcd = $DB->queryFetchOne('SELECT NULL as slug, DATE() AS date, STRFTIME(\'%w\') AS _day_of_week, NULL AS body');
+
+	if ($ndA) {
+		echo '<div class="page-with-shadow">';
+		echo '<div class="htmlike">';
+		echo '<div class="bodylike">';
+
+			tpl('tpl/WikiNoteDated/current-article.tpl',
+				compact('ndA', 'ndTodayRcd') );
+
+		echo '</div>';
+		echo '</div>';
+		echo '</div>'; }
+	else {
+		echo '<div class="page-with-shadow">';
+		echo '<div class="htmlike">';
+		echo '<div class="bodylike">';
+
+		echo '--';
+
+		echo '</div>';
+		echo '</div>';
+		echo '</div>'; }
+
 echo '</div>';
 
 echo '<div class="column-4">';
