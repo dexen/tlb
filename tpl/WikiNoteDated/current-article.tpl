@@ -32,6 +32,7 @@ if (!$hasToday) {
 		echo '<form>';
 			echo '<input type="hidden" name="set" value="' .H($set) .'"/>';
 			echo '<input type="hidden" name="slug" value="' .H($slug) .'"/>';
+			echo '<input type="hidden" name="date" value="' .H($ndTodayRcd['date']) .'"/>';
 			echo '<input type="hidden" name="service" value="WikiNoteDatedEditor"/>';
 			echo '<h3>Today, ' .$dH($ndTodayRcd) .'<button type="submit" name="form" value="edit" class="strut-3" style="float: right">+Add</button></h3>';
 			echo '<div style="clear: both"></div>';
@@ -43,6 +44,7 @@ foreach ($ndA as $nrcd) {
 		echo '<form>';
 			echo '<input type="hidden" name="set" value="' .H($set) .'"/>';
 			echo '<input type="hidden" name="slug" value="' .H($slug) .'"/>';
+			echo '<input type="hidden" name="date" value="' .H($nrcd['date']) .'"/>';
 			echo '<input type="hidden" name="service" value="WikiNoteDatedEditor"/>';
 			if ($nrcd['date'] === $ndTodayRcd['date'])
 				$v = 'Today';

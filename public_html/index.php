@@ -18,6 +18,7 @@ $post_data = $_POST['data']??null;
 $post_meta = $_POST['meta']??null;
 $post_original = $_POST['original']??null;
 $shortcut = $_GET['shortcut']??null;
+$date = $_GET['date']??null;
 
 if ($set === null)
 	die(header('Location: ?set=post_wiki'));
@@ -249,6 +250,24 @@ echo '<div class="column-4">';
 		SELECT *, STRFTIME(\'%w\', date) AS _day_of_week
 		FROM post_wiki_note_dated WHERE slug = ? ORDER BY date DESC', [ $slug ]);
 	$ndTodayRcd = $DB->queryFetchOne('SELECT NULL as slug, DATE() AS date, STRFTIME(\'%w\') AS _day_of_week, NULL AS body');
+
+	if ($service === 'WikiNoteDatedEditor') {
+		$nrcd = $DB->queryFetch('
+			SELECT *, STRFTIME(\'%w\', date) AS _day_of_week
+			FROM post_wiki_note_dated
+			WHERE slug = ? AND date = ?',
+			[ $slug, $date ] );
+
+		echo '<div class="page-with-shadow">';
+		echo '<div class="htmlike">';
+		echo '<div class="bodylike">';
+
+			tpl('tpl/WikiNoteDatedEditor/edit.tpl',
+				compact('set', 'slug', 'date', 'service', 'nrcd', 'ndTodayRcd') );
+
+		echo '</div>';
+		echo '</div>';
+		echo '</div>'; }
 
 	if ($ndA) {
 		echo '<div class="page-with-shadow">';
