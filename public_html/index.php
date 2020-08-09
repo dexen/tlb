@@ -189,7 +189,7 @@ echo '<div class="page-with-shadow">';
 echo '<div class="htmlike" id="xh">';
 echo '<div class="bodylike">';
 
-if (($_GET['form']??null) === 'edit') {
+if (($service === 'WikiPageEditor') && ($form === 'edit')) {
 	if ($rcd)
 		$slug = $rcd['_url_slug'];
 	else

@@ -4,6 +4,7 @@ echo '
 	<form>
 		<input type="hidden" name="set" value="post_wiki"/>
 		<input type="hidden" name="slug" value="' .H($rcd['_url_slug']??$slug) .'"/>
+		<input type="hidden" name="service" value="WikiPageEditor"/>
 		<input type="hidden" name="selectionStart" value="' .H($selectionStart) .'"/>
 		<input type="hidden" name="selectionEnd" value="' .H($selectionEnd) .'"/>
 		<button name="form" id="xm" value="edit" class="strut-12">Edit <var>' .H($rcd['_url_slug']??$slug) .'</var> <kbd>[^E]</kbd></button>
