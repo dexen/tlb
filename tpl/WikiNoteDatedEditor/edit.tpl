@@ -37,7 +37,9 @@ echo '<h2>' .H($h) .', ' .$dH($nrcd) .'</h2>';
 
 echo '<form method="post" action="?set=' .H($set) .'&amp;slug=' .H($slug) .'&amp;date=' .HU($nrcd['date']) .'&amp;service=' .HU($service) .'&amp;form=edit">';
 
-	echo '<input type="hidden" name="original[body]" value=""/>';
-	echo '<textarea name="data[body]" style="width: 100%" rows="12"></textarea>';
-	echo '<button type="submit" name="action" value="save" class="strut-12">' .H($b) .'</button>';
+	echo '<input type="hidden" name="original[body]" value="' .H($nrcd['body']) .'"/>';
+	echo '<input type="hidden" name="meta[selectionStart]" value=""/>';
+	echo '<input type="hidden" name="meta[selectionEnd]" value=""/>';
+	echo '<textarea name="data[body]" style="width: 100%" rows="12">' .H($nrcd['body']) .'</textarea>';
+	echo '<button type="submit" name="action" value="save-see" class="strut-12">' .H($b) .'</button>';
 echo '</form>';
