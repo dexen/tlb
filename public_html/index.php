@@ -37,11 +37,9 @@ if ($set === 'post_wiki') {
 			wiki_config_save('federation.connections', lf($data['federation.connections']));
 			die(header('Location: ?set=post_wiki&slug=TlbConfiguration#TlbFederationConnections')); }  }
 
-if ($set === 'post_wiki') {
-	if (strncmp($service, 'WikiSearch', 10) === 0)
+	if (strncmp($service, 'WikiSearch', 10) === 0) {
 		$query = $_GET['query']??null;
-
-	$qq = '%' .$query .'%';
+		$qq = '%' .$query .'%'; }
 
 	if ($service === 'WikiSearchSlug')
 		$sA = $DB->queryFetchAll('SELECT * FROM post_wiki WHERE _url_slug LIKE ? ', [ $qq ] );
