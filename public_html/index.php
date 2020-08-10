@@ -272,7 +272,7 @@ echo '<div class="column-4">';
 		echo '</div>';
 		echo '</div>'; }
 
-	if ($ndA) {
+	if (true) {
 		echo '<div class="page-with-shadow">';
 		echo '<div class="htmlike">';
 		echo '<div class="bodylike">';
