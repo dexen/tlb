@@ -12,9 +12,12 @@ function wiki_slug_to_title(string $slug) : string
 	return wiki_camel_to_spaced($slug);
 }
 
-function wiki_posts_readable_by_slugP(string $slug) : bool
+function wiki_posts_readable_by_slugP(string $slug, string $subslug = null) : bool
 {
 	$DB = db_pdo();
+
+	if ($subslug !== null)
+		return count($DB->queryFetchAll('SELECT slug FROM post_wiki_note_dated WHERE slug = ? AND date = ? LIMIT 1', [ $slug, $subslug ])) > 0;
 
 	return count($DB->queryFetchAll('SELECT _url_slug FROM post_wiki WHERE _url_slug = ? LIMIT 1', [ $slug ])) > 0;
 }
@@ -30,7 +33,7 @@ function wiki_maintenance_refresh_slug_reverse_index_formH() : string
 
 function wiki_slug_re() : string
 {
-	return '/\\b([A-Z][a-z]+[A-Z][a-z]+[a-zA-Z]*)\\b/';
+	return '#\\b([A-Z][a-z]+([A-Z][a-z]+)+)([/]([0-9-]+))?\\b#';
 }
 
 function wiki_slug_to_linkH(string $slug) : string
@@ -76,10 +79,16 @@ function wiki_slugs_to_links(string $str, array $data) : array # [ $a, $data, $s
 		function(array $matches) use(&$data, &$slugs)
 		{
 			$slugs[] = $slug = $matches[1];
-			if (wiki_posts_readable_by_slugP($slug))
-				$data[] = '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'">'  .$slug .'</a>';
+			$subslug = $matches[4]??null;
+			if ($subslug === null)
+				$hxU = $cx = null;
 			else
-				$data[] = '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'&amp;form=edit" class="broken-link">' .H($slug) .'</a>';
+				[ $hxU, $cx ] = [ 'subslug=' .U($matches[4]), '/' .$matches[4] ];
+
+			if (wiki_posts_readable_by_slugP($slug, $subslug))
+				$data[] = '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'&amp;' .H($hxU) .'">'  .H($slug .$cx) .'</a>';
+			else
+				$data[] = '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'&amp;' .H($hxU) .'&amp;form=edit" class="broken-link">' .H($slug .$cx) .'</a>';
 			return '%' .(count($data)) .'$s';
 		},
 		$str );
