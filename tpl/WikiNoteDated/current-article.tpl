@@ -34,7 +34,7 @@ if (!$hasToday) {
 			echo '<input type="hidden" name="slug" value="' .H($slug) .'"/>';
 			echo '<input type="hidden" name="date" value="' .H($ndTodayRcd['date']) .'"/>';
 			echo '<input type="hidden" name="service" value="WikiNoteDatedEditor"/>';
-			echo '<h3>Today, ' .$dH($ndTodayRcd) .'<button type="submit" name="form" value="edit" class="strut-3" style="float: right">+Add</button></h3>';
+			echo '<h3 title="' .H($ndTodayRcd['date']) .'">Today, ' .$dH($ndTodayRcd) .'<button type="submit" name="form" value="edit" class="strut-3" style="float: right">+Add</button></h3>';
 			echo '<div style="clear: both"></div>';
 		echo '</form>';
 	echo '</section>'; }
@@ -50,7 +50,7 @@ foreach ($ndA as $nrcd) {
 				$v = 'Today';
 			else
 				$v = $nrcd['date'];
-			echo '<h3>' .H($v) .', ' .$dH($nrcd) .' <button type="submit" name="form" value="edit" class="strut-3" style="float: right">Edit</button></h3>';
+			echo '<h3 title="' .H($nrcd['date']) .'">' .H($v) .', ' .$dH($nrcd) .' <button type="submit" name="form" value="edit" class="strut-3" style="float: right">✎Edit</button></h3>';
 			echo '<p>' .wiki_post_body_to_htmlH($nrcd['body']) .'</p>';
 		echo '</form>';
 	echo '</section>'; }
