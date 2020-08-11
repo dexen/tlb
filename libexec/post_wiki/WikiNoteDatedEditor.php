@@ -4,6 +4,8 @@
 			$DB->beginTransaction();
 				$ndrcd = $DB->queryFetch('SELECT * FROM post_wiki_note_dated WHERE slug= ? AND date = ?', [ $slug, $date ]);
 
+				$date = $post_data['date'];
+
 				if (empty($ndrcd))
 					$DB->execParams('INSERT INTO post_wiki_note_dated (slug, date, body) VALUES (?, ?, ?)',
 						[ $slug, $date, lf($post_data['body']) ] );

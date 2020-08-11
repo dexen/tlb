@@ -37,6 +37,8 @@ echo '<h2>' .H($h) .', ' .$dH($nrcd) .'</h2>';
 
 echo '<form method="post" action="?set=' .H($set) .'&amp;slug=' .H($slug) .'&amp;date=' .HU($nrcd['date']) .'&amp;service=' .HU($service) .'&amp;form=edit">';
 
+	echo '<p style="text-align: right;"><label>date override: <input size="11" name="data[date]" value="' .H($nrcd['date']) .'"/ ></label></p>';
+
 	echo '<input type="hidden" name="original[body]" value="' .H($nrcd['body']) .'"/>';
 	echo '<input type="hidden" name="meta[selectionStart]" value=""/>';
 	echo '<input type="hidden" name="meta[selectionEnd]" value=""/>';
