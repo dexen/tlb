@@ -12,7 +12,7 @@ rm -f .tlb/tor-hidden-service/hostname
 
 ./SERVE_INIT_STORAGE
 ./STOP_RUNNING
-./SERVE_PICK_HTTP_ADDRESS .tlb localhost 7172
+./SERVE_PICK_HTTP_ADDRESS .tlb localhost 8000
 
 ./SERVE_PHP &
 ./SERVE_TOR &
