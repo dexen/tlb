@@ -14,4 +14,5 @@ spl_autoload_register(function($className) {
 	return true;
 });
 
+update_the_config();
 update_the_db();

@@ -17,6 +17,23 @@ function update_the_db()
 	case 0:
 		$DB->beginTransaction();
 $DB->exec(<<<'EOS'
+CREATE TABLE IF NOT EXISTS post_wiki (
+	post_id INTEGER PRIMARY KEY,
+	uuid TEXT NOT NULL,
+	_url_slug TEXT NOT NULL,
+	title TEXT,
+	body TEXT, _mtime INTEGER,
+	UNIQUE(_url_slug),
+	UNIQUE(uuid)
+);
+CREATE TABLE IF NOT EXISTS _wiki_slug_use (
+	post_id INTEGER,
+	_url_slug TEXT,
+	PRIMARY KEY (post_id, _url_slug),
+	FOREIGN KEY (post_id) REFERENCES post_wiki(post_id)
+);
+EOS);
+$DB->exec(<<<'EOS'
 CREATE TABLE numbered_note (
 	slug TEXT NOT NULL,
 	number INTEGER NOT NULL,
@@ -40,5 +57,30 @@ EOS);
 		update_db_version($DB, 2);
 		$DB->commit();
 	case 2:
+		/* the current version */; }
+}
+
+function update_the_config()
+{
+	$DB = config_db_pdo();
+
+	switch (update_db_version($DB)) {
+	default:
+		throw new Exception(sprintf('unsupported DB version'));
+	case 0:
+		$DB->beginTransaction();
+$DB->exec(<<<'EOS'
+CREATE TABLE config (
+	key TEXT NOT NULL PRIMARY KEY,
+	value TEXT DEFAULT NULL
+);
+EOS);
+$DB->exec(<<<'EOS'
+INSERT INTO config VALUES('i18n.lang','en');
+INSERT INTO config VALUES('federation.connections','');
+EOS);
+		update_db_version($DB, 1);
+		$DB->commit();
+	case 1:
 		/* the current version */; }
 }
