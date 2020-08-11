@@ -16,7 +16,7 @@ function update_the_db()
 		throw new Exception(sprintf('unsupported DB version'));
 	case 0:
 		$DB->beginTransaction();
-$DB->exec(<<<EOS
+$DB->exec(<<<'EOS'
 CREATE TABLE numbered_note (
 	slug TEXT NOT NULL,
 	number INTEGER NOT NULL,
@@ -28,7 +28,7 @@ EOS);
 		$DB->commit();
 	case 1:
 		$DB->beginTransaction();
-$DB->exec(<<<EOS
+$DB->exec(<<<'EOS'
 CREATE TABLE post_wiki_note_dated (
 	slug TEXT NOT NULL,
 	date TEXT NOT NULL,
