@@ -4,7 +4,7 @@ function wiki_camel_to_spaced(string $str = null) : ?string
 {
 	if ($str === null)
 		return null;
-	return preg_replace('/([a-z0-9])([A-Z])/', '\\1 \\2', $str);
+	return preg_replace('/([a-z\\p{Ll}])([A-Z\\p{Lu}])/u', '\\1 \\2', $str);
 }
 
 function wiki_slug_to_title(string $slug) : string
@@ -33,7 +33,7 @@ function wiki_maintenance_refresh_slug_reverse_index_formH() : string
 
 function wiki_slug_re() : string
 {
-	return '#\\b([A-Z][a-z]+([A-Z][a-z]+)+)([/]([0-9-]+))?\\b#';
+	return '#\\b([A-Z\\p{Lu}][a-z\\p{Ll}]+([A-Z\\p{Lu}][a-z\\p{Ll}]+)+)([/]([0-9-]+))?\\b#u';
 }
 
 function wiki_slug_to_linkH(string $slug) : string
