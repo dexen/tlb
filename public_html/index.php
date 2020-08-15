@@ -20,6 +20,12 @@ $post_original = $_POST['original']??null;
 $shortcut = $_GET['shortcut']??null;
 $date = $_GET['date']??null;
 
+if ($service === 'TlbConfig') {
+	if (($_POST['action']??null) === 'save-federation-connections') {
+		$data = $_POST['data'];
+		wiki_config_save('federation.connections', lf($data['federation.connections']));
+		die(header('Location: ?set=post_wiki&slug=TlbConfiguration#TlbFederationConnections')); } }
+
 if ($set === null)
 	die(header('Location: ?set=post_wiki'));
 
@@ -36,12 +42,6 @@ if ($set === 'post_wiki') {
 
 	if ($service === 'WikiNoteDatedEditor')
 		ex('../libexec/post_wiki/WikiNoteDatedEditor.php', compact('DB', 'action', 'service', 'form', 'slug', 'date', 'rcd', 'post_data', 'post_meta', 'post_original'));
-
-	if ($service === 'TlbConfig') {
-		if (($_POST['action']??null) === 'save-federation-connections') {
-			$data = $_POST['data'];
-			wiki_config_save('federation.connections', lf($data['federation.connections']));
-			die(header('Location: ?set=post_wiki&slug=TlbConfiguration#TlbFederationConnections')); }  }
 
 	if (strncmp($service, 'WikiSearch', 10) === 0) {
 		$query = $_GET['query']??null;
