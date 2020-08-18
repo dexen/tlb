@@ -386,7 +386,7 @@ function wiki_article_body_redirect_slug(string $body) : ?string
 function wiki_slugs_from_local() : array
 {
 	return db_pdo()->queryFetchAll('
-		SELECT _url_slug AS slug, _mtime
+		SELECT _url_slug AS slug, _mtime, _body_sha1
 		FROM post_wiki',
 		[],
 		PDO::FETCH_ASSOC );
