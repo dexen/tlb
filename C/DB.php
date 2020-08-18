@@ -28,14 +28,14 @@ class DB extends PDO
 			throw new Exception('multiple records, expected at most one'); }
 	}
 
-	function queryFetchAll(string $query, array $params = null) : array
+	function queryFetchAll(string $query, array $params = null, ...$a) : array
 	{
 		if (empty($params))
 			$St = $this->query($query);
 		else {
 			$St = $this->prepare($query);
 			$St->execute($params); }
-		return $St->fetchAll();
+		return $St->fetchAll(...$a);
 	}
 
 	function execParams(string $sql, array $params = null) : int
