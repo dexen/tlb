@@ -12,7 +12,7 @@ function wiki_slugs_from_local() : array
 function wiki_sync_data_from_local()
 {
 	return db_pdo()->queryFetchAll('
-		SELECT _url_slug AS slug, body, _mtime, _body_sha1
+		SELECT _url_slug AS slug, body, _mtime
 		FROM post_wiki',
 		[],
 		PDO::FETCH_ASSOC );
