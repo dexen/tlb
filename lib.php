@@ -175,5 +175,6 @@ function tpl(string $tpl_selector, array $data)
 }
 
 require 'lib_wiki.php';
+require 'lib_wiki_sync.php';
 require 'lib_tlb.php';
 require 'lib_update.php';
