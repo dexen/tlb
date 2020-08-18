@@ -33,7 +33,10 @@ throw new Exception('other type, don\'t know wha to do');
 
 function db_pdo() : DB
 {
-	return new DB('db.sqlite');
+	static $conn = null;
+	if ($conn === null)
+		$conn = new DB('db.sqlite');
+	return $conn;
 }
 
 function config_db_pdo() : DB
