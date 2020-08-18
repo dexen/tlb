@@ -25,7 +25,7 @@ foreach ($a as $slug => $rcd) {
 	if (($rcd['local']['_body_sha1']??null) === ($rcd['remote']['_body_sha1']??null))
 		continue;
 	echo '<tr>';
-		echo '<th>', H($slug), '</th>';
+		echo '<th>' .wiki_slug_to_linkH($slug) .'</th>';
 		echo '<td title="' .H($rcd['local']['_body_sha1']??null) .'">', H($rcd['local']['_mtime']??'--'), '</td>';
 		echo '<td title="' .H($rcd['remote']['_body_sha1']??null) .'">', H($rcd['remote']['_mtime']??'--'), '</td>';
 	echo '</tr>'; }
@@ -45,7 +45,7 @@ foreach ($a as $slug => $rcd) {
 	if (($rcd['local']['_body_sha1']??null) !== ($rcd['remote']['_body_sha1']??null))
 		continue;
 	echo '<tr>';
-		echo '<th>', H($slug), '</th>';
+		echo '<th>' .wiki_slug_to_linkH($slug) .'</th>';
 		echo '<td title="' .H($rcd['local']['_body_sha1']??null) .'">', H($rcd['local']['_mtime']??'--'), '</td>';
 		echo '<td title="' .H($rcd['remote']['_body_sha1']??null) .'">', H($rcd['remote']['_mtime']??'--'), '</td>';
 	echo '</tr>'; }
