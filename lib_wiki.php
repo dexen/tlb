@@ -371,3 +371,14 @@ function wiki_edit_conflict($post_data, $post_original, $latest)
 {
 	die('edit conflict');
 }
+
+function wiki_article_body_redirect_slug(string $body) : ?string
+{
+	$slug1 = preg_match('#^redirect:(.+)#', $body, $matches1)
+		? $matches1[1]
+		: null;
+	preg_match(wiki_slug_re(), $slug1, $matches2);
+	return (($matches2[0]??null) === ($matches2[1]??-1))
+		? $slug1
+		: null;
+}

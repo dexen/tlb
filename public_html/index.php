@@ -37,6 +37,10 @@ if ($set === 'post_wiki') {
 	if ($rcd === null)
 		header_response_code(404);
 
+		# FIXME - this conflicts with ability to edit the article
+#	if (($redir = wiki_article_body_redirect_slug($rcd['body'])) !== null)
+#		die(header('Location: ?set=post_wiki&slug=' .U($redir)));
+
 	if ($service === 'WikiPageEditor')
 		ex('../libexec/post_wiki/WikiPageEditor.php', compact('DB', 'action', 'service', 'form', 'slug', 'rcd', 'post_data', 'post_meta', 'post_original'));
 
