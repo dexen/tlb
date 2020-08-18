@@ -57,6 +57,15 @@ EOS);
 		update_db_version($DB, 2);
 		$DB->commit();
 	case 2:
+		$DB->beginTransaction();
+$DB->exec(<<<'EOS'
+ALTER TABLE post_wiki
+ADD "_body_sha1" TEXT;
+EOS);
+		wiki_recalc_all_body_sha1();
+		update_Db_version($DB, 3);
+		$DB->commit();
+	case 3:
 		/* the current version */; }
 }
 

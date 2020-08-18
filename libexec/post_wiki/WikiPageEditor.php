@@ -19,7 +19,7 @@
 						header_response_code(409);
 						wiki_edit_conflict($post_data, $post_original, $latest);
 						exit(); }
-					$DB->execParams('UPDATE post_wiki SET body = ? WHERE _url_slug = ?',
+					$DB->execParams('UPDATE post_wiki SET body = ?, _body_sha1 = NULL WHERE _url_slug = ?',
 						[ lf($post_data['body']), $slug ]);
 				}
 
@@ -30,6 +30,9 @@
 					$St = $DB->prepare('INSERT INTO _wiki_slug_use (post_id, _url_slug) VALUES (?, ?)');
 					foreach (wiki_post_body_to_slugs($rcd['body']) as $v)
 						$St->execute([ $rcd['post_id'], $v ]); }
+
+			wiki_recalc_all_body_sha1();
+
 			$DB->commit();
 
 			header_response_code(303);
