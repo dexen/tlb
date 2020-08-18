@@ -250,6 +250,17 @@ echo '</article>';
 	echo '</div>';
 	echo '</div>';
 
+	if ($slug === 'WikiSyncService') {
+		echo '<div class="page-with-shadow">';
+		echo '<div class="htmlike">';
+		echo '<div class="bodylike">';
+			$connection = tlb_connections()[0];
+			tpl('tpl/WikiSyncService/current-article.tpl',
+				compact('DB', 'connection') );
+		echo '</div>';
+		echo '</div>';
+		echo '</div>'; }
+
 echo '</div>';
 
 	# 2nd column

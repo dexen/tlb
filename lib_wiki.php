@@ -391,3 +391,10 @@ function wiki_slugs_from_local() : array
 		[],
 		PDO::FETCH_ASSOC );
 }
+
+function wiki_slugs_from_connection(string $connection) : array
+{
+	$curl = tlb_connection_url($connection);
+	$url = $curl .'/wiki-slug-index.php';
+	return json_decode(tlb_download_connection($url), $assoc = true);
+}
