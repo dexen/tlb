@@ -9,6 +9,15 @@ function wiki_slugs_from_local() : array
 		PDO::FETCH_ASSOC );
 }
 
+function wiki_sync_data_from_local()
+{
+	return db_pdo()->queryFetchAll('
+		SELECT _url_slug AS slug, body, _mtime, _body_sha1
+		FROM post_wiki',
+		[],
+		PDO::FETCH_ASSOC );
+}
+
 function wiki_slugs_from_connection(string $connection) : array
 {
 	$curl = tlb_connection_url($connection);
