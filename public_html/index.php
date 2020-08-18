@@ -192,6 +192,7 @@ echo '</head>';
 echo '<body>';
 
 echo '<div class="columns">';
+	# 1st column
 echo '<div class="column-4">';
 echo '<div class="page-with-shadow">';
 echo '<div class="htmlike" id="xh">';
@@ -251,6 +252,7 @@ echo '</article>';
 
 echo '</div>';
 
+	# 2nd column
 echo '<div class="column-4">';
 
 	$ndA = $DB->queryFetchAll('
@@ -300,6 +302,7 @@ echo '<div class="column-4">';
 
 echo '</div>';
 
+	# 3rd column
 echo '<div class="column-4">';
 	foreach (tlb_connections() as $c) {
 		unset($crcd);
