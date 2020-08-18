@@ -66,6 +66,23 @@ EOS);
 		update_Db_version($DB, 3);
 		$DB->commit();
 	case 3:
+		$DB->beginTransaction();
+$DB->exec(<<<'EOS'
+CREATE TABLE _post_wiki_sync (
+	slug TEXT NOT NULL,
+	connection TEXT NOT NULL,
+	body_local TEXT NOT NULL,
+	body_remote TEXT NOT NULL,
+	timestamp_local INTEGER NOT NULL,
+	timestamp_remote INTEGER NOT NULL,
+	sha1_local TEXT NOT NULL,
+	sha1_remote TEXT NOT NULL,
+	PRIMARY KEY(slug, connection)
+);
+EOS);
+		update_db_version($DB, 4);
+		$DB->commit();
+	case 4:
 		/* the current version */; }
 }
 
