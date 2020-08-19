@@ -8,8 +8,12 @@ dtslug = `{date '+%Y-%m-%d-%H-%M-%S'}
 configDumpFile = db-backup/backup- ^ $dtslug ^ -config.sql
 dbDumpFile = db-backup/backup- ^ $dtslug ^ -db.sql
 
-echo .dump | sqlite3 config.sqlite > $configDumpFile
-echo .dump | sqlite3 db.sqlite > $dbDumpFile
+fn Sqlite3DumpCommands {
+	echo .dump
+}
+
+Sqlite3DumpCommands | sqlite3 config.sqlite > $configDumpFile
+Sqlite3DumpCommands | sqlite3 db.sqlite > $dbDumpFile
 
 @ {
 	cd db-backup
