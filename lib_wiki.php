@@ -363,7 +363,7 @@ function wiki_reverse_index_from_connection(string $connection, string $_url_slu
 
 	$body = null;
 	return array_map(
-		function($_url_slug) use($body) { return compact('_url_slug', 'body'); },
+		function($slug) use($body) { return compact('slug', 'body'); },
 		$slugA );
 }
 
