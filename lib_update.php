@@ -126,9 +126,27 @@ SELECT *
 FROM _wiki_versioned
 WHERE _is_latest = 1;
 EOS);
+		$DB->exec(<<<'EOS'
+CREATE VIEW post_wiki AS
+SELECT NULL AS post_id, NULL AS uuid, slug AS _url_slug, NULL AS title, body, mtime AS _mtime, _body_sha1
+FROM wiki;
+EOS);
 		update_db_version($DB, 6);
 		$DB->commit();
 	case 6:
+		$DB->beginTransaction();
+		$DB->exec('ALTER TABLE _wiki_slug_use RENAME TO _old_wiki_slug_use;');
+		$DB->exec(<<<'EOS'
+CREATE TABLE _wiki_slug_use (
+	from_slug TEXT NOT NULL,
+	to_slug TEXT NOT NULL,
+	PRIMARY KEY(from_slug, to_slug)
+);
+EOS);
+		update_db_version($DB, 7);
+		$DB->commit();
+		wiki_maintenance_rebuild_slug_reverse_index();
+	case 7:
 		/* the current version */; }
 }
 

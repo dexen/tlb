@@ -327,11 +327,11 @@ function wiki_maintenance_rebuild_slug_reverse_index()
 
 	$DB->beginTransaction();
 		$DB->exec('DELETE FROM _wiki_slug_use');
-		$a = $DB->queryFetchAll('SELECT * FROM post_wiki');
-		$St = $DB->prepare('INSERT INTO _wiki_slug_use (post_id, _url_slug) VALUES (?, ?)');
+		$a = $DB->queryFetchAll('SELECT * FROM wiki');
+		$St = $DB->prepare('INSERT INTO _wiki_slug_use (from_slug, to_slug) VALUES (?, ?)');
 		foreach ($a as $rcd)
 			foreach (wiki_post_body_to_slugs($rcd['body']) as $slug)
-				$St->execute([ $rcd['post_id'], $slug ]);
+				$St->execute([ $rcd['slug'], $slug ]);
 	$DB->commit();
 }
 
