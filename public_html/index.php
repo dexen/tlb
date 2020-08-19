@@ -52,9 +52,9 @@ if ($set === 'post_wiki') {
 		$qq = '%' .$query .'%'; }
 
 	if ($service === 'WikiSearchSlug')
-		$sA = $DB->queryFetchAll('SELECT * FROM post_wiki WHERE _url_slug LIKE ? ', [ $qq ] );
+		$sA = $DB->queryFetchAll('SELECT * FROM wiki WHERE slug LIKE ? ', [ $qq ] );
 	else if ($service === 'WikiSearchContent')
-		$sA = $DB->queryFetchAll('SELECT * FROM post_wiki WHERE (_url_slug || \' \' || body) LIKE ? ', [ $qq ] );
+		$sA = $DB->queryFetchAll('SELECT * FROM wiki WHERE (slug || \' \' || body) LIKE ? ', [ $qq ] );
 
 	if ((count($sA) === 1) && ($shortcut !== 'single-hit')) {
 		header_response_code(303);
