@@ -10,6 +10,9 @@ dbDumpFile = db-backup/backup- ^ $dtslug ^ -db.sql
 
 fn Sqlite3DumpCommands {
 	echo .dump
+	echo 'SELECT ''PRAGMA user_version='';'
+	echo 'PRAGMA user_version;'
+	echo 'SELECT '';'';'
 }
 
 Sqlite3DumpCommands | sqlite3 config.sqlite > $configDumpFile
