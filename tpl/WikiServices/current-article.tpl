@@ -1,10 +1,10 @@
 <?php
 
 	$riA = $DB->queryFetchAll('
-		SELECT p.*
-		FROM post_wiki AS p
-		JOIN _wiki_slug_use AS u ON p.post_id = u.post_id
-		WHERE u._url_slug= ?', [ $_GET['slug']??null ]);
+		SELECT w.*
+		FROM wiki AS w
+		JOIN _wiki_slug_use AS u ON w.slug = u.from_slug
+		WHERE u.to_slug= ?', [ $_GET['slug']??null ]);
 
 	echo '<h3>Reverse index <a class="help" href="?set=post_wiki&amp;slug=WikiReverseSlugIndex">?</a></h3>';
 		echo '<ul>';

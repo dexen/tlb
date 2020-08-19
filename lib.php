@@ -51,8 +51,8 @@ function posts_process(array $a) : array
 
 function post_process(array $rcd) : array
 {
-	$rcd['_link_text_default'] = $rcd['_link_text_default'] ?? $rcd['title'] ?? $rcd['_link_text_default'] ?? $rcd['_url_slug'];
-	$rcd['_url_canonical'] = '?set=post_wiki&slug=' .U($rcd['_url_slug']);
+	$rcd['_link_text_default'] = $rcd['_link_text_default'] ?? $rcd['title'] ?? $rcd['_link_text_default'] ?? $rcd['slug'];
+	$rcd['_url_canonical'] = '?set=post_wiki&slug=' .U($rcd['slug']);
 	return $rcd;
 }
 
