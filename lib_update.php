@@ -124,7 +124,7 @@ EOS);
 CREATE VIEW wiki AS
 SELECT *
 FROM _wiki_versioned
-WHERE _is_latest = 1;
+WHERE _is_latest = 1 AND body IS NOT NULL;
 EOS);
 		$DB->exec(<<<'EOS'
 CREATE VIEW post_wiki AS
