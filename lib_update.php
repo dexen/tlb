@@ -103,7 +103,7 @@ EOS);
 	case 5:
 		$DB->beginTransaction();
 		$DB->exec(<<<'EOS'
-CREATE TABLE wiki_versioned (
+CREATE TABLE _wiki_versioned (
 	slug TEXT NOT NULL,
 	mtime INTEGER NOT NULL,
 	_is_latest INT NOT NULL,
@@ -113,17 +113,17 @@ CREATE TABLE wiki_versioned (
 );
 EOS);
 		$DB->exec(<<<'EOS'
-CREATE UNIQUE INDEX wiki_latest ON wiki_versioned(slug) WHERE _is_latest = 1;
+CREATE UNIQUE INDEX wiki_latest ON _wiki_versioned(slug) WHERE _is_latest = 1;
 EOS);
 		$DB->exec(<<<'EOS'
-INSERT INTO wiki_versioned (slug, mtime, _is_latest, body, _body_sha1)
+INSERT INTO _wiki_versioned (slug, mtime, _is_latest, body, _body_sha1)
 	SELECT _url_slug, COALESCE(_mtime, strftime('%s', 'now')), 1, body, _body_sha1 FROM post_wiki;
 EOS);
-		$DB->exec('ALTER TABLE post_wiki RENAME TO old_page_wiki;');
+		$DB->exec('ALTER TABLE post_wiki RENAME TO old_post_wiki;');
 		$DB->exec(<<<'EOS'
-CREATE VIEW post_wiki AS
-SELECT NULL AS post_id, NULL AS uuid, slug AS _url_slug, NULL AS title, body, mtime AS _mtime, _body_sha1
-FROM wiki_versioned
+CREATE VIEW wiki AS
+SELECT *
+FROM _wiki_versioned
 WHERE _is_latest = 1;
 EOS);
 		update_db_version($DB, 6);
