@@ -4,7 +4,7 @@
 			$DB->beginTransaction();
 				$DB->execParams('
 					DELETE FROM _wiki_slug_use
-					WHERE post_id IN (SELECT post_id FROM post_wiki WHERE _url_slug = ?)', [ $slug ]);
+					WHERE from_slug IN (?)', [ $slug ]);
 				if (empty($rcd))
 					$DB->execParams('INSERT INTO post_wiki (body, _url_slug, uuid) VALUES (?, ?, ?)',
 						[ lf($post_data['body']), $slug, Uuid::generateUuidV4() ] );
