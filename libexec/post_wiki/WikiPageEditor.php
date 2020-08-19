@@ -5,33 +5,32 @@
 				$DB->execParams('
 					DELETE FROM _wiki_slug_use
 					WHERE from_slug IN (?)', [ $slug ]);
-				if (empty($rcd))
-					$DB->execParams('INSERT INTO post_wiki (body, _url_slug, uuid) VALUES (?, ?, ?)',
-						[ lf($post_data['body']), $slug, Uuid::generateUuidV4() ] );
-				else if (empty($post_data['body']))
-					$DB->execParams('
-						DELETE FROM post_wiki WHERE _url_slug = ? ',
-						[ $slug ] );
-				else {
-					$latest = $DB->queryFetch('SELECT * FROM post_wiki WHERE _url_slug = ?', [$slug]);
+
+				$latest = $DB->queryFetch('SELECT * FROM wiki WHERE slug = ?', [$slug]);
 #if (preg_match('/bbb/', $post_data['body']))td(compact('post_original', 'latest'));
-					if (lf($post_original['body']) !== lf($latest['body'])) {
-						header_response_code(409);
-						wiki_edit_conflict($post_data, $post_original, $latest);
-						exit(); }
-					$DB->execParams('UPDATE post_wiki SET body = ?, _body_sha1 = NULL WHERE _url_slug = ?',
-						[ lf($post_data['body']), $slug ]);
-				}
+				if (lf($post_original['body']) !== lf($latest['body']??'')) {
+					header_response_code(409);
+					wiki_edit_conflict($post_data, $post_original, $latest);
+					exit(); }
 
-				$DB->execParams('UPDATE post_wiki SET _mtime = strftime(\'%s\', \'now\') WHERE _url_slug = ?', [$slug]);
+				$body = strlen($post_data['body'])
+					? lf($post_data['body'])
+					: null;
 
-				$rcd = $DB->queryFetch('SELECT post_id, body FROM post_wiki WHERE _url_slug = ?', [ $slug ]);
-				if ($rcd) {
-					$St = $DB->prepare('INSERT INTO _wiki_slug_use (post_id, _url_slug) VALUES (?, ?)');
-					foreach (wiki_post_body_to_slugs($rcd['body']) as $v)
-						$St->execute([ $rcd['post_id'], $v ]); }
+				$DB->execParams('UPDATE _wiki_versioned
+					SET _is_latest = 0
+					WHERE _is_latest = 1 AND slug = ? ', [ $slug ] );
 
-			wiki_recalc_all_body_sha1();
+				$DB->execParams('
+					INSERT INTO _wiki_versioned (slug, body, _body_sha1,
+						mtime, _is_latest)
+					SELECT ?, ?, ?,
+						strftime(\'%s\', \'now\'), 1',
+					[ $slug, $body, sha1($body) ] );
+
+				$St = $DB->prepare('INSERT INTO _wiki_slug_use (from_slug, to_slug) VALUES (?, ?)');
+				foreach (wiki_post_body_to_slugs($body .'') as $v)
+					$St->execute([ $slug, $v ]);
 
 			$DB->commit();
 
