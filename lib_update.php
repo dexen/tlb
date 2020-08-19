@@ -101,6 +101,34 @@ EOS);
 		update_db_version($DB, 5);
 		$DB->commit();
 	case 5:
+		$DB->beginTransaction();
+		$DB->exec(<<<'EOS'
+CREATE TABLE wiki_versioned (
+	slug TEXT NOT NULL,
+	mtime INTEGER NOT NULL,
+	_is_latest INT NOT NULL,
+	body TEXT DEFAULT NULL,
+	_body_sha1 TEXT NOT NULL,
+	PRIMARY KEY(slug, mtime)
+);
+EOS);
+		$DB->exec(<<<'EOS'
+CREATE UNIQUE INDEX wiki_latest ON wiki_versioned(slug) WHERE _is_latest = 1;
+EOS);
+		$DB->exec(<<<'EOS'
+INSERT INTO wiki_versioned (slug, mtime, _is_latest, body, _body_sha1)
+	SELECT _url_slug, COALESCE(_mtime, strftime('%s', 'now')), 1, body, _body_sha1 FROM post_wiki;
+EOS);
+		$DB->exec('ALTER TABLE post_wiki RENAME TO old_page_wiki;');
+		$DB->exec(<<<'EOS'
+CREATE VIEW post_wiki AS
+SELECT NULL AS post_id, NULL AS uuid, slug AS _url_slug, NULL AS title, body, mtime AS _mtime, _body_sha1
+FROM wiki_versioned
+WHERE _is_latest = 1;
+EOS);
+		update_db_version($DB, 6);
+		$DB->commit();
+	case 6:
 		/* the current version */; }
 }
 
