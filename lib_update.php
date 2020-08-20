@@ -147,6 +147,26 @@ EOS);
 		$DB->commit();
 		wiki_maintenance_rebuild_slug_reverse_index();
 	case 7:
+		$DB->beginTransaction();
+		$DB->exec(<<<'EOS'
+DROP TABLE IF EXISTS _wiki_versioned_remote;
+
+CREATE TABLE _wiki_versioned_remote (
+	connection TEXT NOT NULL,
+	slug TEXT NOT NULL,
+	mtime INTEGER NOT NULL,
+	_is_latest INT NOT NULL,
+	body TEXT DEFAULT NULL,
+	_body_sha1 TEXT NOT NULL,
+	PRIMARY KEY(connection, slug, mtime)
+);
+EOS);
+		$DB->exec(<<<'EOS'
+CREATE UNIQUE INDEX _wiki_versioned_remote_latest ON _wiki_versioned_remote(connection, slug) WHERE _is_latest = 1;
+EOS);
+		update_db_version($DB, 8);
+		$DB->commit();
+	case 8:
 		/* the current version */; }
 }
 

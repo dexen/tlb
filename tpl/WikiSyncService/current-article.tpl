@@ -2,6 +2,10 @@
 
 echo '<h3>WikiSyncService <a href="?set=post_wiki&amp;slug=WikiSyncService">?</a></h3>';
 
+
+wiki_store_verison_history($connection, wiki_fetch_version_history($connection));
+
+
 $local_a = wiki_slugs_from_local();
 $remote_a = wiki_slugs_from_connection($connection);
 
