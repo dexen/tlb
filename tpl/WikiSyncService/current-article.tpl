@@ -40,6 +40,7 @@ $diffA = $DB->queryFetchAll('
 	JOIN wiki AS _l USING(slug)
 	WHERE _r.connection = ?
 		AND _r._body_sha1 != _l._body_sha1
+		AND _r._is_latest = 1
 	ORDER BY _r.mtime DESC',
 	[ $connection ] );
 
