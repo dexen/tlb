@@ -78,10 +78,11 @@ function tlb_connection_records() : array /* of arrays */
 function tlb_connections() : array
 {
 	return
-		array_filter(
-			array_map('current',
-				tlb_connection_records() ),
-			fn($v) => ($v !== null) );
+		array_values(
+			array_filter(
+				array_map('current',
+					tlb_connection_records() ),
+				fn($v) => ($v !== null) ) );
 }
 
 function tlb_connection_url(string $key) : string
