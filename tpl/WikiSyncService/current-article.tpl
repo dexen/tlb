@@ -10,6 +10,7 @@ $newA = $DB->queryFetchAll('
 	LEFT JOIN wiki AS _l USING(slug)
 	WHERE _r.connection = ?
 		AND _l.slug IS NULL
+		AND _r._is_latest
 	ORDER BY _r.mtime DESC',
 	[ $connection ] );
 
