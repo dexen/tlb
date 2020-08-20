@@ -25,7 +25,7 @@ echo '</thead>';
 echo '<tbody>';
 foreach ($newA as $rcd) {
 	echo '<tr>';
-		echo '<th>' .H($rcd['slug']) .'</th>';
+		echo '<th><a href="?set=post_wiki&amp;slug=' .HU($rcd['slug']) .'">' .H($rcd['slug']) .'</a></th>';
 		echo '<td>', H($rcd['mtime_localtime']), '</td>';
 		echo '<td>--</td>';
 	echo '</tr>'; }
