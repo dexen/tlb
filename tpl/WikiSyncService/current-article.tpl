@@ -4,6 +4,15 @@ echo '<h3>WikiSyncService <a href="?set=post_wiki&amp;slug=WikiSyncService">?</a
 
 wiki_store_verison_history($connection, wiki_fetch_version_history($connection));
 
+$newA = $DB->queryFetchAll('
+	SELECT _r.slug, _r.mtime, datetime(_r.mtime, \'unixepoch\', \'localtime\') AS mtime_localtime
+	FROM _wiki_versioned_remote AS _r
+	LEFT JOIN wiki AS _l USING(slug)
+	WHERE _r.connection = ?
+		AND _l.slug IS NULL
+	ORDER BY _r.mtime DESC',
+	[ $connection ] );
+
 
 echo '<table>';
 echo '<caption><h4>New</h4></caption>';
@@ -12,13 +21,12 @@ echo '<thead>';
 echo '</thead>';
 
 echo '<tbody>';
-foreach ([] as $slug => $rcd) {
-	if (($rcd['local']['_body_sha1']??null) === ($rcd['remote']['_body_sha1']??null))
-		continue;
+foreach ($newA as $rcd) {
 	echo '<tr>';
-		echo '<th>' .wiki_slug_to_linkH($slug) .'</th>';
-		echo '<td title="' .H($rcd['local']['_body_sha1']??null) .'">', H($rcd['local']['_mtime']??'--'), '</td>';
-		echo '<td title="' .H($rcd['remote']['_body_sha1']??null) .'">', H($rcd['remote']['_mtime']??'--'), '</td>';
+		echo '<th>' .wiki_slug_to_linkH($rcd['slug']) .'</th>';
+		echo '<td>', H($rcd['mtime_localtime']), '</td>';
+		echo '<td>--</td>';
+		echo '<td><a href="#">copy...</a></td>';
 	echo '</tr>'; }
 echo '</tbody>';
 echo '</table>';
