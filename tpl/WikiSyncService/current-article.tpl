@@ -36,8 +36,6 @@ foreach ($a as $slug => $rcd) {
 echo '</tbody>';
 echo '</table>';
 
-echo '<h4>Same</h4>';
-
 echo '<table>';
 echo '<caption><h4>Same</h4></caption>';
 echo '<thead>';
