@@ -178,3 +178,4 @@ require 'lib_wiki.php';
 require 'lib_wiki_sync.php';
 require 'lib_tlb.php';
 require 'lib_update.php';
+require 'lib_diff.php';
