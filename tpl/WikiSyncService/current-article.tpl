@@ -52,7 +52,7 @@ echo '</thead>';
 echo '<tbody>';
 foreach ($diffA as $rcd) {
 	echo '<tr>';
-		echo '<th>' .H($rcd['slug']) .'</th>';
+		echo '<th><a href="?set=post_wiki&amp;slug=' .HU($rcd['slug']) .'">' .H($rcd['slug']) .'</a></th>';
 		echo '<td>', H($rcd['mtime_r_localtime']), '</td>';
 		echo '<td>', H($rcd['mtime_l_localtime']), '</td>';
 	echo '</tr>'; }

@@ -2,6 +2,9 @@
 
 require '../init.php';
 
+if (tlb_connections())
+	register_shutdown_function( fn() => wiki_store_verison_history(tlb_connections()[0], wiki_fetch_version_history(tlb_connections()[0])) );
+
 http_cache_prevent();
 
 $DB = db_pdo();
@@ -250,7 +253,7 @@ echo '</article>';
 	echo '</div>';
 	echo '</div>';
 
-	if ($slug === 'WikiSyncService') {
+	if (($slug === 'WikiSyncService') && (tlb_connections())) {
 		echo '<div class="page-with-shadow">';
 		echo '<div class="htmlike">';
 		echo '<div class="bodylike">';
@@ -265,6 +268,19 @@ echo '</div>';
 
 	# 2nd column
 echo '<div class="column-4">';
+
+	if ($service === 'WikiPageEditor') {
+			# FixMe - pass in URL
+		$connection = tlb_connections()[0];
+
+		echo '<div class="page-with-shadow">';
+		echo '<div class="htmlike">';
+		echo '<div class="bodylike">';
+			tpl('tpl/WikiPageMergeService/diff.tpl',
+				compact('connection', 'slug', 'DB') );
+		echo '</div>';
+		echo '</div>';
+		echo '</div>'; }
 
 	$ndA = $DB->queryFetchAll('
 		SELECT *, STRFTIME(\'%w\', date) AS _day_of_week
