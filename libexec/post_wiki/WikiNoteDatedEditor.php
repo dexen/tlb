@@ -19,8 +19,8 @@
 						header_response_code(409);
 						wiki_nd_edit_conflict($post_data, $post_original, $latest);
 						exit(); }
-					$DB->execParams('UPDATE post_wiki_note_dated SET body = ? WHERE slug = ? AND date = ?',
-						[ lf($post_data['body']), $slug, $date ]);
+					$DB->execParams('UPDATE post_wiki_note_dated SET body = ?, date = ? WHERE slug = ? AND date = ?',
+						[ lf($post_data['body']), $date, $slug, $ndrcd['date'] ]);
 				}
 
 				$DB->execParams('UPDATE post_wiki_note_dated SET _mtime = strftime(\'%s\', \'now\') WHERE slug = ? AND date = ?', [$slug, $date]);
