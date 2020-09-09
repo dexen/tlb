@@ -80,7 +80,7 @@
 
 	if ($slug === 'WikiRecentChangesIndex') {
 		echo '<h3>Recent changes <a class="help" href="?set=post_wiki&amp;slug=WikiRecentChangesIndex">?</a></h3>';
-		$rA = posts_process($DB->queryFetchAll('SELECT * FROM post_wiki ORDER BY _mtime DESC LIMIT 10'));
+		$rA = posts_process($DB->queryFetchAll('SELECT * FROM wiki ORDER BY mtime DESC LIMIT 10'));
 		echo '<ul>';
 			foreach (posts_process($rA) as $rcd)
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
