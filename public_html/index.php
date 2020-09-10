@@ -268,18 +268,22 @@ echo '</article>';
 
 echo '</div>';
 
+if ($ctx['local_page']??null) {
+	$connection = tlb_address();
+	$connection_slug = $ctx['local_page']; }
+else {
+	$connection = tlb_connections()[0];
+	$connection_slug = $slug; }
+
 	# 2nd column
 echo '<div class="column-4">';
 
 	if ($service === 'WikiPageEditor') {
-			# FixMe - pass in URL
-		$connection = tlb_connections()[0];
-
 		echo '<div class="page-with-shadow">';
 		echo '<div class="htmlike">';
 		echo '<div class="bodylike">';
 			tpl('tpl/WikiPageMergeService/diff.tpl',
-				compact('connection', 'slug', 'DB') );
+				compact('connection', 'connection_slug', 'DB') );
 		echo '</div>';
 		echo '</div>';
 		echo '</div>'; }
