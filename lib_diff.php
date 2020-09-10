@@ -130,8 +130,26 @@ class Diff
 		yield sprintf("+++ %s\t%s\n", $this->file_b, date('Y-m-d H:i:s O', $this->mtime_b));
 	}
 
+	protected
+	function getCliDiff() : Generator
+	{
+		$pdes = [
+			1 => ['pipe', 'w'],
+			7 => ['pipe', 'r'],
+			8 => ['pipe', 'r'],
+		];
+		$pipes = [];
+		$h = proc_open('diff -burN /dev/fd/7 /dev/fd/8', $pdes, $pipes);
+		fwrite($pipes[7], implode(array_column($this->records_a, 1)));
+			fclose($pipes[7]);
+		fwrite($pipes[8], implode(array_column($this->records_b, 1)));
+			fclose($pipes[8]);
+		yield stream_get_contents($pipes[1]);
+	}
+
 	function getDiff() : Generator
 	{
+yield from $this->getCliDiff(); return;
 		$this->computeDiffPackets();
 		yield from $this->serializeFileHead();
 		yield from $this->serializeDiffPackets();
