@@ -87,6 +87,8 @@ function tlb_connections() : array
 
 function tlb_connection_url(string $key) : string
 {
+	if ($key === tlb_address())
+		return $key;
 	return
 			array_one(
 				array_map(fn($rcd) => isset($rcd[1]) ? $rcd[1] : $rcd[0],
