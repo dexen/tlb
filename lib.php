@@ -73,6 +73,17 @@ function array_one(array $a)
 		return array_shift($a); }
 }
 
+function array_subscripts(array $data, array $keys) : array
+{
+	$ret = [];
+	foreach ($keys as $k)
+		if (array_key_exists($k, $data))
+			$ret[$k] = $data[$k];
+		else
+			throw new Exception(sprintf('missing key: "%s"', $k));
+	return $ret;
+}
+
 	# perform actions specific to this server & this configuration
 	# to flush the whole HTTP pipeline
 function http_flush()
