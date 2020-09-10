@@ -1,6 +1,6 @@
 <?php
 
-class Slinky implements ArrayAccess
+class Slinky
 {
 	protected $base;
 	protected $data = [];
@@ -119,24 +119,4 @@ class Slinky implements ArrayAccess
 #			unset($ret->data[$name]);
 #		return $ret;
 #	}
-
-	function offsetExists($offset) : bool
-	{
-		return array_key_exists($offset, $this->data);
-	}
-
-	function offsetGet($offset)
-	{
-		return $this->data[$offset];
-	}
-
-	function offsetSet($offset, $value)
-	{
-		$this->data[$offset] = $value;
-	}
-
-	function offsetUnset($offset)
-	{
-		unset($this->data[$offset]);
-	}
 }
