@@ -283,7 +283,7 @@ echo '<div class="column-4">';
 		echo '<div class="htmlike">';
 		echo '<div class="bodylike">';
 			tpl('tpl/WikiPageMergeService/diff.tpl',
-				compact('connection', 'connection_slug', 'DB') );
+				compact('connection', 'slug', 'connection_slug', 'DB') );
 		echo '</div>';
 		echo '</div>';
 		echo '</div>'; }
