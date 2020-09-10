@@ -73,7 +73,7 @@ function array_one(array $a)
 		return array_shift($a); }
 }
 
-function array_subscripts(array $data, array $keys) : array
+function array_subscripts(array $data, ...$keys) : array
 {
 	$ret = [];
 	foreach ($keys as $k)

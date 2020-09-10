@@ -35,8 +35,8 @@
 			$DB->commit();
 
 			$Li = new Slinky('/');
-			$Li = $Li->with(compact('set', 'slug'))
-				->with(array_subscripts($post_meta, [ 'selectionStart', 'selectionEnd' ]));
+			$Li = $Li->with(compact('set', 'slug', 'ctx'))
+				->with(array_subscripts($post_meta, 'selectionStart', 'selectionEnd'));
 			if ($action === 'save-see')
 				$Li = $Li->withFragment('article-saved');
 			else {
