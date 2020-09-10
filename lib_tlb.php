@@ -28,7 +28,7 @@ function tlb_address(string $address = null) : string
 		if (($_SERVER['HTTPS']??null) === 'on')
 			$schema = 'https';
 
-	$host = $_SERVER['HTTP_HOST'] ?? null;
+	$host = $_SERVER['SERVER_NAME'] ?? null;
 	if ($host === null)
 		throw new Exception('unknown hostname');
 
