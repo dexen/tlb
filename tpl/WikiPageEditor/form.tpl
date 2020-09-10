@@ -61,7 +61,7 @@
 		echo '<input type="hidden" name="original[body]" value="' .H($rcd['body']??null) .'"/>';
 
 		echo '<p style="text-align: right">
-			<button type="submit" id="xs" name="action" value="save-edit" class="strut-6 strut-right">Save & keep editing <kbd>[^S]</kbd></var></button>
+			<button type="submit" id="xs" name="action" value="save-edit" class="strut-6 strut-right">Save &amp; keep editing <kbd>[^S]</kbd></var></button>
 		</p>';
 
 		echo '<p>
