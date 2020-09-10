@@ -60,6 +60,10 @@
 
 		echo '<input type="hidden" name="original[body]" value="' .H($rcd['body']??null) .'"/>';
 
+		echo '<p style="text-align: left">';
+			echo '<label>Compare local page: <input name="ctx[local_page]" value="' .H($ctx['local_page']??null) .'"/></label>';
+		echo '</p>';
+
 		echo '<p style="text-align: right">
 			<button type="submit" id="xs" name="action" value="save-edit" class="strut-6 strut-right">Save &amp; keep editing <kbd>[^S]</kbd></var></button>
 		</p>';

@@ -20,6 +20,8 @@ $form = $_GET['form']??null;
 $post_data = $_POST['data']??null;
 $post_meta = $_POST['meta']??null;
 $post_original = $_POST['original']??null;
+$ctx = $_GET['ctx']??null;
+$post_ctx = $_POST['ctx']??null;
 $shortcut = $_GET['shortcut']??null;
 $date = $_GET['date']??null;
 
@@ -45,7 +47,7 @@ if ($set === 'post_wiki') {
 #		die(header('Location: ?set=post_wiki&slug=' .U($redir)));
 
 	if ($service === 'WikiPageEditor')
-		ex('../libexec/post_wiki/WikiPageEditor.php', compact('DB', 'action', 'service', 'form', 'set', 'slug', 'rcd', 'post_data', 'post_meta', 'post_original'));
+		ex('../libexec/post_wiki/WikiPageEditor.php', compact('DB', 'action', 'service', 'form', 'set', 'slug', 'rcd', 'post_data', 'post_meta', 'post_original', 'ctx', 'post_ctx'));
 
 	if ($service === 'WikiNoteDatedEditor')
 		ex('../libexec/post_wiki/WikiNoteDatedEditor.php', compact('DB', 'action', 'service', 'form', 'slug', 'date', 'rcd', 'post_data', 'post_meta', 'post_original'));
@@ -208,7 +210,7 @@ if (($service === 'WikiPageEditor') && ($form === 'edit')) {
 		$slug = $_GET['slug'] ?? null;
 
 	$textarea_rows = max(count(explode("\n", $rcd['body']??null))+3, 20);
-	tpl('tpl/WikiPageEditor/form.tpl', compact('slug', 'rcd', 'textarea_rows')); }
+	tpl('tpl/WikiPageEditor/form.tpl', compact('slug', 'rcd', 'textarea_rows', 'ctx')); }
 
 else if ($slug !== null) {
 	if ($rcd) {

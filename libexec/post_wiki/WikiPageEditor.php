@@ -32,8 +32,9 @@
 				foreach (wiki_post_body_to_slugs($body .'') as $v)
 					$St->execute([ $slug, $v ]);
 
-			$DB->commit();
+			$ctx = array_merge($ctx??[], array_subscripts($post_ctx, 'local_page'));
 
+			$DB->commit();
 			$Li = new Slinky('/');
 			$Li = $Li->with(compact('set', 'slug', 'ctx'))
 				->with(array_subscripts($post_meta, 'selectionStart', 'selectionEnd'));
