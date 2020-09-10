@@ -337,30 +337,30 @@ echo '</div>';
 
 	# 3rd column
 echo '<div class="column-4">';
-	foreach (tlb_connections() as $c) {
+	if (true) {
 		unset($crcd);
 		echo '<div class="page-with-shadow">';
 		echo '<div class="connection-box htmlike">';
 		echo '<section class="bodylike">';
 
-			echo '<h2><a href="' .H(wiki_connection_post_url($c, $slug)) .'"><img
-				alt="TlbInstance at ' .H($c) .'"
-				src="visual-hash-png.php?size=32&amp;id=' .HU(tlb_address_id($c)) .'"
-				srcset="visual-hash-png.php?size=64&amp;id=' .HU(tlb_address_id($c)) .' 2x,
-					visual-hash-png.php?size=96&amp;id=' .HU(tlb_address_id($c)) .' 3x,
-					visual-hash-png.php?size=128&amp;id=' .HU(tlb_address_id($c)) .' 4x"
-				width="32" height="32"/></a> Connection: ' .H($c) .'</h2>';
+			echo '<h2><a href="' .H(wiki_connection_post_url($connection, $connection_slug)) .'"><img
+				alt="TlbInstance at ' .H($connection) .'"
+				src="visual-hash-png.php?size=32&amp;id=' .HU(tlb_address_id($connection)) .'"
+				srcset="visual-hash-png.php?size=64&amp;id=' .HU(tlb_address_id($connection)) .' 2x,
+					visual-hash-png.php?size=96&amp;id=' .HU(tlb_address_id($connection)) .' 3x,
+					visual-hash-png.php?size=128&amp;id=' .HU(tlb_address_id($connection)) .' 4x"
+				width="32" height="32"/></a> Connection: ' .H($connection) .'</h2>';
 			http_flush();
 
 			if (($_GET['form']??null) === 'edit') {
-				$crcd = wiki_rcd_relevant_from_connection($c, $slug);
+				$crcd = wiki_rcd_relevant_from_connection($connection, $connection_slug);
 				echo '<fieldset>';
 					echo '
 						<textarea style="width: 100%" rows="', H($textarea_rows), '">' .H($crcd['body']) .'</textarea>';
 				echo '</fieldset>'; }
 
 			if (!isset($crcd))
-				$crcd = wiki_rcd_relevant_from_connection($c, $slug);
+				$crcd = wiki_rcd_relevant_from_connection($connection, $connection_slug);
 
 			echo '<div class="content-body">';
 				$v = wiki_post_body_to_htmlH($crcd['body']);
@@ -372,7 +372,7 @@ echo '<div class="column-4">';
 
 			echo '<h3>Reverse index <a class="help" href="?set=post_wiki&amp;slug=WikiReverseSlugIndex">?</a></h3>';
 				echo '<ul>';
-					foreach (posts_process(wiki_reverse_index_from_connection($c, $slug)) as $rcd)
+					foreach (posts_process(wiki_reverse_index_from_connection($connection, $connection_slug)) as $rcd)
 						echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
 				echo '</ul>';
 		echo '</section>';
