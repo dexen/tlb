@@ -347,8 +347,16 @@ function wiki_connection_post_url(string $connection, string $slug) : string
 	return $curl .'?set=post_wiki&slug=' .U($slug);
 }
 
+function wiki_rcd(string $slug) : array /* a record */
+{
+	return db_pdo()->queryFetchOne('SELECT * FROM wiki WHERE slug = ? ', [ $slug ]);
+}
+
 function wiki_rcd_relevant_from_connection(string $connection, string $_url_slug) : array
 {
+	if ($connection === tlb_address())
+		return wiki_rcd($_url_slug);
+
 	$curl = tlb_connection_url($connection);
 	$url = $curl .'/wiki-text.php?slug=' .U($_url_slug);
 	$body = tlb_download_connection($url);
