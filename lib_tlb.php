@@ -34,11 +34,11 @@ function tlb_address(string $address = null) : string
 
 		# in this case we don't mind the port number
 	if (preg_match('/[.]onion$/', $host))
-		return $schema .'//' .$host;
+		return $schema .'://' .$host;
 	$port = $_SERVER['SERVER_PORT']??null;
 	if ($port === null)
 		throw new Exception('unknown port');
-		return $schema .'//' .$host .':' .$port;
+	return $schema .'://' .$host .':' .$port;
 }
 
 function tlb_address_id(string $address = null)
