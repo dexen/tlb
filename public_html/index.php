@@ -45,7 +45,7 @@ if ($set === 'post_wiki') {
 #		die(header('Location: ?set=post_wiki&slug=' .U($redir)));
 
 	if ($service === 'WikiPageEditor')
-		ex('../libexec/post_wiki/WikiPageEditor.php', compact('DB', 'action', 'service', 'form', 'slug', 'rcd', 'post_data', 'post_meta', 'post_original'));
+		ex('../libexec/post_wiki/WikiPageEditor.php', compact('DB', 'action', 'service', 'form', 'set', 'slug', 'rcd', 'post_data', 'post_meta', 'post_original'));
 
 	if ($service === 'WikiNoteDatedEditor')
 		ex('../libexec/post_wiki/WikiNoteDatedEditor.php', compact('DB', 'action', 'service', 'form', 'slug', 'date', 'rcd', 'post_data', 'post_meta', 'post_original'));

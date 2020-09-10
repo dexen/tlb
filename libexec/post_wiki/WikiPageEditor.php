@@ -34,9 +34,13 @@
 
 			$DB->commit();
 
-			header_response_code(303);
+			$Li = new Slinky('/');
+			$Li = $Li->with(compact('set', 'slug'))
+				->with(array_subscripts($post_meta, [ 'selectionStart', 'selectionEnd' ]));
 			if ($action === 'save-see')
-				die(header('Location: ?set=post_wiki&slug=' .U($slug) .'&selectionStart=' .U($post_meta['selectionStart']) .'&selectionEnd=' .U($post_meta['selectionEnd']) .'#article-saved'));
-			else
-				die(header('Location: ?set=post_wiki&slug=' .U($slug) .'&service=' .U($service) .'&form=' .U($form) .'&selectionStart=' .U($post_meta['selectionStart']) .'&selectionEnd=' .U($post_meta['selectionEnd']) .'#article-saved-continue'));
-		}
+				$Li = $Li->withFragment('article-saved');
+			else {
+				$Li = $Li->withFragment('article-saved-continue')
+					->with(compact('service', 'form')); }
+
+			$Li->redirectSeeOther(); }
