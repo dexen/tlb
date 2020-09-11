@@ -272,7 +272,7 @@ if ($ctx['local_page']??null) {
 	$connection = tlb_address();
 	$connection_slug = $ctx['local_page']; }
 else {
-	$connection = tlb_connections()[0];
+	$connection = tlb_connections()[0] ?? null;
 	$connection_slug = $slug; }
 
 	# 2nd column
@@ -337,7 +337,7 @@ echo '</div>';
 
 	# 3rd column
 echo '<div class="column-4">';
-	if (true) {
+	if ($connection) {
 		unset($crcd);
 		echo '<div class="page-with-shadow">';
 		echo '<div class="connection-box htmlike">';
