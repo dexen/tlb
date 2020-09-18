@@ -53,11 +53,11 @@
 
 	if ($slug === 'WikiOrphanPageIndex') {
 		$opA = $DB->queryFetchAll('
-			SELECT p._url_slug
-			FROM post_wiki AS p
-			LEFT JOIN _wiki_slug_use AS u USING(_url_slug)
-			WHERE u.post_id IS NULL
-			ORDER BY p._mtime DESC' );
+			SELECT w.slug
+			FROM wiki AS w
+			LEFT JOIN _wiki_slug_use AS u ON w.slug = u.to_slug
+			WHERE u.to_slug IS NULL' );
+
 		echo '<h3>Orphan pages <a class="help" href="?set=post_wiki&amp;slug=WikiOrphanPageIndex">?</a></h3>';
 		echo '<ul>';
 			foreach (posts_process($opA) as $rcd)
@@ -66,11 +66,11 @@
 
 	if ($slug === 'WikiMissingPagesIndex') {
 		$mpA = $DB->queryFetchAll('
-			SELECT u._url_slug
+			SELECT u.to_slug AS slug
 			FROM _wiki_slug_use AS u
-			LEFT JOIN post_wiki AS p USING(_url_slug)
-			WHERE p.post_id IS NULL
-			GROUP BY u._url_slug' );
+			LEFT JOIN wiki AS w ON u.to_slug = w.slug
+			WHERE w.slug IS NULL
+			GROUP BY u.to_slug' );
 
 		echo '<h3>Missing pages <a class="help" href="?set=post_wiki&amp;slug=WikiMissingPagesIndex">?</a></h3>';
 		echo '<ul>';
