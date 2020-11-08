@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -e
+set -m	# super important
+
+dir=".tlb"
+addr_file="$dir/http_address"
+host="$1"
+port="$2"
+
+if [ "x$host" = "x" ] || [ "x$port" = "x" ]; then
+	echo Usage: ./SWARM_SERVE TCP_HOST TCP_PORT
+	exit 1
+fi
+
+address="$host:$port"
+echo -n "$address" > "$addr_file"
+
+exec ./SERVE_PHP
