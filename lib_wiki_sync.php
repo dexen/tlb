@@ -39,8 +39,11 @@ function wiki_fetch_version_history(string $connection)
 	return json_decode(tlb_download_connection($url), $assoc = true);
 }
 
-function wiki_store_verison_history(string $connection, array $data)
+function wiki_store_verison_history(string $connection, array $data = null)
 {
+	if (empty($data))
+		return;
+
 	$DB = db_pdo();
 
 	$DB->beginTransaction();
