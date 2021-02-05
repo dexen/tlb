@@ -1,0 +1,47 @@
+#!/usr/bin/env php
+<?php
+
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', true);
+
+function cmd_help($argv0, $argv)
+{
+	$name = $argv0;
+	echo "Usage:\n";
+	echo "	$name deploy [name] # deploy (create) a new instance\n";
+}
+
+function guard_instance_name_sanity(string $name) : string
+{
+		# for practical safety, don't allow slash
+		# this is a temporary simplified solution, expect a more nuanced check in the future
+	if (strstr($name, '/') === false)
+		return $name;
+	throw new Exception('unsupported: slash');
+}
+
+function cmd_deploy($argv0, $argv)
+{
+	$repositoryUrl = 'https://github.com/dexen/tlb';
+
+	$name = guard_instance_name_sanity($argv[1] ?? null);
+
+	system('git clone ' .escapeshellarg($repositoryUrl) .' ' .escapeshellarg($name));
+
+	echo "All done.\n";
+
+	exit(0);
+}
+
+switch ($argv[1] ?? 'help') {
+case '--help':
+case 'help':
+	cmd_help($argv[0], array_slice($argv, 1));
+	exit(0);
+case 'deploy':
+	cmd_deploy($argv[0], array_slice($argv, 1));
+	exit(1);
+default:
+	echo "$argv[0]: unsupported command $argv[1]\n";
+	exit(2);
+}
