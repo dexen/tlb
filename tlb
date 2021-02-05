@@ -33,6 +33,7 @@ function prompt_instance_name() : string
 function cmd_deploy($argv0, $argv)
 {
 	$repositoryUrl = 'https://github.com/dexen/tlb';
+	$repositoryUrl = 'git@github.com:dexen/tlb.git';
 
 	$name = guard_instance_name_sanity($argv[1] ?? prompt_instance_name());
 
