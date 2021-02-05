@@ -13,6 +13,10 @@ function cmd_help($argv0, $argv)
 
 function guard_instance_name_sanity(string $name) : string
 {
+	if ($name === '') {
+		echo "No instance name provided.\n";
+		exit(2); }
+
 		# for practical safety, don't allow slash
 		# this is a temporary simplified solution, expect a more nuanced check in the future
 	if (strstr($name, '/') === false)
@@ -20,11 +24,17 @@ function guard_instance_name_sanity(string $name) : string
 	throw new Exception('unsupported: slash');
 }
 
+function prompt_instance_name() : string
+{
+	echo "Instance name: ";
+	return trim(fgets(STDIN), "\n");
+}
+
 function cmd_deploy($argv0, $argv)
 {
 	$repositoryUrl = 'https://github.com/dexen/tlb';
 
-	$name = guard_instance_name_sanity($argv[1] ?? null);
+	$name = guard_instance_name_sanity($argv[1] ?? prompt_instance_name());
 
 	system('git clone ' .escapeshellarg($repositoryUrl) .' ' .escapeshellarg($name));
 
