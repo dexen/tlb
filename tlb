@@ -37,7 +37,10 @@ function cmd_deploy($argv0, $argv)
 
 	$name = guard_instance_name_sanity($argv[1] ?? prompt_instance_name());
 
-	system('git clone ' .escapeshellarg($repositoryUrl) .' ' .escapeshellarg($name));
+	system('git clone ' .escapeshellarg($repositoryUrl) .' ' .escapeshellarg($name), $ret);
+	if ($ret) {
+		echo "Failed to run git clone.\n";
+		exit($ret); }
 
 	echo "All done.\n";
 
