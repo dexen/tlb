@@ -30,6 +30,21 @@ function prompt_instance_name() : string
 	return trim(fgets(STDIN), "\n");
 }
 
+function action_update_my_swarm_manager(string $name)
+{
+	if (!file_exists('./MY_SWARM'))
+		return;
+
+		# go via fork()/wait(), because the alternative of system()
+		# doesn't pass through partial lines (lines without terminator)
+		# like the data entry prompt
+	$v = pcntl_fork();
+	if ($v === 0)
+		pcntl_exec('./MY_SWARM_CONFIG', [ $name, 'localhost' ]);
+
+	pcntl_waitpid($v, $status);
+}
+
 function cmd_deploy($argv0, $argv)
 {
 	$repositoryUrl = 'https://github.com/dexen/tlb';
@@ -41,6 +56,8 @@ function cmd_deploy($argv0, $argv)
 	if ($ret) {
 		echo "Failed to run git clone.\n";
 		exit($ret); }
+
+	action_update_my_swarm_manager($name);
 
 	echo "All done.\n";
 
