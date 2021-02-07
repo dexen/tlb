@@ -43,6 +43,8 @@ function action_update_my_swarm_manager(string $name)
 		pcntl_exec('./MY_SWARM_CONFIG', [ $name, 'localhost' ]);
 
 	pcntl_waitpid($v, $status);
+
+	system('./MY_SWARM restart');
 }
 
 function cmd_deploy($argv0, $argv)
