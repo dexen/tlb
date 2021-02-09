@@ -65,7 +65,7 @@ if ($set === 'post_wiki') {
 		header_response_code(303);
 		die(header('Location: ?set=post_wiki&slug=' .U(array_one($sA)['slug']) .'&service=' .U($service) .'&query=' .U($query) .'&shortcut=single-hit')); }
 
-	if ($service === 'WikiReverseSlugIndex') {
+	if ($service === 'TlbWikiReverseSlugIndex') {
 		if (($_POST['action']??null) === 'rebuild-slug-reverse-index')
 			wiki_maintenance_rebuild_slug_reverse_index();
 			echo '<a href="?">ALL DONE.</a>';
@@ -370,7 +370,7 @@ echo '<div class="column-4">';
 					echo $v;
 			echo '</div>';
 
-			echo '<h3>Reverse index <a class="help" href="?set=post_wiki&amp;slug=WikiReverseSlugIndex">?</a></h3>';
+			echo '<h3>Reverse index <a class="help" href="?set=post_wiki&amp;slug=TlbWikiReverseSlugIndex">?</a></h3>';
 				echo '<ul>';
 					foreach (posts_process(wiki_reverse_index_from_connection($connection, $connection_slug)) as $rcd)
 						echo '<li>', wiki_slug_to_linkH($rcd['slug']), '</li>';

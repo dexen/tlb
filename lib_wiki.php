@@ -26,7 +26,7 @@ function wiki_maintenance_refresh_slug_reverse_index_formH() : string
 {
 	$action_name = 'Refresh slug reverse index';
 	return '
-		<form method="post" action="?set=post_wiki&amp;slug=WikiReverseSlugIndex&amp;service=WikiReverseSlugIndex">
+		<form method="post" action="?set=post_wiki&amp;slug=TlbWikiReverseSlugIndex&amp;service=TlbWikiReverseSlugIndex">
 			<button name="action" value="rebuild-slug-reverse-index" class="strut-12">' .H($action_name) .'</button>
 		</form>';
 }

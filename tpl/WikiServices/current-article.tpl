@@ -6,7 +6,7 @@
 		JOIN _wiki_slug_use AS u ON w.slug = u.from_slug
 		WHERE u.to_slug= ?', [ $_GET['slug']??null ]);
 
-	echo '<h3>Reverse index <a class="help" href="?set=post_wiki&amp;slug=WikiReverseSlugIndex">?</a></h3>';
+	echo '<h3>Reverse index <a class="help" href="?set=post_wiki&amp;slug=TlbWikiReverseSlugIndex">?</a></h3>';
 		echo '<ul>';
 			foreach (posts_process($riA) as $rcd) {
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
@@ -50,24 +50,24 @@
 			}
 		echo '</ul>'; }
 
-	if (($slug === 'TlbMaintenaceTask') || ($slug === 'WikiReverseSlugIndex')) {
+	if (($slug === 'TlbMaintenaceTask') || ($slug === 'TlbWikiReverseSlugIndex')) {
 		echo '<h3>Maintenance tasks <a class="help" href="?set=post_wiki&amp;slug=TlbMaintenaceTask">?</a></h3>';
 		echo wiki_maintenance_refresh_slug_reverse_index_formH(); }
 
-	if ($slug === 'WikiOrphanPageIndex') {
+	if ($slug === 'TlbWikiOrphanPageIndex') {
 		$opA = $DB->queryFetchAll('
 			SELECT w.slug
 			FROM wiki AS w
 			LEFT JOIN _wiki_slug_use AS u ON w.slug = u.to_slug
 			WHERE u.to_slug IS NULL' );
 
-		echo '<h3>Orphan pages <a class="help" href="?set=post_wiki&amp;slug=WikiOrphanPageIndex">?</a></h3>';
+		echo '<h3>Orphan pages <a class="help" href="?set=post_wiki&amp;slug=TlbWikiOrphanPageIndex">?</a></h3>';
 		echo '<ul>';
 			foreach (posts_process($opA) as $rcd)
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
 		echo '</ul>'; }
 
-	if ($slug === 'WikiMissingPagesIndex') {
+	if ($slug === 'TlbWikiMissingPagesIndex') {
 		$mpA = $DB->queryFetchAll('
 			SELECT u.to_slug AS slug
 			FROM _wiki_slug_use AS u
@@ -75,14 +75,14 @@
 			WHERE w.slug IS NULL
 			GROUP BY u.to_slug' );
 
-		echo '<h3>Missing pages <a class="help" href="?set=post_wiki&amp;slug=WikiMissingPagesIndex">?</a></h3>';
+		echo '<h3>Missing pages <a class="help" href="?set=post_wiki&amp;slug=TlbWikiMissingPagesIndex">?</a></h3>';
 		echo '<ul>';
 			foreach (posts_process($mpA) as $rcd)
 				echo '<li><a href="', H($rcd['_url_canonical']), '">', H($rcd['_link_text_default']), '</a></li>';
 		echo '</ul>'; }
 
-	if ($slug === 'WikiRecentChangesIndex') {
-		echo '<h3>Recent changes <a class="help" href="?set=post_wiki&amp;slug=WikiRecentChangesIndex">?</a></h3>';
+	if ($slug === 'TlbWikiRecentChangesIndex') {
+		echo '<h3>Recent changes <a class="help" href="?set=post_wiki&amp;slug=TlbWikiRecentChangesIndex">?</a></h3>';
 		$rA = posts_process($DB->queryFetchAll('SELECT * FROM wiki ORDER BY mtime DESC LIMIT 10'));
 		echo '<ul>';
 			foreach (posts_process($rA) as $rcd)
