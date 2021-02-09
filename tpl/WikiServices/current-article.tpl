@@ -28,8 +28,10 @@
 
 	if (($query !== null) && ($shortcut === 'single-hit'))
 		echo '<p><em>opened the sole match</em></p>';
-	else if (($query !== null) && empty($sA))
-		echo '<p><em>no matches</em></p>';
+	else if (($query !== null) && empty($sA)) {
+		echo '<p><em>no matches</em>';
+		echo ', ' .wiki_slug_to_linkH($query, 'go create?');
+		echo '</p>'; }
 	else {
 		echo '<ul>';
 			foreach (posts_process($sA) as $rcd)
