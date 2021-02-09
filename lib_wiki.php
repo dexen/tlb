@@ -46,7 +46,10 @@ function wiki_contains_slugP(string $slug_candidate) : bool
 function wiki_slug_to_linkH(string $slug, string $value_override = null) : string
 {
 	$value = $value_override ?? $slug;
-	return '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'">' .H($value) .'</a>';
+	if (wiki_posts_readable_by_slugP($slug))
+		return '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'">' .H($value) .'</a>';
+	else
+		return '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'" class="broken-link">' .H($value) .'</a>';
 }
 
 function wiki_encode_html(string $str, array $data) : array
