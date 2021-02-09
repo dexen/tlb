@@ -99,7 +99,7 @@ function wiki_slugs_to_links(string $str, array $data) : array # [ $a, $data, $s
 			if (wiki_posts_readable_by_slugP($slug, $subslug))
 				$data[] = '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'&amp;' .H($hxU) .'">'  .H($slug .$cx) .'</a>';
 			else
-				$data[] = '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'&amp;' .H($hxU) .'&amp;form=edit" class="broken-link">' .H($slug .$cx) .'</a>';
+				$data[] = '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'&amp;' .H($hxU) .'" class="broken-link">' .H($slug .$cx) .'</a>';
 			return '%' .(count($data)) .'$s';
 		},
 		$str );
