@@ -52,13 +52,13 @@ if ($set === 'post_wiki') {
 	if ($service === 'WikiNoteDatedEditor')
 		ex('../libexec/post_wiki/WikiNoteDatedEditor.php', compact('DB', 'action', 'service', 'form', 'slug', 'date', 'rcd', 'post_data', 'post_meta', 'post_original'));
 
-	if (strncmp($service, 'WikiSearch', 10) === 0) {
+	if (strncmp($service, 'TlbWikiSearch', 10) === 0) {
 		$query = $_GET['query']??null;
 		$qq = '%' .$query .'%'; }
 
-	if ($service === 'WikiSearchSlug')
+	if ($service === 'TlbWikiSearchSlug')
 		$sA = $DB->queryFetchAll('SELECT * FROM wiki WHERE slug LIKE ? ', [ $qq ] );
-	else if ($service === 'WikiSearchContent')
+	else if ($service === 'TlbWikiSearchContent')
 		$sA = $DB->queryFetchAll('SELECT * FROM wiki WHERE (slug || \' \' || body) LIKE ? ', [ $qq ] );
 
 	if ((count($sA) === 1) && ($shortcut !== 'single-hit')) {

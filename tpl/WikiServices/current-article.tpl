@@ -15,14 +15,14 @@
 
 	echo '<form>';
 		echo '<label>
-			<h3>Search <a class="help" href="?set=post_wiki&amp;slug=WikiSearch">?</a></h3>';
+			<h3>Search <a class="help" href="?set=post_wiki&amp;slug=TlbWikiSearch">?</a></h3>';
 
 		echo '<input name="query" placeholder="query" value="' .H($query) .'" ' .($query?'autofocus':null) .'/></label>';
 		if ($service)
 			echo '<button type="submit" class="carryover-submit" name="service" value="' .H($service) .'">carryover :-)</button>';
-		echo '<button name="service" value="WikiSearchSlug" type="submit">slug</button>';
+		echo '<button name="service" value="TlbWikiSearchSlug" type="submit">slug</button>';
 		echo ' | ';
-		echo '<button name="service" value="WikiSearchContent" type="submit">content</button>';
+		echo '<button name="service" value="TlbWikiSearchContent" type="submit">content</button>';
 		echo '<input type="hidden" name="set" value="post_wiki"/><input type="hidden" name="slug" value="' .H($_GET['slug']??null) .'"/>';
 	echo '</form>';
 
