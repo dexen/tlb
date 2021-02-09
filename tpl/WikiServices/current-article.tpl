@@ -31,7 +31,7 @@
 	else if (($query !== null) && empty($sA)) {
 		echo '<p><em>no matches</em>';
 		if (wiki_contains_slugP($query))
-			echo ', ' .wiki_slug_to_linkH($query, 'go create?');
+			echo ', ' .wiki_slug_to_linkH($query, 'go create ' .$query .'?');
 		echo '</p>'; }
 	else {
 		echo '<ul>';

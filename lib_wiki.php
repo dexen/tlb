@@ -43,9 +43,10 @@ function wiki_contains_slugP(string $slug_candidate) : bool
 	return preg_match(wiki_slug_re(), $slug_candidate, $matches);
 }
 
-function wiki_slug_to_linkH(string $slug) : string
+function wiki_slug_to_linkH(string $slug, string $value_override = null) : string
 {
-	return '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'">' .H(wiki_camel_to_spaced($slug)) .'</a>';
+	$value = $value_override ?? $slug;
+	return '<a href="?set=post_wiki&amp;slug=' .HU($slug) .'">' .H($value) .'</a>';
 }
 
 function wiki_encode_html(string $str, array $data) : array
