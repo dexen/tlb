@@ -56,4 +56,8 @@ function adminer_object()
 	};
 }
 
+	# a weird work-around for a weird problem of Adminer 4.8
+if (!array_key_exists('sqlite', $_GET))
+	$_GET['sqlite'] = '';
+
 set_error_handler(null);
