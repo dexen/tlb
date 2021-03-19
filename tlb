@@ -9,6 +9,7 @@ function cmd_help($argv0, $argv)
 	$name = $argv0;
 	echo "Usage:\n";
 	echo "	$name deploy [name] # deploy (create) a new instance\n";
+	echo "	$name sqlite-password [-] # set up the SQLite password of the local instance\n";
 }
 
 function guard_instance_name_sanity(string $name) : string
@@ -66,6 +67,29 @@ function cmd_deploy($argv0, $argv)
 	exit(0);
 }
 
+function cmd_sqlite_password($argv0, $argv)
+{
+	$to_file_pn = 'public_html/adminer/sqlite-password-hash.php';
+
+	printf('enter new SQLite password: ');
+	flush();
+	$password = trim(fgets(STDIN), "\n");
+	printf('new password: "%s"' .PHP_EOL, $password);
+	if (strlen($password) < 16) {
+		printf("Error: password too short, expected at least %d characters\n", 16);
+		exit(1); }
+	$hash = password_hash($password, PASSWORD_DEFAULT);
+	if ($hash === false) {
+		printf("Could not prepare password hash\n");
+		exit(1); }
+	$v = file_put_contents($to_file_pn, '<?php return ' .var_export($hash, $return = true) .';');
+	if ($v === false) {
+		unlink($to_file_pn);
+		printf("Could not store password hash\n");
+		exit(1); }
+	exit(0);
+}
+
 switch ($argv[1] ?? 'help') {
 case '--help':
 case 'help':
@@ -73,6 +97,9 @@ case 'help':
 	exit(0);
 case 'deploy':
 	cmd_deploy($argv[0], array_slice($argv, 1));
+	exit(1);
+case 'sqlite-password':
+	cmd_sqlite_password($argv[0], array_slice($argv, 1));
 	exit(1);
 default:
 	echo "$argv[0]: unsupported command $argv[1]\n";
