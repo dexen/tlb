@@ -84,15 +84,6 @@ class Slinky
 		return $this->data[$key] === $value;
 	}
 
-/*
-		# FIXME - do we want this function?
-	function withR(array $a) : self
-	{
-		$ret = clone $this;
-		$ret->data = array_merge_recursive($ret->data, $a);
-		return $ret;
-	}
-*/
 		# a temporary redirect
 		# action success, use GET to retrieve response
 	function redirectSeeOther()
@@ -109,14 +100,4 @@ class Slinky
 		header('Location: ' .$this, $replace = true, $http_temporary_redirect);
 		exit();
 	}
-
-
-#		# FIXME: design a better API
-#	function without(array $a) : self
-#	{
-#		$ret = clone $this;
-#		foreach ($a as $name)
-#			unset($ret->data[$name]);
-#		return $ret;
-#	}
 }
