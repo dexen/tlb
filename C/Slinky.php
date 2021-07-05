@@ -2,13 +2,18 @@
 
 class Slinky
 {
-	protected $base;
+	protected $baseU;
 	protected $data = [];
 	protected $fragment;
 
-	function __construct(string $base)
+	function __construct($base)
 	{
-		$this->base = $base;
+		if (is_string($base))
+			$this->baseU = rawurlencode($base);
+		else if ($base instanceof Slinky)
+			$this->baseU = $base->baseU;
+		else
+			throw new \RuntimeException(sprintf('unsupported argument type: "%s"', get_type($base)));
 	}
 
 	function _urlScheme() : ?string
@@ -29,7 +34,7 @@ class Slinky
 	function withBase(string $base) : self
 	{
 		$ret = clone $this;
-		$ret->base = $base;
+		$ret->baseU = rawurlencode($base);
 		return $ret;
 	}
 
@@ -43,7 +48,7 @@ class Slinky
 		if ($this->_urlAuthority() !== null)
 			$ret .= '//' .$this->_urlAuthority();
 
-		$ret .= $this->_urlPathPrefix() .rawurlencode($this->base);
+		$ret .= $this->_urlPathPrefix() .$this->baseU;
 		$q = http_build_query($this->data);
 		if ($q !== '')
 			$ret .= '?' .$q;
