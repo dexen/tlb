@@ -35,7 +35,7 @@
 			$ctx = array_merge($ctx??[], array_subscripts($post_ctx, 'local_page'));
 
 			$DB->commit();
-			$Li = new Slinky('/');
+			$Li = new Slinky('');
 			$Li = $Li->with(compact('set', 'slug', 'ctx'))
 				->with(array_subscripts($post_meta, 'selectionStart', 'selectionEnd'));
 			if ($action === 'save-see')
