@@ -123,3 +123,17 @@ function tlb_download_connection($url) : string
 #tp(compact('url', 'v', 'use_tor_proxy'));
 	return $v;
 }
+
+function tlb_site_name() : ?string
+{
+	$a = parse_url(tlb_address());
+	if (empty($a['path']))
+		throw new \Exception('empty url path');
+	$b = explode('/', $a['path']);
+	array_pop($b);
+	if ($b) {
+		$v = array_pop($b);
+		if ($v)
+			return str_replace('tlb-', '', $v); }
+	return null;
+}

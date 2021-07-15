@@ -192,7 +192,7 @@ echo '<meta charset="utf-8">';
 echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
 if ($rcd)
 	echo '<meta name="description" content="' .H(wiki_post_meta($rcd)) .'">';
-echo '<title>' .H(wiki_camel_to_spaced($rcd['_url_slug']??null)) .'</title>';
+echo '<title>' .H(wiki_camel_to_spaced($rcd['_url_slug']??null)) .' - ' .H(tlb_site_name()) .'</title>';
 echo '</head>';
 echo '<body>';
 
