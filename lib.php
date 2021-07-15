@@ -3,8 +3,9 @@
 function td(...$a) {
 	echo '<pre>';
 	foreach ($a as $v)
-		echo H(var_export($v, $return = true));
-	die('td()');
+		echo H(var_export($v, $return = true)) ."\n--\n";
+	echo "td();";
+	die(1);
 }
 
 function tp(...$a) { echo '<pre>'; foreach ($a as $v) var_dump($v); echo '</pre>'; echo 'tp()'; return $a[0]; }
