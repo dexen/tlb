@@ -14,6 +14,17 @@ function H(string $str = null) : ?string { return ($str === null) ? $str : htmls
 function U(string $str = null) : ?string { return ($str === null) ? $str : rawurlencode($str); }
 function HU(string $str = null) : ?string { return ($str === null) ? $str : htmlspecialchars(rawurlencode($str)); }
 
+	# preserve the slashes, i.e.,
+	# 'foo/bar baz.jpeg' => 'foo/bar%20baz.jpeg'
+function rawurlencode_path(string $str = null) : string
+{
+	if ($str === null)
+		return $str;
+	return implode('/',
+		array_map('rawurlencode',
+			explode('/', $str) ) );
+}
+
 function lf(string $str = null) : ?string { return is_null($str) ? null : str_replace("\r\n", "\n", $str);}
 
 function noz($v)
