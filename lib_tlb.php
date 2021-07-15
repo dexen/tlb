@@ -38,7 +38,17 @@ function tlb_address(string $address = null) : string
 	$port = $_SERVER['SERVER_PORT']??null;
 	if ($port === null)
 		throw new Exception('unknown port');
-	return $schema .'://' .$host .':' .$port;
+
+
+	$a = parse_url($_SERVER['REQUEST_URI']);
+	if (empty($a['path']))
+		throw new \Exception('empty request uri path');
+	$b = explode('/', $a['path']);
+	array_pop($b);
+	$b[] = '';
+	$base = implode('/', $b);
+
+	return $schema .'://' .$host .':' .$port .$base;
 }
 
 function tlb_address_id(string $address = null)
