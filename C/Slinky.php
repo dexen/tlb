@@ -9,7 +9,7 @@ class Slinky
 	function __construct($base)
 	{
 		if (is_string($base))
-			$this->baseU = rawurlencode($base);
+			$this->baseU = rawurlencode_path($base);
 		else if ($base instanceof Slinky)
 			$this->baseU = $base->baseU;
 		else
@@ -34,7 +34,7 @@ class Slinky
 	function withBase(string $base) : self
 	{
 		$ret = clone $this;
-		$ret->baseU = rawurlencode($base);
+		$ret->baseU = rawurlencode_path($base);
 		return $ret;
 	}
 
