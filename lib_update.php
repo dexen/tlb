@@ -166,7 +166,32 @@ CREATE UNIQUE INDEX _wiki_versioned_remote_latest ON _wiki_versioned_remote(conn
 EOS);
 		update_db_version($DB, 8);
 		$DB->commit();
+
 	case 8:
+		$DB->beginTransaction();
+$DB->exec(<<<'EOS'
+CREATE TABLE IF NOT EXISTS "_yarine_versioned" (
+  "url" TEXT NOT NULL,
+  "mtime" INTEGER NOT NULL,
+  _is_latest INTEGER NOT NULL,
+  meta_title TEXT DEFAULT NULL,
+  meta_description TEXT DEFAULT NULL,
+  body TEXT DEFAULT NULL,
+  html_content TEXT DEFAULT NULL,
+  html_content_text TEXT DEFAULT NULL,
+  PRIMARY KEY ("url", "mtime")
+);
+
+CREATE UNIQUE INDEX _yarine_versioned_latest ON _yarine_versioned(url) WHERE _is_latest = 1;
+
+CREATE VIEW yarine AS
+SELECT *
+FROM _yarine_versioned
+WHERE _is_latest = 1 AND body IS NOT NULL;
+EOS);
+		update_db_version($DB, 9);
+		$DB->commit();
+	case 9:
 		/* the current version */; }
 }
 
