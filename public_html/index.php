@@ -74,6 +74,10 @@ if ($set === 'post_wiki') {
 echo '<!DOCTYPE html>';
 echo '<html lang="' .H(tlb_config('i18n.lang')) .'">';
 echo '<head>';
+if (tlb_config('robots.public-indexing', true))
+	;
+else
+	echo '<meta name="robots" content="noindex,nofollow">';
 echo '
 <style>
 	html, body {
