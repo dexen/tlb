@@ -3,7 +3,7 @@
 require '../init.php';
 
 if (tlb_connections())
-	register_shutdown_function( fn() => wiki_store_verison_history(tlb_connections()[0], wiki_fetch_version_history(tlb_connections()[0])) );
+	register_shutdown_function( function() { wiki_store_verison_history(tlb_connections()[0], wiki_fetch_version_history(tlb_connections()[0])); } );
 
 http_cache_prevent();
 

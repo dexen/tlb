@@ -25,7 +25,7 @@ $dH = function(array $rcd) : string
 
 echo '<h2>Notes</h2>';
 
-$hasToday = array_reduce($ndA, fn($carry, $rcd) => ($rcd['date'] === $ndTodayRcd['date']) ? true : $carry);
+$hasToday = array_reduce($ndA, function($carry, $rcd) use($ndTodayRcd) { return ($rcd['date'] === $ndTodayRcd['date']) ? true : $carry; });
 
 if (!$hasToday) {
 	echo '<section>';

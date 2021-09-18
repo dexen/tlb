@@ -7,15 +7,16 @@ if (empty($id) || empty($size) || ($size > 4096) || ($size <= 0)) {
 	die('bad request'); }
 
 $png_header = function() : string { return "\x89PNG\x0d\x0a\x1a\x0a"; };
-$png_chunk = fn(string $type, string $data) => pack('N', strlen($data)) .$type .$data .pack('N', crc32($type .$data));
-$png_IHDR = fn(int $width, int $height, int $bit_depth, int $color_type) =>
+$png_chunk = function(string $type, string $data) { return pack('N', strlen($data)) .$type .$data .pack('N', crc32($type .$data)); };
+$png_IHDR = function(int $width, int $height, int $bit_depth, int $color_type) use($png_chunk) {
+	return
 	$png_chunk('IHDR', pack(
 		'NNCCCCC',
 		$width, $height,
 		$bit_depth, $color_type,
-		$compressin_method = 0, $filter_method = 0, $transmission_order = $no_interlace = 0 ) );
-$png_IDAT = fn(string $data) => $png_chunk('IDAT', $data);
-$png_IEND = fn() => $png_chunk('IEND', '');
+		$compressin_method = 0, $filter_method = 0, $transmission_order = $no_interlace = 0 ) ); };
+$png_IDAT = function(string $data) use($png_chunk) { return $png_chunk('IDAT', $data); };
+$png_IEND = function() use($png_chunk) { return $png_chunk('IEND', ''); };
 
 $true_colour = 2;
 $true_colour_with_alpha = 6;
@@ -66,13 +67,13 @@ $gengen = function(int $size, $A, $B) use($pattern) : array
 
 $SLOPAA = $gengen($size, $A, $B);
 
-$compress = fn(string $data) => gzdeflate($data, $level = 9, ZLIB_ENCODING_DEFLATE);
+$compress = function(string $data) { return gzdeflate($data, $level = 9, ZLIB_ENCODING_DEFLATE); };
 $filter_type_none = "\x00";
-$filter = fn(array /* of strings */ $SLA) => $filter_type_none .implode($filter_type_none, $SLA);
+$filter = function(array /* of strings */ $SLA) use($filter_type_none) { return $filter_type_none .implode($filter_type_none, $SLA); };
 	# value pack to pixel string
-$vp2ps = fn(array /* of RGBA */ $a) => pack('CCCC', ...$a);
-$slvp2ps = fn(array $a) => implode(array_map($vp2ps, $a));
-$scanline_serialize = fn(array /* of arrays */ $SLOPAA) => array_map($slvp2ps, $SLOPAA);
+$vp2ps = function(array /* of RGBA */ $a) { return pack('CCCC', ...$a); };
+$slvp2ps = function(array $a) use($vp2ps) { return implode(array_map($vp2ps, $a)); };
+$scanline_serialize = function(array /* of arrays */ $SLOPAA) use($slvp2ps) { return array_map($slvp2ps, $SLOPAA); };
 
 header('Content-Type: image/png');
 header('Content-Disposition: inline; filename="visual-hash-' .rawurlencode($id) .'.png"');

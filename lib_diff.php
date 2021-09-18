@@ -174,13 +174,13 @@ class PacketizerRecursive implements Packetizer
 	protected $lines_a;
 	protected $lines_b;
 
-	function linesA(array $lines_a) : self
+	function linesA(array $lines_a) : Packetizer
 	{
 		$this->lines_a = $lines_a;
 		return $this;
 	}
 
-	function linesB(array $lines_b) : self
+	function linesB(array $lines_b) : Packetizer
 	{
 		$this->lines_b = $lines_b;
 		return $this;
@@ -244,7 +244,7 @@ class PacketizerRecursive implements Packetizer
 	protected
 	function asCommon(array $a) : array
 	{
-		return array_map(fn($a)=>[ $a[0], null, $a[1] ], $a);
+		return array_map(function($a) { return [ $a[0], null, $a[1] ]; }, $a);
 	}
 
 	protected

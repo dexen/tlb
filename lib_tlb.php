@@ -79,10 +79,10 @@ function wiki_config_save(string $key, string $value)
 function tlb_connection_records() : array /* of arrays */
 {
 	return
-		array_map(fn($str) => explode(' ', $str),
+		array_map(function($str) { return explode(' ', $str); },
 			array_filter(
 				explode("\n", tlb_config('federation.connections')),
-				fn($str) => ($str !== '') && ($str[0] !== '#') ) );
+				function($str) { return ($str !== '') && ($str[0] !== '#'); } ) );
 }
 
 function tlb_connections() : array
@@ -92,7 +92,7 @@ function tlb_connections() : array
 			array_filter(
 				array_map('current',
 					tlb_connection_records() ),
-				fn($v) => ($v !== null) ) );
+				function($v) { return ($v !== null); } ) );
 }
 
 function tlb_connection_url(string $key) : string
@@ -101,10 +101,10 @@ function tlb_connection_url(string $key) : string
 		return $key;
 	return
 			array_one(
-				array_map(fn($rcd) => isset($rcd[1]) ? $rcd[1] : $rcd[0],
+				array_map(function($rcd) { return isset($rcd[1]) ? $rcd[1] : $rcd[0]; },
 					array_filter(
 						tlb_connection_records(),
-						fn($rcd) => (($rcd[0]??null) === $key) || (isset($rcd[1]) && ($rcd[1] === $key)) ) ) );
+						function($rcd) use($key) { return (($rcd[0]??null) === $key) || (isset($rcd[1]) && ($rcd[1] === $key)); } ) ) );
 }
 
 function tlb_download_connection($url) : string

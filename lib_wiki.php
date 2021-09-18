@@ -109,7 +109,7 @@ function wiki_slugs_to_links(string $str, array $data) : array # [ $a, $data, $s
 
 function wiki_linear_formatting(string $str, array $data) : array # [ $a, $data ]
 {
-	$DC = fn(string $str) => str_replace('%%', '%', $str);
+	$DC = function(string $str) { return str_replace('%%', '%', $str); };
 
 	$str = preg_replace_callback(
 		"/`([^`]+)`/U",
@@ -160,7 +160,7 @@ function wiki_block_formatting(string $str, array $data) : array # [ $a, $data ]
 	$ret = [];
 	$p = null;
 
-	$DC = fn(string $str) => str_replace('%%', '%', $str);
+	$DC = function(string $str) { return str_replace('%%', '%', $str); };
 
 	$ctx = function($v = null) : ?string
 	{
@@ -293,7 +293,7 @@ function wiki_block_formatting(string $str, array $data) : array # [ $a, $data ]
 		$ret[] = $P($uLL(0));
 		$ret[] = $P($ctx(-1));
 
-	return [ implode("\n", array_filter($ret, fn($v) => !is_null($v))), $data ];
+	return [ implode("\n", array_filter($ret, function($v) { return !is_null($v); })), $data ];
 }
 
 function wiki_post_body_to_htmlH(string $body) : string
@@ -308,7 +308,7 @@ function wiki_post_body_to_slugs(string $body) : array
 
 function _wiki_post_body_processing(string $body) : array # [ string $html, array $slugs ]
 {
-	$preescape = fn(string $str) => str_replace('%', '%%', $str);
+	$preescape = function(string $str) { return str_replace('%', '%%', $str); };
 
 	$XAPPLY = function(string $str, array $data, string $callback) : array /* [ $str, $data ] */
 	{
