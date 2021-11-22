@@ -56,7 +56,7 @@
 
 	if ($slug === 'TlbWikiOrphanPageIndex') {
 		$opA = $DB->queryFetchAll('
-			SELECT w.slug
+			SELECT slug
 			FROM wiki AS w
 			LEFT JOIN _wiki_slug_use AS u ON w.slug = u.to_slug
 			WHERE u.to_slug IS NULL' );
