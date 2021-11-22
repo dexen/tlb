@@ -59,7 +59,9 @@
 			SELECT slug
 			FROM wiki AS w
 			LEFT JOIN _wiki_slug_use AS u ON w.slug = u.to_slug
-			WHERE u.to_slug IS NULL' );
+			WHERE u.to_slug IS NULL
+				AND slug NOT IN (?)',
+			[ TLB_WIKI_SLUG_HOME_PAGE ] );
 
 		echo '<h3>Orphan pages <a class="help" href="?set=post_wiki&amp;slug=TlbWikiOrphanPageIndex">?</a></h3>';
 		echo '<ul>';

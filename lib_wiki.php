@@ -1,5 +1,7 @@
 <?php
 
+define('TLB_WIKI_SLUG_HOME_PAGE', 'WelcomeWikiVisitors');
+
 function wiki_camel_to_spaced(string $str = null) : ?string
 {
 	if ($str === null)

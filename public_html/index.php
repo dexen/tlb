@@ -35,7 +35,7 @@ if ($set === null)
 	die(header('Location: ?set=post_wiki'));
 
 if (($set === 'post_wiki') && ($slug === null))
-	die(header('Location: ?set=post_wiki&slug=WelcomeWikiVisitors'));
+	die(header('Location: ?set=post_wiki&slug=' .U(TLB_WIKI_SLUG_HOME_PAGE)));
 
 if ($set === 'post_wiki') {
 	$rcd = $DB->queryFetch('SELECT * FROM post_wiki WHERE _url_slug = ?', [ $slug ]);
