@@ -78,6 +78,7 @@ if (tlb_config('robots.public-indexing', true))
 	;
 else
 	echo '<meta name="robots" content="noindex,nofollow">';
+echo '<link rel="icon" href="favicon.ico">';
 echo '
 <style>
 	html, body {
