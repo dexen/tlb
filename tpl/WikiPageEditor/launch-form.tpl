@@ -7,7 +7,7 @@ echo '
 		<input type="hidden" name="service" value="WikiPageEditor"/>
 		<input type="hidden" name="selectionStart" value="' .H($selectionStart) .'"/>
 		<input type="hidden" name="selectionEnd" value="' .H($selectionEnd) .'"/>
-		<button name="form" id="xm" value="edit" class="strut-12">Edit <var>' .H($rcd['_url_slug']??$slug) .'</var> <kbd>[^E]</kbd></button>
+		<button name="form" id="xm" value="edit" class="strut-12">Edit <var>' .H($rcd['_url_slug']??$slug) .'</var></button>
 	</form>' .
 <<<'EOS'
 	<script>
@@ -24,6 +24,8 @@ echo '
 				default:
 					return true; } }
 		};
-		document.getElementsByTagName('html')[0].addEventListener('keydown', handleCtrlEnterEdit, false);
+//		document.getElementsByTagName('html')[0].addEventListener('keydown', handleCtrlEnterEdit, false);
 	</script>
 EOS;
+
+js_event_register_ctrl_click_2_click_id('e', 'xm');

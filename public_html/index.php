@@ -392,3 +392,5 @@ echo '<div class="page-with-shadow">';
 echo '<div class="htmlike">';
 echo '<section class="bodylike">';
 printf('<p><a href="?set=post_wiki">instance main page</a> | <em>time: %.3f </em></p>', microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']);
+
+js_event_setup_scriptH();

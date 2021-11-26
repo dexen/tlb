@@ -34,7 +34,7 @@ if (!$hasToday) {
 			echo '<input type="hidden" name="slug" value="' .H($slug) .'"/>';
 			echo '<input type="hidden" name="date" value="' .H($ndTodayRcd['date']) .'"/>';
 			echo '<input type="hidden" name="service" value="WikiNoteDatedEditor"/>';
-			echo '<h3 title="' .H($ndTodayRcd['date']) .'">Today, ' .$dH($ndTodayRcd) .'<button type="submit" name="form" value="edit" class="strut-3" style="float: right">+Add</button></h3>';
+			echo '<h3 title="' .H($ndTodayRcd['date']) .'">Today, ' .$dH($ndTodayRcd) .'<button id="qvv" type="submit" name="form" value="edit" class="strut-3" style="float: right">+Add</button></h3>';
 			echo '<div style="clear: both"></div>';
 		echo '</form>';
 	echo '</section>'; }

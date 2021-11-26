@@ -43,5 +43,6 @@ echo '<form method="post" action="?set=' .H($set) .'&amp;slug=' .H($slug) .'&amp
 	echo '<input type="hidden" name="meta[selectionStart]" value=""/>';
 	echo '<input type="hidden" name="meta[selectionEnd]" value=""/>';
 	echo '<textarea name="data[body]" style="width: 100%" rows="12">' .H($nrcd['body']) .'</textarea>';
-	echo '<button type="submit" name="action" value="save-see" class="strut-12">' .H($b) .'</button>';
+	echo '<button id="qvv" type="submit" name="action" value="save-see" class="strut-12">' .H($b) .'</button>';
 echo '</form>';
+js_event_register_ctrl_click_2_click_id('e', 'qvv');

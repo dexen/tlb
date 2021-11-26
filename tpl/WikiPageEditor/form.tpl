@@ -11,24 +11,6 @@
 					TA.selectionEnd = TA.selectionStart = next; }
 				else
 					TA.selectionStart = document.getElementById('x1').value; }
-
-			if (event.ctrlKey || event.metaKey) {
-				switch (event.key) {
-				case 's':
-					event.preventDefault();
-					document.getElementById('xs').click();
-					break;
-				case 'e':
-					event.preventDefault();
-					document.getElementById('xe').click();
-					break;
-				case 'Enter':
-					event.preventDefault();
-					document.getElementById('xm').click();
-					break;
-				default:
-					return true; }
-			}
 		"
 
 		onsubmit="
@@ -65,11 +47,11 @@
 		echo '</p>';
 
 		echo '<p style="text-align: right">
-			<button type="submit" id="xs" name="action" value="save-edit" class="strut-6 strut-right">Save &amp; keep editing <kbd>[^S]</kbd></var></button>
+			<button type="submit" id="xs" name="action" value="save-edit" class="strut-6 strut-right">Save &amp; keep editing</var></button>
 		</p>';
 
 		echo '<p>
-			<button type="submit" id="xe" name="action" value="save-see" class="strut-12">Save <var>' .H($slug) .'</var> <kbd>[^E]</kbd></button>
+			<button type="submit" id="xe" name="action" value="save-see" class="strut-12">Save <var>' .H($slug) .'</var></button>
 		</p>';
 	echo '</form>';
 	echo <<<'EOS'
@@ -87,3 +69,6 @@
 
 		</script>
 EOS;
+
+js_event_register_ctrl_click_2_click_id('e', 'xe');
+js_event_register_ctrl_click_2_click_id('s', 'xs');
