@@ -77,7 +77,7 @@ $scanline_serialize = function(array /* of arrays */ $SLOPAA) use($slvp2ps) { re
 
 header('Content-Type: image/png');
 header('Content-Disposition: inline; filename="visual-hash-' .rawurlencode($id) .'.png"');
-header('Cache-Control: public, max-age=365000000');
+header('Cache-Control: public, max-age=365000000, immutable');
 
 echo $png_header();
 echo $png_IHDR($size, $size, $bit_dept = 8, $true_colour_with_alpha);
