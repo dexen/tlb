@@ -60,12 +60,10 @@
 				document.getElementById('xa').classList.add('inputCompletedSave');
 				history.replaceState(null, null, ' '); }
 
-			document.getElementById('xa').focus();
 			document.getElementById('xa').setSelectionRange(-1, -1);
 			if (String(document.getElementById('x1').value).length)
-			document.getElementById('xa').setSelectionRange(
-				document.getElementById('x1').value,
-				document.getElementById('x9').value );
+				document.getElementById('xa').setSelectionRange(document.getElementById('x1').value, document.getElementById('x9').value);
+			document.getElementById('xa').focus();
 
 		</script>
 EOS;
