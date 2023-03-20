@@ -254,7 +254,7 @@ function wiki_block_formatting(string $str, array $data) : array # [ $a, $data ]
 			$ret[] = $P($ctx(-1));
 			$ret[] = $P($uLL($level = strlen($matches[1])))
 				.$matches[2];
-			$line = null; }
+			$line = null; continue; }
 
 			# <h2 ... h6>
 		if (preg_match('/^(={1,})(.+)/', $line, $matches)) {
@@ -262,7 +262,7 @@ function wiki_block_formatting(string $str, array $data) : array # [ $a, $data ]
 			$ret[] = $P('<h' .(strlen($matches[1])+1) .'>');
 			$ret[] = $matches[2];
 			$ret[] = $P('</h' .(strlen($matches[1])+1) .'>');
-			$line = null; }
+			$line = null; continue; }
 
 			# <dl>
 			# empty <dt> serves as quotation
@@ -280,13 +280,13 @@ function wiki_block_formatting(string $str, array $data) : array # [ $a, $data ]
 				# FixMe - <dd> is a flow element, we should handle that properly
 			$ret[] = $matches[2];
 			$ret[] = $P("</dd>\n");
-			$line = 0; }
+			$line = null; continue; }
 
 			# <pre>
 		if (preg_match('/^([ \\t].+)/', $line, $matches)) {
 			$ret[] = $P($uLL(0));
 			$ret[] = $P($ctx('pre') .H($DC($matches[1])));
-			$line = null; }
+			$line = null; continue; }
 
 		if ($line) {
 			$ret[] = $P($ctx('p'));
