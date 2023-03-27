@@ -52,7 +52,7 @@ if ($set === 'post_wiki') {
 	if ($service === 'WikiNoteDatedEditor')
 		ex('../libexec/post_wiki/WikiNoteDatedEditor.php', compact('DB', 'action', 'service', 'form', 'slug', 'date', 'rcd', 'post_data', 'post_meta', 'post_original'));
 
-	if (strncmp($service, 'TlbWikiSearch', 10) === 0) {
+	if (strncmp($service??'', 'TlbWikiSearch', 10) === 0) {
 		$query = $_GET['query']??null;
 		$qq = '%' .$query .'%'; }
 

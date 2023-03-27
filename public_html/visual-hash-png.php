@@ -60,7 +60,7 @@ $gengen = function(int $size, $A, $B) use($pattern) : array
 
 	for ($y = 0; $y < $size; ++$y)
 		for ($x = 0; $x < $size; ++$x)
-			$ret[$y][$x] = $pattern[$y/$factor][$x/$factor];
+			$ret[$y][$x] = $pattern[intdiv($y, $factor)][intdiv($x, $factor)];
 
 	return $ret;;
 };
