@@ -18,9 +18,8 @@ function tlb_address(string $address = null) : string
 		$schema = 'http';
 	else if ($protocol === 'HTTP/1.1')
 		$schema = 'http';
-# not sure what it actually shows
-#	else if ($protocol === 'HTTP/2.0')
-#		$schema = 'http';
+	else if ($protocol === 'HTTP/2.0')
+		$schema = 'http';
 	else
 		throw new Exception('unsupported protocol');
 
