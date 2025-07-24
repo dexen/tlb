@@ -1,6 +1,6 @@
 <?php
 
-function js_event_register_ctrl_click_2_click_id(string $key = null, string $id = null) : array
+function js_event_register_ctrl_click_2_click_id(?string $key = null, ?string $id = null) : array
 {
 	static $registration = [];
 

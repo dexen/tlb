@@ -2,7 +2,7 @@
 
 define('TLB_WIKI_SLUG_HOME_PAGE', 'WelcomeWikiVisitors');
 
-function wiki_camel_to_spaced(string $str = null) : ?string
+function wiki_camel_to_spaced(?string $str = null) : ?string
 {
 	if ($str === null)
 		return null;
@@ -14,7 +14,7 @@ function wiki_slug_to_title(string $slug) : string
 	return wiki_camel_to_spaced($slug);
 }
 
-function wiki_posts_readable_by_slugP(string $slug, string $subslug = null) : bool
+function wiki_posts_readable_by_slugP(string $slug, ?string $subslug = null) : bool
 {
 	$DB = db_pdo();
 
@@ -45,7 +45,7 @@ function wiki_contains_slugP(string $slug_candidate) : bool
 	return preg_match(wiki_slug_re(), $slug_candidate, $matches);
 }
 
-function wiki_slug_to_linkH(string $slug, string $value_override = null) : string
+function wiki_slug_to_linkH(string $slug, ?string $value_override = null) : string
 {
 	$value = $value_override ?? $slug;
 	if (wiki_posts_readable_by_slugP($slug))
@@ -230,7 +230,7 @@ function wiki_block_formatting(string $str, array $data) : array # [ $a, $data ]
 		return implode("\n", $a);
 	};
 
-	$P = function(string $str = null) use(&$data) : ?string
+	$P = function(?string $str = null) use(&$data) : ?string
 	{
 		if ($str === null)
 			return null;

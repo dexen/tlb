@@ -26,7 +26,7 @@ class Diff
 	}
 
 	protected
-	function asStream(string $pathname, string $content = null)
+	function asStream(string $pathname, ?string $content = null)
 	{
 		if ($content !== null) {
 			$h = fopen('php://memory','r+');
@@ -40,7 +40,7 @@ class Diff
 	}
 
 	protected
-	function asRecords(string $file, string $content = null) : array
+	function asRecords(string $file, ?string $content = null) : array
 	{
 		$ret = [];
 		$h = $this->asStream($file, $content);
@@ -63,7 +63,7 @@ class Diff
 	protected
 	function asMtime(string $pathname) : int { return ($pathname === '-') ? time() : stat($pathname)['mtime']; }
 
-	function fileA(string $pathname, string $content = null) : self
+	function fileA(string $pathname, ?string $content = null) : self
 	{
 		$this->file_a = $pathname;
 		$this->records_a = $this->asRecords($this->file_a, $content);
@@ -72,7 +72,7 @@ class Diff
 		return $this;
 	}
 
-	function fileB(string $pathname, string $content = null) : self
+	function fileB(string $pathname, ?string $content = null) : self
 	{
 		$this->file_b = $pathname;
 		$this->records_b = $this->asRecords($this->file_b, $content);

@@ -10,13 +10,13 @@ function td(...$a) {
 
 function tp(...$a) { echo '<pre>'; foreach ($a as $v) var_dump($v); echo '</pre>'; echo 'tp()'; return $a[0]; }
 
-function H(string $str = null) : ?string { return ($str === null) ? $str : htmlspecialchars($str); }
-function U(string $str = null) : ?string { return ($str === null) ? $str : rawurlencode($str); }
-function HU(string $str = null) : ?string { return ($str === null) ? $str : htmlspecialchars(rawurlencode($str)); }
+function H(?string $str = null) : ?string { return ($str === null) ? $str : htmlspecialchars($str); }
+function U(?string $str = null) : ?string { return ($str === null) ? $str : rawurlencode($str); }
+function HU(?string $str = null) : ?string { return ($str === null) ? $str : htmlspecialchars(rawurlencode($str)); }
 
 	# preserve the slashes, i.e.,
 	# 'foo/bar baz.jpeg' => 'foo/bar%20baz.jpeg'
-function rawurlencode_path(string $str = null) : string
+function rawurlencode_path(?string $str = null) : string
 {
 	if ($str === null)
 		return $str;
@@ -25,7 +25,7 @@ function rawurlencode_path(string $str = null) : string
 			explode('/', $str) ) );
 }
 
-function lf(string $str = null) : ?string { return is_null($str) ? null : str_replace("\r\n", "\n", $str);}
+function lf(?string $str = null) : ?string { return is_null($str) ? null : str_replace("\r\n", "\n", $str);}
 
 function noz($v)
 {
@@ -126,7 +126,7 @@ function ex(string $pathname, array $data = [])
 }
 
 if (!function_exists('header_response_code')) {
-	function header_response_code(int $code = null) : int
+	function header_response_code(?int $code = null) : int
 	{
 		static $previous_code = 200;
 

@@ -12,7 +12,7 @@ class DB extends PDO
 		$this->exec('PRAGMA foreign_keys = ON');
 	}
 
-	function queryFetch(string $query, array $params = null)
+	function queryFetch(string $query, ?array $params = null)
 	{
 		if (empty($params))
 			$St = $this->query($query);
@@ -28,7 +28,7 @@ class DB extends PDO
 			throw new Exception('multiple records, expected at most one'); }
 	}
 
-	function queryFetchAll(string $query, array $params = null, ...$a) : array
+	function queryFetchAll(string $query, ?array $params = null, ...$a) : array
 	{
 		if (empty($params))
 			$St = $this->query($query);
@@ -38,7 +38,7 @@ class DB extends PDO
 		return $St->fetchAll(...$a);
 	}
 
-	function execParams(string $sql, array $params = null) : int
+	function execParams(string $sql, ?array $params = null) : int
 	{
 		if (empty($params))
 			return $this->exec($sql);
@@ -47,7 +47,7 @@ class DB extends PDO
 		return $St->rowCount();
 	}
 
-	function queryFetchOne(string $sql, array $params = null) : array
+	function queryFetchOne(string $sql, ?array $params = null) : array
 	{
 		if (empty($params))
 			$St = $this->query($sql);
@@ -64,7 +64,7 @@ class DB extends PDO
 	}
 
 		# seems SQLite doesn't like ->prepare(PRAGMA foo = bar)
-	function pragma(string $name, int $value = null)
+	function pragma(string $name, ?int $value = null)
 	{
 		if (preg_match('/^[a-z_]+$/', $name))
 			$checked_name = $name;

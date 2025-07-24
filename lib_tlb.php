@@ -7,7 +7,7 @@ function tlb_address_hash_salt() : string
 	return -1;
 }
 
-function tlb_address(string $address = null) : string
+function tlb_address(?string $address = null) : string
 {
 	if ($address !== null)
 		return $address;
@@ -50,12 +50,12 @@ function tlb_address(string $address = null) : string
 	return $schema .'://' .$host .':' .$port .$base;
 }
 
-function tlb_address_id(string $address = null)
+function tlb_address_id(?string $address = null)
 {
 	return sha1(tlb_address($address) ."\x00" .tlb_address_hash_salt($address));
 }
 
-function tlb_config(string $key, string $default = null) : string
+function tlb_config(string $key, ?string $default = null) : string
 {
 	$CDB = config_db_pdo();
 	$rcd = $CDB->queryFetch('SELECT value FROM config WHERE key = ?', [ $key ]);
