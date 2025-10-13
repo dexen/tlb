@@ -214,7 +214,7 @@ if (($service === 'WikiPageEditor') && ($form === 'edit')) {
 	else
 		$slug = $_GET['slug'] ?? null;
 
-	$textarea_rows = max(count(explode("\n", $rcd['body']??null))+3, 20);
+	$textarea_rows = max(count(explode("\n", $rcd['body']??''))+3, 20);
 	tpl('tpl/WikiPageEditor/form.tpl', compact('slug', 'rcd', 'textarea_rows', 'ctx')); }
 
 else if ($slug !== null) {
